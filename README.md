@@ -1,4 +1,6 @@
-# XTLS SDK
+<h1 align="center"><a href="#"><img src="https://static.zorin.space/assets/media/logos/ZorinProjectsSP.svg" alt="Image"></a></h1>
+
+<h3 align="center">TypeScript SDK for XRAY/AURA Core</h3>
 
 ![GitHub top language](https://img.shields.io/github/languages/top/localzet/xtls-sdk)
 ![GitHub Repo stars](https://img.shields.io/github/stars/localzet/xtls-sdk)
@@ -13,8 +15,6 @@
 
 ![Known Vulnerabilities](https://snyk.io/test/github/localzet/xtls-sdk/badge.svg)
 ![Coverage Status](https://img.shields.io/codecov/c/github/localzet/xtls-sdk)
-
-A TypeScript SDK for interacting with XRAY (XTLS) Core via gRPC API. This package provides a type-safe interface for managing and monitoring your XRAY server, including statistics, user management, and connection information.
 
 ## Installation
 
