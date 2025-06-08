@@ -1,0 +1,57 @@
+{
+  "name": "@localzet/xtls-sdk",
+  "version": "0.3.0",
+  "description": "A Typescript SDK for XRAY (XTLS) Core GRPC Api",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "files": [
+    "build/**/*"
+  ],
+  "scripts": {
+    "prepublish": "rimraf build && tsc",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/localzet/xtls-sdk.git"
+  },
+  "homepage": "https://github.com/localzet/xtls-sdk#readme",
+  "bugs": {
+    "url": "https://github.com/localzet/xtls-sdk/issues"
+  },
+  "author": "Ivan Zorin <https://github.com/localzet>",
+  "license": "AGPL-3.0-only",
+  "keywords": [
+    "xtls",
+    "grpc",
+    "sdk",
+    "xray core api",
+    "typescript",
+    "xray",
+    "xray-core",
+    "api",
+    "client",
+    "network",
+    "proxy",
+    "protocol",
+    "trojan",
+    "vless",
+    "vmess"
+  ],
+  "dependencies": {
+    "@bufbuild/protobuf": "^2.2.2",
+    "ipaddr.js": "2.2.0",
+    "long": "^5.2.3",
+    "nice-grpc": "^2.1.10",
+    "protobufjs": "^7.4.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.2",
+    "@types/node": "^22.9.0",
+    "grpc-tools": "^1.12.4",
+    "rimraf": "^6.0.1",
+    "tar": "^7.4.3",
+    "ts-proto": "^2.2.7",
+    "typescript": "^5.6.3"
+  }
+}
