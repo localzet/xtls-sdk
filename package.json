@@ -19,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/localzet/xtls-sdk/issues"
   },
-  "author": "Ivan Zorin <https://github.com/localzet>",
+  "author": "Ivan Zorin <creator@localzet.com>",
   "license": "AGPL-3.0-only",
   "keywords": [
     "xray",
@@ -59,7 +59,7 @@
     "grpc-protoc",
     "grpc-nice",
     "nice-grpc"
-  ]
+  ],
   "dependencies": {
     "@bufbuild/protobuf": "^2.2.2",
     "ipaddr.js": "2.2.0",
