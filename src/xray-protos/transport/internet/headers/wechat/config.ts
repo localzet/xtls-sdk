@@ -18,7 +18,10 @@ function createBaseVideoConfig(): VideoConfig {
     return { $type: 'xray.transport.internet.headers.wechat.VideoConfig' };
 }
 
-export const VideoConfig: MessageFns<VideoConfig, 'xray.transport.internet.headers.wechat.VideoConfig'> = {
+export const VideoConfig: MessageFns<
+    VideoConfig,
+    'xray.transport.internet.headers.wechat.VideoConfig'
+> = {
     $type: 'xray.transport.internet.headers.wechat.VideoConfig' as const,
 
     encode(_: VideoConfig, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -63,11 +66,15 @@ messageTypeRegistry.set(VideoConfig.$type, VideoConfig);
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 export interface MessageFns<T, V extends string> {
     readonly $type: V;

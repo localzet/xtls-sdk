@@ -274,10 +274,17 @@ export function socketConfig_TProxyModeToJSON(object: SocketConfig_TProxyMode): 
 }
 
 function createBaseTransportConfig(): TransportConfig {
-    return { $type: 'xray.transport.internet.TransportConfig', protocolName: '', settings: undefined };
+    return {
+        $type: 'xray.transport.internet.TransportConfig',
+        protocolName: '',
+        settings: undefined,
+    };
 }
 
-export const TransportConfig: MessageFns<TransportConfig, 'xray.transport.internet.TransportConfig'> = {
+export const TransportConfig: MessageFns<
+    TransportConfig,
+    'xray.transport.internet.TransportConfig'
+> = {
     $type: 'xray.transport.internet.TransportConfig' as const,
 
     encode(message: TransportConfig, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -347,9 +354,10 @@ export const TransportConfig: MessageFns<TransportConfig, 'xray.transport.intern
     fromPartial(object: DeepPartial<TransportConfig>): TransportConfig {
         const message = createBaseTransportConfig();
         message.protocolName = object.protocolName ?? '';
-        message.settings = (object.settings !== undefined && object.settings !== null)
-            ? TypedMessage.fromPartial(object.settings)
-            : undefined;
+        message.settings =
+            object.settings !== undefined && object.settings !== null
+                ? TypedMessage.fromPartial(object.settings)
+                : undefined;
         return message;
     },
 };
@@ -482,7 +490,9 @@ export const StreamConfig: MessageFns<StreamConfig, 'xray.transport.internet.Str
             securitySettings: globalThis.Array.isArray(object?.securitySettings)
                 ? object.securitySettings.map((e: any) => TypedMessage.fromJSON(e))
                 : [],
-            socketSettings: isSet(object.socketSettings) ? SocketConfig.fromJSON(object.socketSettings) : undefined,
+            socketSettings: isSet(object.socketSettings)
+                ? SocketConfig.fromJSON(object.socketSettings)
+                : undefined,
         };
     },
 
@@ -517,17 +527,21 @@ export const StreamConfig: MessageFns<StreamConfig, 'xray.transport.internet.Str
     },
     fromPartial(object: DeepPartial<StreamConfig>): StreamConfig {
         const message = createBaseStreamConfig();
-        message.address = (object.address !== undefined && object.address !== null)
-            ? IPOrDomain.fromPartial(object.address)
-            : undefined;
+        message.address =
+            object.address !== undefined && object.address !== null
+                ? IPOrDomain.fromPartial(object.address)
+                : undefined;
         message.port = object.port ?? 0;
         message.protocolName = object.protocolName ?? '';
-        message.transportSettings = object.transportSettings?.map((e) => TransportConfig.fromPartial(e)) || [];
+        message.transportSettings =
+            object.transportSettings?.map((e) => TransportConfig.fromPartial(e)) || [];
         message.securityType = object.securityType ?? '';
-        message.securitySettings = object.securitySettings?.map((e) => TypedMessage.fromPartial(e)) || [];
-        message.socketSettings = (object.socketSettings !== undefined && object.socketSettings !== null)
-            ? SocketConfig.fromPartial(object.socketSettings)
-            : undefined;
+        message.securitySettings =
+            object.securitySettings?.map((e) => TypedMessage.fromPartial(e)) || [];
+        message.socketSettings =
+            object.socketSettings !== undefined && object.socketSettings !== null
+                ? SocketConfig.fromPartial(object.socketSettings)
+                : undefined;
         return message;
     },
 };
@@ -587,7 +601,9 @@ export const ProxyConfig: MessageFns<ProxyConfig, 'xray.transport.internet.Proxy
         return {
             $type: ProxyConfig.$type,
             tag: isSet(object.tag) ? globalThis.String(object.tag) : '',
-            transportLayerProxy: isSet(object.transportLayerProxy) ? globalThis.Boolean(object.transportLayerProxy) : false,
+            transportLayerProxy: isSet(object.transportLayerProxy)
+                ? globalThis.Boolean(object.transportLayerProxy)
+                : false,
         };
     },
 
@@ -616,7 +632,13 @@ export const ProxyConfig: MessageFns<ProxyConfig, 'xray.transport.internet.Proxy
 messageTypeRegistry.set(ProxyConfig.$type, ProxyConfig);
 
 function createBaseCustomSockopt(): CustomSockopt {
-    return { $type: 'xray.transport.internet.CustomSockopt', level: '', opt: '', value: '', type: '' };
+    return {
+        $type: 'xray.transport.internet.CustomSockopt',
+        level: '',
+        opt: '',
+        value: '',
+        type: '',
+    };
 }
 
 export const CustomSockopt: MessageFns<CustomSockopt, 'xray.transport.internet.CustomSockopt'> = {
@@ -1018,18 +1040,34 @@ export const SocketConfig: MessageFns<SocketConfig, 'xray.transport.internet.Soc
             receiveOriginalDestAddress: isSet(object.receiveOriginalDestAddress)
                 ? globalThis.Boolean(object.receiveOriginalDestAddress)
                 : false,
-            bindAddress: isSet(object.bindAddress) ? bytesFromBase64(object.bindAddress) : new Uint8Array(0),
+            bindAddress: isSet(object.bindAddress)
+                ? bytesFromBase64(object.bindAddress)
+                : new Uint8Array(0),
             bindPort: isSet(object.bindPort) ? globalThis.Number(object.bindPort) : 0,
-            acceptProxyProtocol: isSet(object.acceptProxyProtocol) ? globalThis.Boolean(object.acceptProxyProtocol) : false,
-            domainStrategy: isSet(object.domainStrategy) ? domainStrategyFromJSON(object.domainStrategy) : 0,
+            acceptProxyProtocol: isSet(object.acceptProxyProtocol)
+                ? globalThis.Boolean(object.acceptProxyProtocol)
+                : false,
+            domainStrategy: isSet(object.domainStrategy)
+                ? domainStrategyFromJSON(object.domainStrategy)
+                : 0,
             dialerProxy: isSet(object.dialerProxy) ? globalThis.String(object.dialerProxy) : '',
-            tcpKeepAliveInterval: isSet(object.tcpKeepAliveInterval) ? globalThis.Number(object.tcpKeepAliveInterval) : 0,
-            tcpKeepAliveIdle: isSet(object.tcpKeepAliveIdle) ? globalThis.Number(object.tcpKeepAliveIdle) : 0,
-            tcpCongestion: isSet(object.tcpCongestion) ? globalThis.String(object.tcpCongestion) : '',
+            tcpKeepAliveInterval: isSet(object.tcpKeepAliveInterval)
+                ? globalThis.Number(object.tcpKeepAliveInterval)
+                : 0,
+            tcpKeepAliveIdle: isSet(object.tcpKeepAliveIdle)
+                ? globalThis.Number(object.tcpKeepAliveIdle)
+                : 0,
+            tcpCongestion: isSet(object.tcpCongestion)
+                ? globalThis.String(object.tcpCongestion)
+                : '',
             interface: isSet(object.interface) ? globalThis.String(object.interface) : '',
             v6only: isSet(object.v6only) ? globalThis.Boolean(object.v6only) : false,
-            tcpWindowClamp: isSet(object.tcpWindowClamp) ? globalThis.Number(object.tcpWindowClamp) : 0,
-            tcpUserTimeout: isSet(object.tcpUserTimeout) ? globalThis.Number(object.tcpUserTimeout) : 0,
+            tcpWindowClamp: isSet(object.tcpWindowClamp)
+                ? globalThis.Number(object.tcpWindowClamp)
+                : 0,
+            tcpUserTimeout: isSet(object.tcpUserTimeout)
+                ? globalThis.Number(object.tcpUserTimeout)
+                : 0,
             tcpMaxSeg: isSet(object.tcpMaxSeg) ? globalThis.Number(object.tcpMaxSeg) : 0,
             penetrate: isSet(object.penetrate) ? globalThis.Boolean(object.penetrate) : false,
             tcpMptcp: isSet(object.tcpMptcp) ? globalThis.Boolean(object.tcpMptcp) : false,
@@ -1134,7 +1172,8 @@ export const SocketConfig: MessageFns<SocketConfig, 'xray.transport.internet.Soc
         message.tcpMaxSeg = object.tcpMaxSeg ?? 0;
         message.penetrate = object.penetrate ?? false;
         message.tcpMptcp = object.tcpMptcp ?? false;
-        message.customSockopt = object.customSockopt?.map((e) => CustomSockopt.fromPartial(e)) || [];
+        message.customSockopt =
+            object.customSockopt?.map((e) => CustomSockopt.fromPartial(e)) || [];
         message.addressPortStrategy = object.addressPortStrategy ?? 0;
         return message;
     },
@@ -1169,11 +1208,15 @@ function base64FromBytes(arr: Uint8Array): string {
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function isSet(value: any): boolean {
     return value !== null && value !== undefined;

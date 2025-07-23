@@ -77,7 +77,10 @@ export const Account: MessageFns<Account, 'xray.proxy.trojan.Account'> = {
     },
 
     fromJSON(object: any): Account {
-        return { $type: Account.$type, password: isSet(object.password) ? globalThis.String(object.password) : '' };
+        return {
+            $type: Account.$type,
+            password: isSet(object.password) ? globalThis.String(object.password) : '',
+        };
     },
 
     toJSON(message: Account): unknown {
@@ -101,7 +104,15 @@ export const Account: MessageFns<Account, 'xray.proxy.trojan.Account'> = {
 messageTypeRegistry.set(Account.$type, Account);
 
 function createBaseFallback(): Fallback {
-    return { $type: 'xray.proxy.trojan.Fallback', name: '', alpn: '', path: '', type: '', dest: '', xver: 0 };
+    return {
+        $type: 'xray.proxy.trojan.Fallback',
+        name: '',
+        alpn: '',
+        path: '',
+        type: '',
+        dest: '',
+        xver: 0,
+    };
 }
 
 export const Fallback: MessageFns<Fallback, 'xray.proxy.trojan.Fallback'> = {
@@ -286,7 +297,9 @@ export const ClientConfig: MessageFns<ClientConfig, 'xray.proxy.trojan.ClientCon
     fromJSON(object: any): ClientConfig {
         return {
             $type: ClientConfig.$type,
-            server: globalThis.Array.isArray(object?.server) ? object.server.map((e: any) => ServerEndpoint.fromJSON(e)) : [],
+            server: globalThis.Array.isArray(object?.server)
+                ? object.server.map((e: any) => ServerEndpoint.fromJSON(e))
+                : [],
         };
     },
 
@@ -362,7 +375,9 @@ export const ServerConfig: MessageFns<ServerConfig, 'xray.proxy.trojan.ServerCon
     fromJSON(object: any): ServerConfig {
         return {
             $type: ServerConfig.$type,
-            users: globalThis.Array.isArray(object?.users) ? object.users.map((e: any) => User.fromJSON(e)) : [],
+            users: globalThis.Array.isArray(object?.users)
+                ? object.users.map((e: any) => User.fromJSON(e))
+                : [],
             fallbacks: globalThis.Array.isArray(object?.fallbacks)
                 ? object.fallbacks.map((e: any) => Fallback.fromJSON(e))
                 : [],
@@ -395,11 +410,15 @@ messageTypeRegistry.set(ServerConfig.$type, ServerConfig);
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function longToNumber(int64: { toString(): string }): number {
     const num = globalThis.Number(int64.toString());

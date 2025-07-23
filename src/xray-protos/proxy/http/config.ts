@@ -127,7 +127,12 @@ export const Account: MessageFns<Account, 'xray.proxy.http.Account'> = {
 messageTypeRegistry.set(Account.$type, Account);
 
 function createBaseServerConfig(): ServerConfig {
-    return { $type: 'xray.proxy.http.ServerConfig', accounts: {}, allowTransparent: false, userLevel: 0 };
+    return {
+        $type: 'xray.proxy.http.ServerConfig',
+        accounts: {},
+        allowTransparent: false,
+        userLevel: 0,
+    };
 }
 
 export const ServerConfig: MessageFns<ServerConfig, 'xray.proxy.http.ServerConfig'> = {
@@ -196,12 +201,17 @@ export const ServerConfig: MessageFns<ServerConfig, 'xray.proxy.http.ServerConfi
         return {
             $type: ServerConfig.$type,
             accounts: isObject(object.accounts)
-                ? Object.entries(object.accounts).reduce<{ [key: string]: string }>((acc, [key, value]) => {
-                    acc[key] = String(value);
-                    return acc;
-                }, {})
+                ? Object.entries(object.accounts).reduce<{ [key: string]: string }>(
+                      (acc, [key, value]) => {
+                          acc[key] = String(value);
+                          return acc;
+                      },
+                      {},
+                  )
                 : {},
-            allowTransparent: isSet(object.allowTransparent) ? globalThis.Boolean(object.allowTransparent) : false,
+            allowTransparent: isSet(object.allowTransparent)
+                ? globalThis.Boolean(object.allowTransparent)
+                : false,
             userLevel: isSet(object.userLevel) ? globalThis.Number(object.userLevel) : 0,
         };
     },
@@ -232,7 +242,7 @@ export const ServerConfig: MessageFns<ServerConfig, 'xray.proxy.http.ServerConfi
     fromPartial(object: DeepPartial<ServerConfig>): ServerConfig {
         const message = createBaseServerConfig();
         message.accounts = Object.entries(object.accounts ?? {}).reduce<{
-            [key: string]: string
+            [key: string]: string;
         }>((acc, [key, value]) => {
             if (value !== undefined) {
                 acc[key] = globalThis.String(value);
@@ -257,7 +267,10 @@ export const ServerConfig_AccountsEntry: MessageFns<
 > = {
     $type: 'xray.proxy.http.ServerConfig.AccountsEntry' as const,
 
-    encode(message: ServerConfig_AccountsEntry, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    encode(
+        message: ServerConfig_AccountsEntry,
+        writer: BinaryWriter = new BinaryWriter(),
+    ): BinaryWriter {
         if (message.key !== '') {
             writer.uint32(10).string(message.key);
         }
@@ -464,8 +477,12 @@ export const ClientConfig: MessageFns<ClientConfig, 'xray.proxy.http.ClientConfi
     fromJSON(object: any): ClientConfig {
         return {
             $type: ClientConfig.$type,
-            server: globalThis.Array.isArray(object?.server) ? object.server.map((e: any) => ServerEndpoint.fromJSON(e)) : [],
-            header: globalThis.Array.isArray(object?.header) ? object.header.map((e: any) => Header.fromJSON(e)) : [],
+            server: globalThis.Array.isArray(object?.server)
+                ? object.server.map((e: any) => ServerEndpoint.fromJSON(e))
+                : [],
+            header: globalThis.Array.isArray(object?.header)
+                ? object.header.map((e: any) => Header.fromJSON(e))
+                : [],
         };
     },
 
@@ -495,11 +512,15 @@ messageTypeRegistry.set(ClientConfig.$type, ClientConfig);
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function isObject(value: any): boolean {
     return typeof value === 'object' && value !== null;

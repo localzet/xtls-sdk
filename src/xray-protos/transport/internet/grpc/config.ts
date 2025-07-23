@@ -154,9 +154,15 @@ export const Config: MessageFns<Config, 'xray.transport.internet.grpc.encoding.C
             serviceName: isSet(object.serviceName) ? globalThis.String(object.serviceName) : '',
             multiMode: isSet(object.multiMode) ? globalThis.Boolean(object.multiMode) : false,
             idleTimeout: isSet(object.idleTimeout) ? globalThis.Number(object.idleTimeout) : 0,
-            healthCheckTimeout: isSet(object.healthCheckTimeout) ? globalThis.Number(object.healthCheckTimeout) : 0,
-            permitWithoutStream: isSet(object.permitWithoutStream) ? globalThis.Boolean(object.permitWithoutStream) : false,
-            initialWindowsSize: isSet(object.initialWindowsSize) ? globalThis.Number(object.initialWindowsSize) : 0,
+            healthCheckTimeout: isSet(object.healthCheckTimeout)
+                ? globalThis.Number(object.healthCheckTimeout)
+                : 0,
+            permitWithoutStream: isSet(object.permitWithoutStream)
+                ? globalThis.Boolean(object.permitWithoutStream)
+                : false,
+            initialWindowsSize: isSet(object.initialWindowsSize)
+                ? globalThis.Number(object.initialWindowsSize)
+                : 0,
             userAgent: isSet(object.userAgent) ? globalThis.String(object.userAgent) : '',
         };
     },
@@ -211,11 +217,15 @@ messageTypeRegistry.set(Config.$type, Config);
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function isSet(value: any): boolean {
     return value !== null && value !== undefined;

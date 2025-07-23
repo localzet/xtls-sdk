@@ -157,272 +157,283 @@ function createBaseRoutingContext(): RoutingContext {
     };
 }
 
-export const RoutingContext: MessageFns<RoutingContext, 'xray.app.router.command.RoutingContext'> = {
-    $type: 'xray.app.router.command.RoutingContext' as const,
+export const RoutingContext: MessageFns<RoutingContext, 'xray.app.router.command.RoutingContext'> =
+    {
+        $type: 'xray.app.router.command.RoutingContext' as const,
 
-    encode(message: RoutingContext, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-        if (message.InboundTag !== '') {
-            writer.uint32(10).string(message.InboundTag);
-        }
-        if (message.Network !== 0) {
-            writer.uint32(16).int32(message.Network);
-        }
-        for (const v of message.SourceIPs) {
-            writer.uint32(26).bytes(v!);
-        }
-        for (const v of message.TargetIPs) {
-            writer.uint32(34).bytes(v!);
-        }
-        if (message.SourcePort !== 0) {
-            writer.uint32(40).uint32(message.SourcePort);
-        }
-        if (message.TargetPort !== 0) {
-            writer.uint32(48).uint32(message.TargetPort);
-        }
-        if (message.TargetDomain !== '') {
-            writer.uint32(58).string(message.TargetDomain);
-        }
-        if (message.Protocol !== '') {
-            writer.uint32(66).string(message.Protocol);
-        }
-        if (message.User !== '') {
-            writer.uint32(74).string(message.User);
-        }
-        Object.entries(message.Attributes).forEach(([key, value]) => {
-            RoutingContext_AttributesEntry.encode({
-                $type: 'xray.app.router.command.RoutingContext.AttributesEntry',
-                key: key as any,
-                value,
-            }, writer.uint32(82).fork()).join();
-        });
-        for (const v of message.OutboundGroupTags) {
-            writer.uint32(90).string(v!);
-        }
-        if (message.OutboundTag !== '') {
-            writer.uint32(98).string(message.OutboundTag);
-        }
-        return writer;
-    },
+        encode(message: RoutingContext, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+            if (message.InboundTag !== '') {
+                writer.uint32(10).string(message.InboundTag);
+            }
+            if (message.Network !== 0) {
+                writer.uint32(16).int32(message.Network);
+            }
+            for (const v of message.SourceIPs) {
+                writer.uint32(26).bytes(v!);
+            }
+            for (const v of message.TargetIPs) {
+                writer.uint32(34).bytes(v!);
+            }
+            if (message.SourcePort !== 0) {
+                writer.uint32(40).uint32(message.SourcePort);
+            }
+            if (message.TargetPort !== 0) {
+                writer.uint32(48).uint32(message.TargetPort);
+            }
+            if (message.TargetDomain !== '') {
+                writer.uint32(58).string(message.TargetDomain);
+            }
+            if (message.Protocol !== '') {
+                writer.uint32(66).string(message.Protocol);
+            }
+            if (message.User !== '') {
+                writer.uint32(74).string(message.User);
+            }
+            Object.entries(message.Attributes).forEach(([key, value]) => {
+                RoutingContext_AttributesEntry.encode(
+                    {
+                        $type: 'xray.app.router.command.RoutingContext.AttributesEntry',
+                        key: key as any,
+                        value,
+                    },
+                    writer.uint32(82).fork(),
+                ).join();
+            });
+            for (const v of message.OutboundGroupTags) {
+                writer.uint32(90).string(v!);
+            }
+            if (message.OutboundTag !== '') {
+                writer.uint32(98).string(message.OutboundTag);
+            }
+            return writer;
+        },
 
-    decode(input: BinaryReader | Uint8Array, length?: number): RoutingContext {
-        const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-        let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseRoutingContext();
-        while (reader.pos < end) {
-            const tag = reader.uint32();
-            switch (tag >>> 3) {
-                case 1: {
-                    if (tag !== 10) {
-                        break;
+        decode(input: BinaryReader | Uint8Array, length?: number): RoutingContext {
+            const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+            let end = length === undefined ? reader.len : reader.pos + length;
+            const message = createBaseRoutingContext();
+            while (reader.pos < end) {
+                const tag = reader.uint32();
+                switch (tag >>> 3) {
+                    case 1: {
+                        if (tag !== 10) {
+                            break;
+                        }
+
+                        message.InboundTag = reader.string();
+                        continue;
                     }
+                    case 2: {
+                        if (tag !== 16) {
+                            break;
+                        }
 
-                    message.InboundTag = reader.string();
-                    continue;
+                        message.Network = reader.int32() as any;
+                        continue;
+                    }
+                    case 3: {
+                        if (tag !== 26) {
+                            break;
+                        }
+
+                        message.SourceIPs.push(reader.bytes());
+                        continue;
+                    }
+                    case 4: {
+                        if (tag !== 34) {
+                            break;
+                        }
+
+                        message.TargetIPs.push(reader.bytes());
+                        continue;
+                    }
+                    case 5: {
+                        if (tag !== 40) {
+                            break;
+                        }
+
+                        message.SourcePort = reader.uint32();
+                        continue;
+                    }
+                    case 6: {
+                        if (tag !== 48) {
+                            break;
+                        }
+
+                        message.TargetPort = reader.uint32();
+                        continue;
+                    }
+                    case 7: {
+                        if (tag !== 58) {
+                            break;
+                        }
+
+                        message.TargetDomain = reader.string();
+                        continue;
+                    }
+                    case 8: {
+                        if (tag !== 66) {
+                            break;
+                        }
+
+                        message.Protocol = reader.string();
+                        continue;
+                    }
+                    case 9: {
+                        if (tag !== 74) {
+                            break;
+                        }
+
+                        message.User = reader.string();
+                        continue;
+                    }
+                    case 10: {
+                        if (tag !== 82) {
+                            break;
+                        }
+
+                        const entry10 = RoutingContext_AttributesEntry.decode(
+                            reader,
+                            reader.uint32(),
+                        );
+                        if (entry10.value !== undefined) {
+                            message.Attributes[entry10.key] = entry10.value;
+                        }
+                        continue;
+                    }
+                    case 11: {
+                        if (tag !== 90) {
+                            break;
+                        }
+
+                        message.OutboundGroupTags.push(reader.string());
+                        continue;
+                    }
+                    case 12: {
+                        if (tag !== 98) {
+                            break;
+                        }
+
+                        message.OutboundTag = reader.string();
+                        continue;
+                    }
                 }
-                case 2: {
-                    if (tag !== 16) {
-                        break;
-                    }
-
-                    message.Network = reader.int32() as any;
-                    continue;
+                if ((tag & 7) === 4 || tag === 0) {
+                    break;
                 }
-                case 3: {
-                    if (tag !== 26) {
-                        break;
-                    }
+                reader.skip(tag & 7);
+            }
+            return message;
+        },
 
-                    message.SourceIPs.push(reader.bytes());
-                    continue;
-                }
-                case 4: {
-                    if (tag !== 34) {
-                        break;
-                    }
+        fromJSON(object: any): RoutingContext {
+            return {
+                $type: RoutingContext.$type,
+                InboundTag: isSet(object.InboundTag) ? globalThis.String(object.InboundTag) : '',
+                Network: isSet(object.Network) ? networkFromJSON(object.Network) : 0,
+                SourceIPs: globalThis.Array.isArray(object?.SourceIPs)
+                    ? object.SourceIPs.map((e: any) => bytesFromBase64(e))
+                    : [],
+                TargetIPs: globalThis.Array.isArray(object?.TargetIPs)
+                    ? object.TargetIPs.map((e: any) => bytesFromBase64(e))
+                    : [],
+                SourcePort: isSet(object.SourcePort) ? globalThis.Number(object.SourcePort) : 0,
+                TargetPort: isSet(object.TargetPort) ? globalThis.Number(object.TargetPort) : 0,
+                TargetDomain: isSet(object.TargetDomain)
+                    ? globalThis.String(object.TargetDomain)
+                    : '',
+                Protocol: isSet(object.Protocol) ? globalThis.String(object.Protocol) : '',
+                User: isSet(object.User) ? globalThis.String(object.User) : '',
+                Attributes: isObject(object.Attributes)
+                    ? Object.entries(object.Attributes).reduce<{ [key: string]: string }>(
+                          (acc, [key, value]) => {
+                              acc[key] = String(value);
+                              return acc;
+                          },
+                          {},
+                      )
+                    : {},
+                OutboundGroupTags: globalThis.Array.isArray(object?.OutboundGroupTags)
+                    ? object.OutboundGroupTags.map((e: any) => globalThis.String(e))
+                    : [],
+                OutboundTag: isSet(object.OutboundTag) ? globalThis.String(object.OutboundTag) : '',
+            };
+        },
 
-                    message.TargetIPs.push(reader.bytes());
-                    continue;
-                }
-                case 5: {
-                    if (tag !== 40) {
-                        break;
-                    }
-
-                    message.SourcePort = reader.uint32();
-                    continue;
-                }
-                case 6: {
-                    if (tag !== 48) {
-                        break;
-                    }
-
-                    message.TargetPort = reader.uint32();
-                    continue;
-                }
-                case 7: {
-                    if (tag !== 58) {
-                        break;
-                    }
-
-                    message.TargetDomain = reader.string();
-                    continue;
-                }
-                case 8: {
-                    if (tag !== 66) {
-                        break;
-                    }
-
-                    message.Protocol = reader.string();
-                    continue;
-                }
-                case 9: {
-                    if (tag !== 74) {
-                        break;
-                    }
-
-                    message.User = reader.string();
-                    continue;
-                }
-                case 10: {
-                    if (tag !== 82) {
-                        break;
-                    }
-
-                    const entry10 = RoutingContext_AttributesEntry.decode(reader, reader.uint32());
-                    if (entry10.value !== undefined) {
-                        message.Attributes[entry10.key] = entry10.value;
-                    }
-                    continue;
-                }
-                case 11: {
-                    if (tag !== 90) {
-                        break;
-                    }
-
-                    message.OutboundGroupTags.push(reader.string());
-                    continue;
-                }
-                case 12: {
-                    if (tag !== 98) {
-                        break;
-                    }
-
-                    message.OutboundTag = reader.string();
-                    continue;
+        toJSON(message: RoutingContext): unknown {
+            const obj: any = {};
+            if (message.InboundTag !== '') {
+                obj.InboundTag = message.InboundTag;
+            }
+            if (message.Network !== 0) {
+                obj.Network = networkToJSON(message.Network);
+            }
+            if (message.SourceIPs?.length) {
+                obj.SourceIPs = message.SourceIPs.map((e) => base64FromBytes(e));
+            }
+            if (message.TargetIPs?.length) {
+                obj.TargetIPs = message.TargetIPs.map((e) => base64FromBytes(e));
+            }
+            if (message.SourcePort !== 0) {
+                obj.SourcePort = Math.round(message.SourcePort);
+            }
+            if (message.TargetPort !== 0) {
+                obj.TargetPort = Math.round(message.TargetPort);
+            }
+            if (message.TargetDomain !== '') {
+                obj.TargetDomain = message.TargetDomain;
+            }
+            if (message.Protocol !== '') {
+                obj.Protocol = message.Protocol;
+            }
+            if (message.User !== '') {
+                obj.User = message.User;
+            }
+            if (message.Attributes) {
+                const entries = Object.entries(message.Attributes);
+                if (entries.length > 0) {
+                    obj.Attributes = {};
+                    entries.forEach(([k, v]) => {
+                        obj.Attributes[k] = v;
+                    });
                 }
             }
-            if ((tag & 7) === 4 || tag === 0) {
-                break;
+            if (message.OutboundGroupTags?.length) {
+                obj.OutboundGroupTags = message.OutboundGroupTags;
             }
-            reader.skip(tag & 7);
-        }
-        return message;
-    },
-
-    fromJSON(object: any): RoutingContext {
-        return {
-            $type: RoutingContext.$type,
-            InboundTag: isSet(object.InboundTag) ? globalThis.String(object.InboundTag) : '',
-            Network: isSet(object.Network) ? networkFromJSON(object.Network) : 0,
-            SourceIPs: globalThis.Array.isArray(object?.SourceIPs)
-                ? object.SourceIPs.map((e: any) => bytesFromBase64(e))
-                : [],
-            TargetIPs: globalThis.Array.isArray(object?.TargetIPs)
-                ? object.TargetIPs.map((e: any) => bytesFromBase64(e))
-                : [],
-            SourcePort: isSet(object.SourcePort) ? globalThis.Number(object.SourcePort) : 0,
-            TargetPort: isSet(object.TargetPort) ? globalThis.Number(object.TargetPort) : 0,
-            TargetDomain: isSet(object.TargetDomain) ? globalThis.String(object.TargetDomain) : '',
-            Protocol: isSet(object.Protocol) ? globalThis.String(object.Protocol) : '',
-            User: isSet(object.User) ? globalThis.String(object.User) : '',
-            Attributes: isObject(object.Attributes)
-                ? Object.entries(object.Attributes).reduce<{ [key: string]: string }>((acc, [key, value]) => {
-                    acc[key] = String(value);
-                    return acc;
-                }, {})
-                : {},
-            OutboundGroupTags: globalThis.Array.isArray(object?.OutboundGroupTags)
-                ? object.OutboundGroupTags.map((e: any) => globalThis.String(e))
-                : [],
-            OutboundTag: isSet(object.OutboundTag) ? globalThis.String(object.OutboundTag) : '',
-        };
-    },
-
-    toJSON(message: RoutingContext): unknown {
-        const obj: any = {};
-        if (message.InboundTag !== '') {
-            obj.InboundTag = message.InboundTag;
-        }
-        if (message.Network !== 0) {
-            obj.Network = networkToJSON(message.Network);
-        }
-        if (message.SourceIPs?.length) {
-            obj.SourceIPs = message.SourceIPs.map((e) => base64FromBytes(e));
-        }
-        if (message.TargetIPs?.length) {
-            obj.TargetIPs = message.TargetIPs.map((e) => base64FromBytes(e));
-        }
-        if (message.SourcePort !== 0) {
-            obj.SourcePort = Math.round(message.SourcePort);
-        }
-        if (message.TargetPort !== 0) {
-            obj.TargetPort = Math.round(message.TargetPort);
-        }
-        if (message.TargetDomain !== '') {
-            obj.TargetDomain = message.TargetDomain;
-        }
-        if (message.Protocol !== '') {
-            obj.Protocol = message.Protocol;
-        }
-        if (message.User !== '') {
-            obj.User = message.User;
-        }
-        if (message.Attributes) {
-            const entries = Object.entries(message.Attributes);
-            if (entries.length > 0) {
-                obj.Attributes = {};
-                entries.forEach(([k, v]) => {
-                    obj.Attributes[k] = v;
-                });
+            if (message.OutboundTag !== '') {
+                obj.OutboundTag = message.OutboundTag;
             }
-        }
-        if (message.OutboundGroupTags?.length) {
-            obj.OutboundGroupTags = message.OutboundGroupTags;
-        }
-        if (message.OutboundTag !== '') {
-            obj.OutboundTag = message.OutboundTag;
-        }
-        return obj;
-    },
+            return obj;
+        },
 
-    create(base?: DeepPartial<RoutingContext>): RoutingContext {
-        return RoutingContext.fromPartial(base ?? {});
-    },
-    fromPartial(object: DeepPartial<RoutingContext>): RoutingContext {
-        const message = createBaseRoutingContext();
-        message.InboundTag = object.InboundTag ?? '';
-        message.Network = object.Network ?? 0;
-        message.SourceIPs = object.SourceIPs?.map((e) => e) || [];
-        message.TargetIPs = object.TargetIPs?.map((e) => e) || [];
-        message.SourcePort = object.SourcePort ?? 0;
-        message.TargetPort = object.TargetPort ?? 0;
-        message.TargetDomain = object.TargetDomain ?? '';
-        message.Protocol = object.Protocol ?? '';
-        message.User = object.User ?? '';
-        message.Attributes = Object.entries(object.Attributes ?? {}).reduce<{ [key: string]: string }>(
-            (acc, [key, value]) => {
+        create(base?: DeepPartial<RoutingContext>): RoutingContext {
+            return RoutingContext.fromPartial(base ?? {});
+        },
+        fromPartial(object: DeepPartial<RoutingContext>): RoutingContext {
+            const message = createBaseRoutingContext();
+            message.InboundTag = object.InboundTag ?? '';
+            message.Network = object.Network ?? 0;
+            message.SourceIPs = object.SourceIPs?.map((e) => e) || [];
+            message.TargetIPs = object.TargetIPs?.map((e) => e) || [];
+            message.SourcePort = object.SourcePort ?? 0;
+            message.TargetPort = object.TargetPort ?? 0;
+            message.TargetDomain = object.TargetDomain ?? '';
+            message.Protocol = object.Protocol ?? '';
+            message.User = object.User ?? '';
+            message.Attributes = Object.entries(object.Attributes ?? {}).reduce<{
+                [key: string]: string;
+            }>((acc, [key, value]) => {
                 if (value !== undefined) {
                     acc[key] = globalThis.String(value);
                 }
                 return acc;
-            },
-            {},
-        );
-        message.OutboundGroupTags = object.OutboundGroupTags?.map((e) => e) || [];
-        message.OutboundTag = object.OutboundTag ?? '';
-        return message;
-    },
-};
+            }, {});
+            message.OutboundGroupTags = object.OutboundGroupTags?.map((e) => e) || [];
+            message.OutboundTag = object.OutboundTag ?? '';
+            return message;
+        },
+    };
 
 messageTypeRegistry.set(RoutingContext.$type, RoutingContext);
 
@@ -436,7 +447,10 @@ export const RoutingContext_AttributesEntry: MessageFns<
 > = {
     $type: 'xray.app.router.command.RoutingContext.AttributesEntry' as const,
 
-    encode(message: RoutingContext_AttributesEntry, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    encode(
+        message: RoutingContext_AttributesEntry,
+        writer: BinaryWriter = new BinaryWriter(),
+    ): BinaryWriter {
         if (message.key !== '') {
             writer.uint32(10).string(message.key);
         }
@@ -500,7 +514,9 @@ export const RoutingContext_AttributesEntry: MessageFns<
     create(base?: DeepPartial<RoutingContext_AttributesEntry>): RoutingContext_AttributesEntry {
         return RoutingContext_AttributesEntry.fromPartial(base ?? {});
     },
-    fromPartial(object: DeepPartial<RoutingContext_AttributesEntry>): RoutingContext_AttributesEntry {
+    fromPartial(
+        object: DeepPartial<RoutingContext_AttributesEntry>,
+    ): RoutingContext_AttributesEntry {
         const message = createBaseRoutingContext_AttributesEntry();
         message.key = object.key ?? '';
         message.value = object.value ?? '';
@@ -520,7 +536,10 @@ export const SubscribeRoutingStatsRequest: MessageFns<
 > = {
     $type: 'xray.app.router.command.SubscribeRoutingStatsRequest' as const,
 
-    encode(message: SubscribeRoutingStatsRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    encode(
+        message: SubscribeRoutingStatsRequest,
+        writer: BinaryWriter = new BinaryWriter(),
+    ): BinaryWriter {
         for (const v of message.FieldSelectors) {
             writer.uint32(10).string(v!);
         }
@@ -589,7 +608,10 @@ function createBaseTestRouteRequest(): TestRouteRequest {
     };
 }
 
-export const TestRouteRequest: MessageFns<TestRouteRequest, 'xray.app.router.command.TestRouteRequest'> = {
+export const TestRouteRequest: MessageFns<
+    TestRouteRequest,
+    'xray.app.router.command.TestRouteRequest'
+> = {
     $type: 'xray.app.router.command.TestRouteRequest' as const,
 
     encode(message: TestRouteRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -648,11 +670,15 @@ export const TestRouteRequest: MessageFns<TestRouteRequest, 'xray.app.router.com
     fromJSON(object: any): TestRouteRequest {
         return {
             $type: TestRouteRequest.$type,
-            RoutingContext: isSet(object.RoutingContext) ? RoutingContext.fromJSON(object.RoutingContext) : undefined,
+            RoutingContext: isSet(object.RoutingContext)
+                ? RoutingContext.fromJSON(object.RoutingContext)
+                : undefined,
             FieldSelectors: globalThis.Array.isArray(object?.FieldSelectors)
                 ? object.FieldSelectors.map((e: any) => globalThis.String(e))
                 : [],
-            PublishResult: isSet(object.PublishResult) ? globalThis.Boolean(object.PublishResult) : false,
+            PublishResult: isSet(object.PublishResult)
+                ? globalThis.Boolean(object.PublishResult)
+                : false,
         };
     },
 
@@ -675,9 +701,10 @@ export const TestRouteRequest: MessageFns<TestRouteRequest, 'xray.app.router.com
     },
     fromPartial(object: DeepPartial<TestRouteRequest>): TestRouteRequest {
         const message = createBaseTestRouteRequest();
-        message.RoutingContext = (object.RoutingContext !== undefined && object.RoutingContext !== null)
-            ? RoutingContext.fromPartial(object.RoutingContext)
-            : undefined;
+        message.RoutingContext =
+            object.RoutingContext !== undefined && object.RoutingContext !== null
+                ? RoutingContext.fromPartial(object.RoutingContext)
+                : undefined;
         message.FieldSelectors = object.FieldSelectors?.map((e) => e) || [];
         message.PublishResult = object.PublishResult ?? false;
         return message;
@@ -690,7 +717,10 @@ function createBasePrincipleTargetInfo(): PrincipleTargetInfo {
     return { $type: 'xray.app.router.command.PrincipleTargetInfo', tag: [] };
 }
 
-export const PrincipleTargetInfo: MessageFns<PrincipleTargetInfo, 'xray.app.router.command.PrincipleTargetInfo'> = {
+export const PrincipleTargetInfo: MessageFns<
+    PrincipleTargetInfo,
+    'xray.app.router.command.PrincipleTargetInfo'
+> = {
     $type: 'xray.app.router.command.PrincipleTargetInfo' as const,
 
     encode(message: PrincipleTargetInfo, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -727,7 +757,9 @@ export const PrincipleTargetInfo: MessageFns<PrincipleTargetInfo, 'xray.app.rout
     fromJSON(object: any): PrincipleTargetInfo {
         return {
             $type: PrincipleTargetInfo.$type,
-            tag: globalThis.Array.isArray(object?.tag) ? object.tag.map((e: any) => globalThis.String(e)) : [],
+            tag: globalThis.Array.isArray(object?.tag)
+                ? object.tag.map((e: any) => globalThis.String(e))
+                : [],
         };
     },
 
@@ -790,7 +822,10 @@ export const OverrideInfo: MessageFns<OverrideInfo, 'xray.app.router.command.Ove
     },
 
     fromJSON(object: any): OverrideInfo {
-        return { $type: OverrideInfo.$type, target: isSet(object.target) ? globalThis.String(object.target) : '' };
+        return {
+            $type: OverrideInfo.$type,
+            target: isSet(object.target) ? globalThis.String(object.target) : '',
+        };
     },
 
     toJSON(message: OverrideInfo): unknown {
@@ -814,7 +849,11 @@ export const OverrideInfo: MessageFns<OverrideInfo, 'xray.app.router.command.Ove
 messageTypeRegistry.set(OverrideInfo.$type, OverrideInfo);
 
 function createBaseBalancerMsg(): BalancerMsg {
-    return { $type: 'xray.app.router.command.BalancerMsg', override: undefined, principleTarget: undefined };
+    return {
+        $type: 'xray.app.router.command.BalancerMsg',
+        override: undefined,
+        principleTarget: undefined,
+    };
 }
 
 export const BalancerMsg: MessageFns<BalancerMsg, 'xray.app.router.command.BalancerMsg'> = {
@@ -866,7 +905,9 @@ export const BalancerMsg: MessageFns<BalancerMsg, 'xray.app.router.command.Balan
         return {
             $type: BalancerMsg.$type,
             override: isSet(object.override) ? OverrideInfo.fromJSON(object.override) : undefined,
-            principleTarget: isSet(object.principleTarget) ? PrincipleTargetInfo.fromJSON(object.principleTarget) : undefined,
+            principleTarget: isSet(object.principleTarget)
+                ? PrincipleTargetInfo.fromJSON(object.principleTarget)
+                : undefined,
         };
     },
 
@@ -886,12 +927,14 @@ export const BalancerMsg: MessageFns<BalancerMsg, 'xray.app.router.command.Balan
     },
     fromPartial(object: DeepPartial<BalancerMsg>): BalancerMsg {
         const message = createBaseBalancerMsg();
-        message.override = (object.override !== undefined && object.override !== null)
-            ? OverrideInfo.fromPartial(object.override)
-            : undefined;
-        message.principleTarget = (object.principleTarget !== undefined && object.principleTarget !== null)
-            ? PrincipleTargetInfo.fromPartial(object.principleTarget)
-            : undefined;
+        message.override =
+            object.override !== undefined && object.override !== null
+                ? OverrideInfo.fromPartial(object.override)
+                : undefined;
+        message.principleTarget =
+            object.principleTarget !== undefined && object.principleTarget !== null
+                ? PrincipleTargetInfo.fromPartial(object.principleTarget)
+                : undefined;
         return message;
     },
 };
@@ -908,7 +951,10 @@ export const GetBalancerInfoRequest: MessageFns<
 > = {
     $type: 'xray.app.router.command.GetBalancerInfoRequest' as const,
 
-    encode(message: GetBalancerInfoRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    encode(
+        message: GetBalancerInfoRequest,
+        writer: BinaryWriter = new BinaryWriter(),
+    ): BinaryWriter {
         if (message.tag !== '') {
             writer.uint32(10).string(message.tag);
         }
@@ -940,7 +986,10 @@ export const GetBalancerInfoRequest: MessageFns<
     },
 
     fromJSON(object: any): GetBalancerInfoRequest {
-        return { $type: GetBalancerInfoRequest.$type, tag: isSet(object.tag) ? globalThis.String(object.tag) : '' };
+        return {
+            $type: GetBalancerInfoRequest.$type,
+            tag: isSet(object.tag) ? globalThis.String(object.tag) : '',
+        };
     },
 
     toJSON(message: GetBalancerInfoRequest): unknown {
@@ -973,7 +1022,10 @@ export const GetBalancerInfoResponse: MessageFns<
 > = {
     $type: 'xray.app.router.command.GetBalancerInfoResponse' as const,
 
-    encode(message: GetBalancerInfoResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    encode(
+        message: GetBalancerInfoResponse,
+        writer: BinaryWriter = new BinaryWriter(),
+    ): BinaryWriter {
         if (message.balancer !== undefined) {
             BalancerMsg.encode(message.balancer, writer.uint32(10).fork()).join();
         }
@@ -1024,9 +1076,10 @@ export const GetBalancerInfoResponse: MessageFns<
     },
     fromPartial(object: DeepPartial<GetBalancerInfoResponse>): GetBalancerInfoResponse {
         const message = createBaseGetBalancerInfoResponse();
-        message.balancer = (object.balancer !== undefined && object.balancer !== null)
-            ? BalancerMsg.fromPartial(object.balancer)
-            : undefined;
+        message.balancer =
+            object.balancer !== undefined && object.balancer !== null
+                ? BalancerMsg.fromPartial(object.balancer)
+                : undefined;
         return message;
     },
 };
@@ -1034,7 +1087,11 @@ export const GetBalancerInfoResponse: MessageFns<
 messageTypeRegistry.set(GetBalancerInfoResponse.$type, GetBalancerInfoResponse);
 
 function createBaseOverrideBalancerTargetRequest(): OverrideBalancerTargetRequest {
-    return { $type: 'xray.app.router.command.OverrideBalancerTargetRequest', balancerTag: '', target: '' };
+    return {
+        $type: 'xray.app.router.command.OverrideBalancerTargetRequest',
+        balancerTag: '',
+        target: '',
+    };
 }
 
 export const OverrideBalancerTargetRequest: MessageFns<
@@ -1043,7 +1100,10 @@ export const OverrideBalancerTargetRequest: MessageFns<
 > = {
     $type: 'xray.app.router.command.OverrideBalancerTargetRequest' as const,
 
-    encode(message: OverrideBalancerTargetRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    encode(
+        message: OverrideBalancerTargetRequest,
+        writer: BinaryWriter = new BinaryWriter(),
+    ): BinaryWriter {
         if (message.balancerTag !== '') {
             writer.uint32(10).string(message.balancerTag);
         }
@@ -1127,7 +1187,10 @@ export const OverrideBalancerTargetResponse: MessageFns<
 > = {
     $type: 'xray.app.router.command.OverrideBalancerTargetResponse' as const,
 
-    encode(_: OverrideBalancerTargetResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    encode(
+        _: OverrideBalancerTargetResponse,
+        writer: BinaryWriter = new BinaryWriter(),
+    ): BinaryWriter {
         return writer;
     },
 
@@ -1168,85 +1231,93 @@ export const OverrideBalancerTargetResponse: MessageFns<
 messageTypeRegistry.set(OverrideBalancerTargetResponse.$type, OverrideBalancerTargetResponse);
 
 function createBaseAddRuleRequest(): AddRuleRequest {
-    return { $type: 'xray.app.router.command.AddRuleRequest', config: undefined, shouldAppend: false };
+    return {
+        $type: 'xray.app.router.command.AddRuleRequest',
+        config: undefined,
+        shouldAppend: false,
+    };
 }
 
-export const AddRuleRequest: MessageFns<AddRuleRequest, 'xray.app.router.command.AddRuleRequest'> = {
-    $type: 'xray.app.router.command.AddRuleRequest' as const,
+export const AddRuleRequest: MessageFns<AddRuleRequest, 'xray.app.router.command.AddRuleRequest'> =
+    {
+        $type: 'xray.app.router.command.AddRuleRequest' as const,
 
-    encode(message: AddRuleRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-        if (message.config !== undefined) {
-            TypedMessage.encode(message.config, writer.uint32(10).fork()).join();
-        }
-        if (message.shouldAppend !== false) {
-            writer.uint32(16).bool(message.shouldAppend);
-        }
-        return writer;
-    },
-
-    decode(input: BinaryReader | Uint8Array, length?: number): AddRuleRequest {
-        const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-        let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseAddRuleRequest();
-        while (reader.pos < end) {
-            const tag = reader.uint32();
-            switch (tag >>> 3) {
-                case 1: {
-                    if (tag !== 10) {
-                        break;
-                    }
-
-                    message.config = TypedMessage.decode(reader, reader.uint32());
-                    continue;
-                }
-                case 2: {
-                    if (tag !== 16) {
-                        break;
-                    }
-
-                    message.shouldAppend = reader.bool();
-                    continue;
-                }
+        encode(message: AddRuleRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+            if (message.config !== undefined) {
+                TypedMessage.encode(message.config, writer.uint32(10).fork()).join();
             }
-            if ((tag & 7) === 4 || tag === 0) {
-                break;
+            if (message.shouldAppend !== false) {
+                writer.uint32(16).bool(message.shouldAppend);
             }
-            reader.skip(tag & 7);
-        }
-        return message;
-    },
+            return writer;
+        },
 
-    fromJSON(object: any): AddRuleRequest {
-        return {
-            $type: AddRuleRequest.$type,
-            config: isSet(object.config) ? TypedMessage.fromJSON(object.config) : undefined,
-            shouldAppend: isSet(object.shouldAppend) ? globalThis.Boolean(object.shouldAppend) : false,
-        };
-    },
+        decode(input: BinaryReader | Uint8Array, length?: number): AddRuleRequest {
+            const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+            let end = length === undefined ? reader.len : reader.pos + length;
+            const message = createBaseAddRuleRequest();
+            while (reader.pos < end) {
+                const tag = reader.uint32();
+                switch (tag >>> 3) {
+                    case 1: {
+                        if (tag !== 10) {
+                            break;
+                        }
 
-    toJSON(message: AddRuleRequest): unknown {
-        const obj: any = {};
-        if (message.config !== undefined) {
-            obj.config = TypedMessage.toJSON(message.config);
-        }
-        if (message.shouldAppend !== false) {
-            obj.shouldAppend = message.shouldAppend;
-        }
-        return obj;
-    },
+                        message.config = TypedMessage.decode(reader, reader.uint32());
+                        continue;
+                    }
+                    case 2: {
+                        if (tag !== 16) {
+                            break;
+                        }
 
-    create(base?: DeepPartial<AddRuleRequest>): AddRuleRequest {
-        return AddRuleRequest.fromPartial(base ?? {});
-    },
-    fromPartial(object: DeepPartial<AddRuleRequest>): AddRuleRequest {
-        const message = createBaseAddRuleRequest();
-        message.config = (object.config !== undefined && object.config !== null)
-            ? TypedMessage.fromPartial(object.config)
-            : undefined;
-        message.shouldAppend = object.shouldAppend ?? false;
-        return message;
-    },
-};
+                        message.shouldAppend = reader.bool();
+                        continue;
+                    }
+                }
+                if ((tag & 7) === 4 || tag === 0) {
+                    break;
+                }
+                reader.skip(tag & 7);
+            }
+            return message;
+        },
+
+        fromJSON(object: any): AddRuleRequest {
+            return {
+                $type: AddRuleRequest.$type,
+                config: isSet(object.config) ? TypedMessage.fromJSON(object.config) : undefined,
+                shouldAppend: isSet(object.shouldAppend)
+                    ? globalThis.Boolean(object.shouldAppend)
+                    : false,
+            };
+        },
+
+        toJSON(message: AddRuleRequest): unknown {
+            const obj: any = {};
+            if (message.config !== undefined) {
+                obj.config = TypedMessage.toJSON(message.config);
+            }
+            if (message.shouldAppend !== false) {
+                obj.shouldAppend = message.shouldAppend;
+            }
+            return obj;
+        },
+
+        create(base?: DeepPartial<AddRuleRequest>): AddRuleRequest {
+            return AddRuleRequest.fromPartial(base ?? {});
+        },
+        fromPartial(object: DeepPartial<AddRuleRequest>): AddRuleRequest {
+            const message = createBaseAddRuleRequest();
+            message.config =
+                object.config !== undefined && object.config !== null
+                    ? TypedMessage.fromPartial(object.config)
+                    : undefined;
+            message.shouldAppend = object.shouldAppend ?? false;
+            return message;
+        },
+    };
 
 messageTypeRegistry.set(AddRuleRequest.$type, AddRuleRequest);
 
@@ -1254,7 +1325,10 @@ function createBaseAddRuleResponse(): AddRuleResponse {
     return { $type: 'xray.app.router.command.AddRuleResponse' };
 }
 
-export const AddRuleResponse: MessageFns<AddRuleResponse, 'xray.app.router.command.AddRuleResponse'> = {
+export const AddRuleResponse: MessageFns<
+    AddRuleResponse,
+    'xray.app.router.command.AddRuleResponse'
+> = {
     $type: 'xray.app.router.command.AddRuleResponse' as const,
 
     encode(_: AddRuleResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -1301,7 +1375,10 @@ function createBaseRemoveRuleRequest(): RemoveRuleRequest {
     return { $type: 'xray.app.router.command.RemoveRuleRequest', ruleTag: '' };
 }
 
-export const RemoveRuleRequest: MessageFns<RemoveRuleRequest, 'xray.app.router.command.RemoveRuleRequest'> = {
+export const RemoveRuleRequest: MessageFns<
+    RemoveRuleRequest,
+    'xray.app.router.command.RemoveRuleRequest'
+> = {
     $type: 'xray.app.router.command.RemoveRuleRequest' as const,
 
     encode(message: RemoveRuleRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -1366,7 +1443,10 @@ function createBaseRemoveRuleResponse(): RemoveRuleResponse {
     return { $type: 'xray.app.router.command.RemoveRuleResponse' };
 }
 
-export const RemoveRuleResponse: MessageFns<RemoveRuleResponse, 'xray.app.router.command.RemoveRuleResponse'> = {
+export const RemoveRuleResponse: MessageFns<
+    RemoveRuleResponse,
+    'xray.app.router.command.RemoveRuleResponse'
+> = {
     $type: 'xray.app.router.command.RemoveRuleResponse' as const,
 
     encode(_: RemoveRuleResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -1518,7 +1598,10 @@ export interface RoutingServiceImplementation<CallContextExt = {}> {
         context: CallContext & CallContextExt,
     ): ServerStreamingMethodResult<DeepPartial<RoutingContext>>;
 
-    testRoute(request: TestRouteRequest, context: CallContext & CallContextExt): Promise<DeepPartial<RoutingContext>>;
+    testRoute(
+        request: TestRouteRequest,
+        context: CallContext & CallContextExt,
+    ): Promise<DeepPartial<RoutingContext>>;
 
     getBalancerInfo(
         request: GetBalancerInfoRequest,
@@ -1530,7 +1613,10 @@ export interface RoutingServiceImplementation<CallContextExt = {}> {
         context: CallContext & CallContextExt,
     ): Promise<DeepPartial<OverrideBalancerTargetResponse>>;
 
-    addRule(request: AddRuleRequest, context: CallContext & CallContextExt): Promise<DeepPartial<AddRuleResponse>>;
+    addRule(
+        request: AddRuleRequest,
+        context: CallContext & CallContextExt,
+    ): Promise<DeepPartial<AddRuleResponse>>;
 
     removeRule(
         request: RemoveRuleRequest,
@@ -1544,7 +1630,10 @@ export interface RoutingServiceClient<CallOptionsExt = {}> {
         options?: CallOptions & CallOptionsExt,
     ): AsyncIterable<RoutingContext>;
 
-    testRoute(request: DeepPartial<TestRouteRequest>, options?: CallOptions & CallOptionsExt): Promise<RoutingContext>;
+    testRoute(
+        request: DeepPartial<TestRouteRequest>,
+        options?: CallOptions & CallOptionsExt,
+    ): Promise<RoutingContext>;
 
     getBalancerInfo(
         request: DeepPartial<GetBalancerInfoRequest>,
@@ -1556,7 +1645,10 @@ export interface RoutingServiceClient<CallOptionsExt = {}> {
         options?: CallOptions & CallOptionsExt,
     ): Promise<OverrideBalancerTargetResponse>;
 
-    addRule(request: DeepPartial<AddRuleRequest>, options?: CallOptions & CallOptionsExt): Promise<AddRuleResponse>;
+    addRule(
+        request: DeepPartial<AddRuleRequest>,
+        options?: CallOptions & CallOptionsExt,
+    ): Promise<AddRuleResponse>;
 
     removeRule(
         request: DeepPartial<RemoveRuleRequest>,
@@ -1591,11 +1683,15 @@ function base64FromBytes(arr: Uint8Array): string {
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function isObject(value: any): boolean {
     return typeof value === 'object' && value !== null;
@@ -1605,7 +1701,9 @@ function isSet(value: any): boolean {
     return value !== null && value !== undefined;
 }
 
-export type ServerStreamingMethodResult<Response> = { [Symbol.asyncIterator](): AsyncIterator<Response, void> };
+export type ServerStreamingMethodResult<Response> = {
+    [Symbol.asyncIterator](): AsyncIterator<Response, void>;
+};
 
 export interface MessageFns<T, V extends string> {
     readonly $type: V;

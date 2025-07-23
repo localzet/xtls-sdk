@@ -60,7 +60,10 @@ export const Hunk: MessageFns<Hunk, 'xray.transport.internet.grpc.encoding.Hunk'
     },
 
     fromJSON(object: any): Hunk {
-        return { $type: Hunk.$type, data: isSet(object.data) ? bytesFromBase64(object.data) : new Uint8Array(0) };
+        return {
+            $type: Hunk.$type,
+            data: isSet(object.data) ? bytesFromBase64(object.data) : new Uint8Array(0),
+        };
     },
 
     toJSON(message: Hunk): unknown {
@@ -124,7 +127,9 @@ export const MultiHunk: MessageFns<MultiHunk, 'xray.transport.internet.grpc.enco
     fromJSON(object: any): MultiHunk {
         return {
             $type: MultiHunk.$type,
-            data: globalThis.Array.isArray(object?.data) ? object.data.map((e: any) => bytesFromBase64(e)) : [],
+            data: globalThis.Array.isArray(object?.data)
+                ? object.data.map((e: any) => bytesFromBase64(e))
+                : [],
         };
     },
 
@@ -185,7 +190,10 @@ export interface GRPCServiceImplementation<CallContextExt = {}> {
 }
 
 export interface GRPCServiceClient<CallOptionsExt = {}> {
-    tun(request: AsyncIterable<DeepPartial<Hunk>>, options?: CallOptions & CallOptionsExt): AsyncIterable<Hunk>;
+    tun(
+        request: AsyncIterable<DeepPartial<Hunk>>,
+        options?: CallOptions & CallOptionsExt,
+    ): AsyncIterable<Hunk>;
 
     tunMulti(
         request: AsyncIterable<DeepPartial<MultiHunk>>,
@@ -220,17 +228,23 @@ function base64FromBytes(arr: Uint8Array): string {
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function isSet(value: any): boolean {
     return value !== null && value !== undefined;
 }
 
-export type ServerStreamingMethodResult<Response> = { [Symbol.asyncIterator](): AsyncIterator<Response, void> };
+export type ServerStreamingMethodResult<Response> = {
+    [Symbol.asyncIterator](): AsyncIterator<Response, void>;
+};
 
 export interface MessageFns<T, V extends string> {
     readonly $type: V;

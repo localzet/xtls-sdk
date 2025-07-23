@@ -76,7 +76,10 @@ export const GetOutboundStatusRequest: MessageFns<
 messageTypeRegistry.set(GetOutboundStatusRequest.$type, GetOutboundStatusRequest);
 
 function createBaseGetOutboundStatusResponse(): GetOutboundStatusResponse {
-    return { $type: 'xray.core.app.observatory.command.GetOutboundStatusResponse', status: undefined };
+    return {
+        $type: 'xray.core.app.observatory.command.GetOutboundStatusResponse',
+        status: undefined,
+    };
 }
 
 export const GetOutboundStatusResponse: MessageFns<
@@ -85,7 +88,10 @@ export const GetOutboundStatusResponse: MessageFns<
 > = {
     $type: 'xray.core.app.observatory.command.GetOutboundStatusResponse' as const,
 
-    encode(message: GetOutboundStatusResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    encode(
+        message: GetOutboundStatusResponse,
+        writer: BinaryWriter = new BinaryWriter(),
+    ): BinaryWriter {
         if (message.status !== undefined) {
             ObservationResult.encode(message.status, writer.uint32(10).fork()).join();
         }
@@ -136,9 +142,10 @@ export const GetOutboundStatusResponse: MessageFns<
     },
     fromPartial(object: DeepPartial<GetOutboundStatusResponse>): GetOutboundStatusResponse {
         const message = createBaseGetOutboundStatusResponse();
-        message.status = (object.status !== undefined && object.status !== null)
-            ? ObservationResult.fromPartial(object.status)
-            : undefined;
+        message.status =
+            object.status !== undefined && object.status !== null
+                ? ObservationResult.fromPartial(object.status)
+                : undefined;
         return message;
     },
 };
@@ -224,11 +231,15 @@ export interface ObservatoryServiceClient<CallOptionsExt = {}> {
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function isSet(value: any): boolean {
     return value !== null && value !== undefined;

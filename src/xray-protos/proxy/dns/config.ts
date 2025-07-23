@@ -24,7 +24,13 @@ export interface Config {
 }
 
 function createBaseConfig(): Config {
-    return { $type: 'xray.proxy.dns.Config', server: undefined, userLevel: 0, nonIPQuery: '', blockTypes: [] };
+    return {
+        $type: 'xray.proxy.dns.Config',
+        server: undefined,
+        userLevel: 0,
+        nonIPQuery: '',
+        blockTypes: [],
+    };
 }
 
 export const Config: MessageFns<Config, 'xray.proxy.dns.Config'> = {
@@ -140,9 +146,10 @@ export const Config: MessageFns<Config, 'xray.proxy.dns.Config'> = {
     },
     fromPartial(object: DeepPartial<Config>): Config {
         const message = createBaseConfig();
-        message.server = (object.server !== undefined && object.server !== null)
-            ? Endpoint.fromPartial(object.server)
-            : undefined;
+        message.server =
+            object.server !== undefined && object.server !== null
+                ? Endpoint.fromPartial(object.server)
+                : undefined;
         message.userLevel = object.userLevel ?? 0;
         message.nonIPQuery = object.nonIPQuery ?? '';
         message.blockTypes = object.blockTypes?.map((e) => e) || [];
@@ -154,11 +161,15 @@ messageTypeRegistry.set(Config.$type, Config);
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function isSet(value: any): boolean {
     return value !== null && value !== undefined;

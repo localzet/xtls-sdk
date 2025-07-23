@@ -103,7 +103,10 @@ function createBaseObservationResult(): ObservationResult {
     return { $type: 'xray.core.app.observatory.ObservationResult', status: [] };
 }
 
-export const ObservationResult: MessageFns<ObservationResult, 'xray.core.app.observatory.ObservationResult'> = {
+export const ObservationResult: MessageFns<
+    ObservationResult,
+    'xray.core.app.observatory.ObservationResult'
+> = {
     $type: 'xray.core.app.observatory.ObservationResult' as const,
 
     encode(message: ObservationResult, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -140,7 +143,9 @@ export const ObservationResult: MessageFns<ObservationResult, 'xray.core.app.obs
     fromJSON(object: any): ObservationResult {
         return {
             $type: ObservationResult.$type,
-            status: globalThis.Array.isArray(object?.status) ? object.status.map((e: any) => OutboundStatus.fromJSON(e)) : [],
+            status: globalThis.Array.isArray(object?.status)
+                ? object.status.map((e: any) => OutboundStatus.fromJSON(e))
+                : [],
         };
     },
 
@@ -182,7 +187,10 @@ export const HealthPingMeasurementResult: MessageFns<
 > = {
     $type: 'xray.core.app.observatory.HealthPingMeasurementResult' as const,
 
-    encode(message: HealthPingMeasurementResult, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    encode(
+        message: HealthPingMeasurementResult,
+        writer: BinaryWriter = new BinaryWriter(),
+    ): BinaryWriter {
         if (message.all !== 0) {
             writer.uint32(8).int64(message.all);
         }
@@ -333,7 +341,10 @@ function createBaseOutboundStatus(): OutboundStatus {
     };
 }
 
-export const OutboundStatus: MessageFns<OutboundStatus, 'xray.core.app.observatory.OutboundStatus'> = {
+export const OutboundStatus: MessageFns<
+    OutboundStatus,
+    'xray.core.app.observatory.OutboundStatus'
+> = {
     $type: 'xray.core.app.observatory.OutboundStatus' as const,
 
     encode(message: OutboundStatus, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -421,7 +432,10 @@ export const OutboundStatus: MessageFns<OutboundStatus, 'xray.core.app.observato
                         break;
                     }
 
-                    message.healthPing = HealthPingMeasurementResult.decode(reader, reader.uint32());
+                    message.healthPing = HealthPingMeasurementResult.decode(
+                        reader,
+                        reader.uint32(),
+                    );
                     continue;
                 }
             }
@@ -438,11 +452,15 @@ export const OutboundStatus: MessageFns<OutboundStatus, 'xray.core.app.observato
             $type: OutboundStatus.$type,
             alive: isSet(object.alive) ? globalThis.Boolean(object.alive) : false,
             delay: isSet(object.delay) ? globalThis.Number(object.delay) : 0,
-            lastErrorReason: isSet(object.lastErrorReason) ? globalThis.String(object.lastErrorReason) : '',
+            lastErrorReason: isSet(object.lastErrorReason)
+                ? globalThis.String(object.lastErrorReason)
+                : '',
             outboundTag: isSet(object.outboundTag) ? globalThis.String(object.outboundTag) : '',
             lastSeenTime: isSet(object.lastSeenTime) ? globalThis.Number(object.lastSeenTime) : 0,
             lastTryTime: isSet(object.lastTryTime) ? globalThis.Number(object.lastTryTime) : 0,
-            healthPing: isSet(object.healthPing) ? HealthPingMeasurementResult.fromJSON(object.healthPing) : undefined,
+            healthPing: isSet(object.healthPing)
+                ? HealthPingMeasurementResult.fromJSON(object.healthPing)
+                : undefined,
         };
     },
 
@@ -483,9 +501,10 @@ export const OutboundStatus: MessageFns<OutboundStatus, 'xray.core.app.observato
         message.outboundTag = object.outboundTag ?? '';
         message.lastSeenTime = object.lastSeenTime ?? 0;
         message.lastTryTime = object.lastTryTime ?? 0;
-        message.healthPing = (object.healthPing !== undefined && object.healthPing !== null)
-            ? HealthPingMeasurementResult.fromPartial(object.healthPing)
-            : undefined;
+        message.healthPing =
+            object.healthPing !== undefined && object.healthPing !== null
+                ? HealthPingMeasurementResult.fromPartial(object.healthPing)
+                : undefined;
         return message;
     },
 };
@@ -493,7 +512,12 @@ export const OutboundStatus: MessageFns<OutboundStatus, 'xray.core.app.observato
 messageTypeRegistry.set(OutboundStatus.$type, OutboundStatus);
 
 function createBaseProbeResult(): ProbeResult {
-    return { $type: 'xray.core.app.observatory.ProbeResult', alive: false, delay: 0, lastErrorReason: '' };
+    return {
+        $type: 'xray.core.app.observatory.ProbeResult',
+        alive: false,
+        delay: 0,
+        lastErrorReason: '',
+    };
 }
 
 export const ProbeResult: MessageFns<ProbeResult, 'xray.core.app.observatory.ProbeResult'> = {
@@ -557,7 +581,9 @@ export const ProbeResult: MessageFns<ProbeResult, 'xray.core.app.observatory.Pro
             $type: ProbeResult.$type,
             alive: isSet(object.alive) ? globalThis.Boolean(object.alive) : false,
             delay: isSet(object.delay) ? globalThis.Number(object.delay) : 0,
-            lastErrorReason: isSet(object.lastErrorReason) ? globalThis.String(object.lastErrorReason) : '',
+            lastErrorReason: isSet(object.lastErrorReason)
+                ? globalThis.String(object.lastErrorReason)
+                : '',
         };
     },
 
@@ -630,7 +656,9 @@ export const Intensity: MessageFns<Intensity, 'xray.core.app.observatory.Intensi
     fromJSON(object: any): Intensity {
         return {
             $type: Intensity.$type,
-            probeInterval: isSet(object.probeInterval) ? globalThis.Number(object.probeInterval) : 0,
+            probeInterval: isSet(object.probeInterval)
+                ? globalThis.Number(object.probeInterval)
+                : 0,
         };
     },
 
@@ -738,8 +766,12 @@ export const Config: MessageFns<Config, 'xray.core.app.observatory.Config'> = {
                 ? object.subjectSelector.map((e: any) => globalThis.String(e))
                 : [],
             probeUrl: isSet(object.probeUrl) ? globalThis.String(object.probeUrl) : '',
-            probeInterval: isSet(object.probeInterval) ? globalThis.Number(object.probeInterval) : 0,
-            enableConcurrency: isSet(object.enableConcurrency) ? globalThis.Boolean(object.enableConcurrency) : false,
+            probeInterval: isSet(object.probeInterval)
+                ? globalThis.Number(object.probeInterval)
+                : 0,
+            enableConcurrency: isSet(object.enableConcurrency)
+                ? globalThis.Boolean(object.enableConcurrency)
+                : false,
         };
     },
 
@@ -777,11 +809,15 @@ messageTypeRegistry.set(Config.$type, Config);
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function longToNumber(int64: { toString(): string }): number {
     const num = globalThis.Number(int64.toString());

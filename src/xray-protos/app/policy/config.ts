@@ -108,7 +108,10 @@ export const Second: MessageFns<Second, 'xray.app.policy.Second'> = {
     },
 
     fromJSON(object: any): Second {
-        return { $type: Second.$type, value: isSet(object.value) ? globalThis.Number(object.value) : 0 };
+        return {
+            $type: Second.$type,
+            value: isSet(object.value) ? globalThis.Number(object.value) : 0,
+        };
     },
 
     toJSON(message: Second): unknown {
@@ -132,7 +135,12 @@ export const Second: MessageFns<Second, 'xray.app.policy.Second'> = {
 messageTypeRegistry.set(Second.$type, Second);
 
 function createBasePolicy(): Policy {
-    return { $type: 'xray.app.policy.Policy', timeout: undefined, stats: undefined, buffer: undefined };
+    return {
+        $type: 'xray.app.policy.Policy',
+        timeout: undefined,
+        stats: undefined,
+        buffer: undefined,
+    };
 }
 
 export const Policy: MessageFns<Policy, 'xray.app.policy.Policy'> = {
@@ -219,15 +227,18 @@ export const Policy: MessageFns<Policy, 'xray.app.policy.Policy'> = {
     },
     fromPartial(object: DeepPartial<Policy>): Policy {
         const message = createBasePolicy();
-        message.timeout = (object.timeout !== undefined && object.timeout !== null)
-            ? Policy_Timeout.fromPartial(object.timeout)
-            : undefined;
-        message.stats = (object.stats !== undefined && object.stats !== null)
-            ? Policy_Stats.fromPartial(object.stats)
-            : undefined;
-        message.buffer = (object.buffer !== undefined && object.buffer !== null)
-            ? Policy_Buffer.fromPartial(object.buffer)
-            : undefined;
+        message.timeout =
+            object.timeout !== undefined && object.timeout !== null
+                ? Policy_Timeout.fromPartial(object.timeout)
+                : undefined;
+        message.stats =
+            object.stats !== undefined && object.stats !== null
+                ? Policy_Stats.fromPartial(object.stats)
+                : undefined;
+        message.buffer =
+            object.buffer !== undefined && object.buffer !== null
+                ? Policy_Buffer.fromPartial(object.buffer)
+                : undefined;
         return message;
     },
 };
@@ -315,9 +326,13 @@ export const Policy_Timeout: MessageFns<Policy_Timeout, 'xray.app.policy.Policy.
         return {
             $type: Policy_Timeout.$type,
             handshake: isSet(object.handshake) ? Second.fromJSON(object.handshake) : undefined,
-            connectionIdle: isSet(object.connectionIdle) ? Second.fromJSON(object.connectionIdle) : undefined,
+            connectionIdle: isSet(object.connectionIdle)
+                ? Second.fromJSON(object.connectionIdle)
+                : undefined,
             uplinkOnly: isSet(object.uplinkOnly) ? Second.fromJSON(object.uplinkOnly) : undefined,
-            downlinkOnly: isSet(object.downlinkOnly) ? Second.fromJSON(object.downlinkOnly) : undefined,
+            downlinkOnly: isSet(object.downlinkOnly)
+                ? Second.fromJSON(object.downlinkOnly)
+                : undefined,
         };
     },
 
@@ -343,18 +358,22 @@ export const Policy_Timeout: MessageFns<Policy_Timeout, 'xray.app.policy.Policy.
     },
     fromPartial(object: DeepPartial<Policy_Timeout>): Policy_Timeout {
         const message = createBasePolicy_Timeout();
-        message.handshake = (object.handshake !== undefined && object.handshake !== null)
-            ? Second.fromPartial(object.handshake)
-            : undefined;
-        message.connectionIdle = (object.connectionIdle !== undefined && object.connectionIdle !== null)
-            ? Second.fromPartial(object.connectionIdle)
-            : undefined;
-        message.uplinkOnly = (object.uplinkOnly !== undefined && object.uplinkOnly !== null)
-            ? Second.fromPartial(object.uplinkOnly)
-            : undefined;
-        message.downlinkOnly = (object.downlinkOnly !== undefined && object.downlinkOnly !== null)
-            ? Second.fromPartial(object.downlinkOnly)
-            : undefined;
+        message.handshake =
+            object.handshake !== undefined && object.handshake !== null
+                ? Second.fromPartial(object.handshake)
+                : undefined;
+        message.connectionIdle =
+            object.connectionIdle !== undefined && object.connectionIdle !== null
+                ? Second.fromPartial(object.connectionIdle)
+                : undefined;
+        message.uplinkOnly =
+            object.uplinkOnly !== undefined && object.uplinkOnly !== null
+                ? Second.fromPartial(object.uplinkOnly)
+                : undefined;
+        message.downlinkOnly =
+            object.downlinkOnly !== undefined && object.downlinkOnly !== null
+                ? Second.fromPartial(object.downlinkOnly)
+                : undefined;
         return message;
     },
 };
@@ -362,7 +381,12 @@ export const Policy_Timeout: MessageFns<Policy_Timeout, 'xray.app.policy.Policy.
 messageTypeRegistry.set(Policy_Timeout.$type, Policy_Timeout);
 
 function createBasePolicy_Stats(): Policy_Stats {
-    return { $type: 'xray.app.policy.Policy.Stats', userUplink: false, userDownlink: false, userOnline: false };
+    return {
+        $type: 'xray.app.policy.Policy.Stats',
+        userUplink: false,
+        userDownlink: false,
+        userOnline: false,
+    };
 }
 
 export const Policy_Stats: MessageFns<Policy_Stats, 'xray.app.policy.Policy.Stats'> = {
@@ -425,7 +449,9 @@ export const Policy_Stats: MessageFns<Policy_Stats, 'xray.app.policy.Policy.Stat
         return {
             $type: Policy_Stats.$type,
             userUplink: isSet(object.userUplink) ? globalThis.Boolean(object.userUplink) : false,
-            userDownlink: isSet(object.userDownlink) ? globalThis.Boolean(object.userDownlink) : false,
+            userDownlink: isSet(object.userDownlink)
+                ? globalThis.Boolean(object.userDownlink)
+                : false,
             userOnline: isSet(object.userOnline) ? globalThis.Boolean(object.userOnline) : false,
         };
     },
@@ -581,9 +607,10 @@ export const SystemPolicy: MessageFns<SystemPolicy, 'xray.app.policy.SystemPolic
     },
     fromPartial(object: DeepPartial<SystemPolicy>): SystemPolicy {
         const message = createBaseSystemPolicy();
-        message.stats = (object.stats !== undefined && object.stats !== null)
-            ? SystemPolicy_Stats.fromPartial(object.stats)
-            : undefined;
+        message.stats =
+            object.stats !== undefined && object.stats !== null
+                ? SystemPolicy_Stats.fromPartial(object.stats)
+                : undefined;
         return message;
     },
 };
@@ -600,7 +627,10 @@ function createBaseSystemPolicy_Stats(): SystemPolicy_Stats {
     };
 }
 
-export const SystemPolicy_Stats: MessageFns<SystemPolicy_Stats, 'xray.app.policy.SystemPolicy.Stats'> = {
+export const SystemPolicy_Stats: MessageFns<
+    SystemPolicy_Stats,
+    'xray.app.policy.SystemPolicy.Stats'
+> = {
     $type: 'xray.app.policy.SystemPolicy.Stats' as const,
 
     encode(message: SystemPolicy_Stats, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -670,10 +700,18 @@ export const SystemPolicy_Stats: MessageFns<SystemPolicy_Stats, 'xray.app.policy
     fromJSON(object: any): SystemPolicy_Stats {
         return {
             $type: SystemPolicy_Stats.$type,
-            inboundUplink: isSet(object.inboundUplink) ? globalThis.Boolean(object.inboundUplink) : false,
-            inboundDownlink: isSet(object.inboundDownlink) ? globalThis.Boolean(object.inboundDownlink) : false,
-            outboundUplink: isSet(object.outboundUplink) ? globalThis.Boolean(object.outboundUplink) : false,
-            outboundDownlink: isSet(object.outboundDownlink) ? globalThis.Boolean(object.outboundDownlink) : false,
+            inboundUplink: isSet(object.inboundUplink)
+                ? globalThis.Boolean(object.inboundUplink)
+                : false,
+            inboundDownlink: isSet(object.inboundDownlink)
+                ? globalThis.Boolean(object.inboundDownlink)
+                : false,
+            outboundUplink: isSet(object.outboundUplink)
+                ? globalThis.Boolean(object.outboundUplink)
+                : false,
+            outboundDownlink: isSet(object.outboundDownlink)
+                ? globalThis.Boolean(object.outboundDownlink)
+                : false,
         };
     },
 
@@ -768,10 +806,13 @@ export const Config: MessageFns<Config, 'xray.app.policy.Config'> = {
         return {
             $type: Config.$type,
             level: isObject(object.level)
-                ? Object.entries(object.level).reduce<{ [key: number]: Policy }>((acc, [key, value]) => {
-                    acc[globalThis.Number(key)] = Policy.fromJSON(value);
-                    return acc;
-                }, {})
+                ? Object.entries(object.level).reduce<{ [key: number]: Policy }>(
+                      (acc, [key, value]) => {
+                          acc[globalThis.Number(key)] = Policy.fromJSON(value);
+                          return acc;
+                      },
+                      {},
+                  )
                 : {},
             system: isSet(object.system) ? SystemPolicy.fromJSON(object.system) : undefined,
         };
@@ -799,15 +840,19 @@ export const Config: MessageFns<Config, 'xray.app.policy.Config'> = {
     },
     fromPartial(object: DeepPartial<Config>): Config {
         const message = createBaseConfig();
-        message.level = Object.entries(object.level ?? {}).reduce<{ [key: number]: Policy }>((acc, [key, value]) => {
-            if (value !== undefined) {
-                acc[globalThis.Number(key)] = Policy.fromPartial(value);
-            }
-            return acc;
-        }, {});
-        message.system = (object.system !== undefined && object.system !== null)
-            ? SystemPolicy.fromPartial(object.system)
-            : undefined;
+        message.level = Object.entries(object.level ?? {}).reduce<{ [key: number]: Policy }>(
+            (acc, [key, value]) => {
+                if (value !== undefined) {
+                    acc[globalThis.Number(key)] = Policy.fromPartial(value);
+                }
+                return acc;
+            },
+            {},
+        );
+        message.system =
+            object.system !== undefined && object.system !== null
+                ? SystemPolicy.fromPartial(object.system)
+                : undefined;
         return message;
     },
 };
@@ -818,92 +863,101 @@ function createBaseConfig_LevelEntry(): Config_LevelEntry {
     return { $type: 'xray.app.policy.Config.LevelEntry', key: 0, value: undefined };
 }
 
-export const Config_LevelEntry: MessageFns<Config_LevelEntry, 'xray.app.policy.Config.LevelEntry'> = {
-    $type: 'xray.app.policy.Config.LevelEntry' as const,
+export const Config_LevelEntry: MessageFns<Config_LevelEntry, 'xray.app.policy.Config.LevelEntry'> =
+    {
+        $type: 'xray.app.policy.Config.LevelEntry' as const,
 
-    encode(message: Config_LevelEntry, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-        if (message.key !== 0) {
-            writer.uint32(8).uint32(message.key);
-        }
-        if (message.value !== undefined) {
-            Policy.encode(message.value, writer.uint32(18).fork()).join();
-        }
-        return writer;
-    },
-
-    decode(input: BinaryReader | Uint8Array, length?: number): Config_LevelEntry {
-        const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-        let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseConfig_LevelEntry();
-        while (reader.pos < end) {
-            const tag = reader.uint32();
-            switch (tag >>> 3) {
-                case 1: {
-                    if (tag !== 8) {
-                        break;
-                    }
-
-                    message.key = reader.uint32();
-                    continue;
-                }
-                case 2: {
-                    if (tag !== 18) {
-                        break;
-                    }
-
-                    message.value = Policy.decode(reader, reader.uint32());
-                    continue;
-                }
+        encode(
+            message: Config_LevelEntry,
+            writer: BinaryWriter = new BinaryWriter(),
+        ): BinaryWriter {
+            if (message.key !== 0) {
+                writer.uint32(8).uint32(message.key);
             }
-            if ((tag & 7) === 4 || tag === 0) {
-                break;
+            if (message.value !== undefined) {
+                Policy.encode(message.value, writer.uint32(18).fork()).join();
             }
-            reader.skip(tag & 7);
-        }
-        return message;
-    },
+            return writer;
+        },
 
-    fromJSON(object: any): Config_LevelEntry {
-        return {
-            $type: Config_LevelEntry.$type,
-            key: isSet(object.key) ? globalThis.Number(object.key) : 0,
-            value: isSet(object.value) ? Policy.fromJSON(object.value) : undefined,
-        };
-    },
+        decode(input: BinaryReader | Uint8Array, length?: number): Config_LevelEntry {
+            const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+            let end = length === undefined ? reader.len : reader.pos + length;
+            const message = createBaseConfig_LevelEntry();
+            while (reader.pos < end) {
+                const tag = reader.uint32();
+                switch (tag >>> 3) {
+                    case 1: {
+                        if (tag !== 8) {
+                            break;
+                        }
 
-    toJSON(message: Config_LevelEntry): unknown {
-        const obj: any = {};
-        if (message.key !== 0) {
-            obj.key = Math.round(message.key);
-        }
-        if (message.value !== undefined) {
-            obj.value = Policy.toJSON(message.value);
-        }
-        return obj;
-    },
+                        message.key = reader.uint32();
+                        continue;
+                    }
+                    case 2: {
+                        if (tag !== 18) {
+                            break;
+                        }
 
-    create(base?: DeepPartial<Config_LevelEntry>): Config_LevelEntry {
-        return Config_LevelEntry.fromPartial(base ?? {});
-    },
-    fromPartial(object: DeepPartial<Config_LevelEntry>): Config_LevelEntry {
-        const message = createBaseConfig_LevelEntry();
-        message.key = object.key ?? 0;
-        message.value = (object.value !== undefined && object.value !== null)
-            ? Policy.fromPartial(object.value)
-            : undefined;
-        return message;
-    },
-};
+                        message.value = Policy.decode(reader, reader.uint32());
+                        continue;
+                    }
+                }
+                if ((tag & 7) === 4 || tag === 0) {
+                    break;
+                }
+                reader.skip(tag & 7);
+            }
+            return message;
+        },
+
+        fromJSON(object: any): Config_LevelEntry {
+            return {
+                $type: Config_LevelEntry.$type,
+                key: isSet(object.key) ? globalThis.Number(object.key) : 0,
+                value: isSet(object.value) ? Policy.fromJSON(object.value) : undefined,
+            };
+        },
+
+        toJSON(message: Config_LevelEntry): unknown {
+            const obj: any = {};
+            if (message.key !== 0) {
+                obj.key = Math.round(message.key);
+            }
+            if (message.value !== undefined) {
+                obj.value = Policy.toJSON(message.value);
+            }
+            return obj;
+        },
+
+        create(base?: DeepPartial<Config_LevelEntry>): Config_LevelEntry {
+            return Config_LevelEntry.fromPartial(base ?? {});
+        },
+        fromPartial(object: DeepPartial<Config_LevelEntry>): Config_LevelEntry {
+            const message = createBaseConfig_LevelEntry();
+            message.key = object.key ?? 0;
+            message.value =
+                object.value !== undefined && object.value !== null
+                    ? Policy.fromPartial(object.value)
+                    : undefined;
+            return message;
+        },
+    };
 
 messageTypeRegistry.set(Config_LevelEntry.$type, Config_LevelEntry);
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function isObject(value: any): boolean {
     return typeof value === 'object' && value !== null;

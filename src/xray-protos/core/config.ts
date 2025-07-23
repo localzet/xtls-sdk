@@ -47,9 +47,7 @@ export interface InboundHandlerConfig {
      */
     tag: string;
     /** Settings for how this inbound proxy is handled. */
-    receiverSettings:
-        | TypedMessage
-        | undefined;
+    receiverSettings: TypedMessage | undefined;
     /** Settings for inbound proxy. Must be one of the inbound proxies. */
     proxySettings: TypedMessage | undefined;
 }
@@ -60,13 +58,9 @@ export interface OutboundHandlerConfig {
     /** Tag of this outbound handler. */
     tag: string;
     /** Settings for how to dial connection for this outbound handler. */
-    senderSettings:
-        | TypedMessage
-        | undefined;
+    senderSettings: TypedMessage | undefined;
     /** Settings for this outbound proxy. Must be one of the outbound proxies. */
-    proxySettings:
-        | TypedMessage
-        | undefined;
+    proxySettings: TypedMessage | undefined;
     /** If not zero, this outbound will be expired in seconds. Not used for now. */
     expire: number;
     /** Comment of this outbound handler. Not used for now. */
@@ -153,7 +147,9 @@ export const Config: MessageFns<Config, 'xray.core.Config'> = {
             outbound: globalThis.Array.isArray(object?.outbound)
                 ? object.outbound.map((e: any) => OutboundHandlerConfig.fromJSON(e))
                 : [],
-            app: globalThis.Array.isArray(object?.app) ? object.app.map((e: any) => TypedMessage.fromJSON(e)) : [],
+            app: globalThis.Array.isArray(object?.app)
+                ? object.app.map((e: any) => TypedMessage.fromJSON(e))
+                : [],
             extension: globalThis.Array.isArray(object?.extension)
                 ? object.extension.map((e: any) => TypedMessage.fromJSON(e))
                 : [],
@@ -193,10 +189,18 @@ export const Config: MessageFns<Config, 'xray.core.Config'> = {
 messageTypeRegistry.set(Config.$type, Config);
 
 function createBaseInboundHandlerConfig(): InboundHandlerConfig {
-    return { $type: 'xray.core.InboundHandlerConfig', tag: '', receiverSettings: undefined, proxySettings: undefined };
+    return {
+        $type: 'xray.core.InboundHandlerConfig',
+        tag: '',
+        receiverSettings: undefined,
+        proxySettings: undefined,
+    };
 }
 
-export const InboundHandlerConfig: MessageFns<InboundHandlerConfig, 'xray.core.InboundHandlerConfig'> = {
+export const InboundHandlerConfig: MessageFns<
+    InboundHandlerConfig,
+    'xray.core.InboundHandlerConfig'
+> = {
     $type: 'xray.core.InboundHandlerConfig' as const,
 
     encode(message: InboundHandlerConfig, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -256,8 +260,12 @@ export const InboundHandlerConfig: MessageFns<InboundHandlerConfig, 'xray.core.I
         return {
             $type: InboundHandlerConfig.$type,
             tag: isSet(object.tag) ? globalThis.String(object.tag) : '',
-            receiverSettings: isSet(object.receiverSettings) ? TypedMessage.fromJSON(object.receiverSettings) : undefined,
-            proxySettings: isSet(object.proxySettings) ? TypedMessage.fromJSON(object.proxySettings) : undefined,
+            receiverSettings: isSet(object.receiverSettings)
+                ? TypedMessage.fromJSON(object.receiverSettings)
+                : undefined,
+            proxySettings: isSet(object.proxySettings)
+                ? TypedMessage.fromJSON(object.proxySettings)
+                : undefined,
         };
     },
 
@@ -281,12 +289,14 @@ export const InboundHandlerConfig: MessageFns<InboundHandlerConfig, 'xray.core.I
     fromPartial(object: DeepPartial<InboundHandlerConfig>): InboundHandlerConfig {
         const message = createBaseInboundHandlerConfig();
         message.tag = object.tag ?? '';
-        message.receiverSettings = (object.receiverSettings !== undefined && object.receiverSettings !== null)
-            ? TypedMessage.fromPartial(object.receiverSettings)
-            : undefined;
-        message.proxySettings = (object.proxySettings !== undefined && object.proxySettings !== null)
-            ? TypedMessage.fromPartial(object.proxySettings)
-            : undefined;
+        message.receiverSettings =
+            object.receiverSettings !== undefined && object.receiverSettings !== null
+                ? TypedMessage.fromPartial(object.receiverSettings)
+                : undefined;
+        message.proxySettings =
+            object.proxySettings !== undefined && object.proxySettings !== null
+                ? TypedMessage.fromPartial(object.proxySettings)
+                : undefined;
         return message;
     },
 };
@@ -304,10 +314,16 @@ function createBaseOutboundHandlerConfig(): OutboundHandlerConfig {
     };
 }
 
-export const OutboundHandlerConfig: MessageFns<OutboundHandlerConfig, 'xray.core.OutboundHandlerConfig'> = {
+export const OutboundHandlerConfig: MessageFns<
+    OutboundHandlerConfig,
+    'xray.core.OutboundHandlerConfig'
+> = {
     $type: 'xray.core.OutboundHandlerConfig' as const,
 
-    encode(message: OutboundHandlerConfig, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    encode(
+        message: OutboundHandlerConfig,
+        writer: BinaryWriter = new BinaryWriter(),
+    ): BinaryWriter {
         if (message.tag !== '') {
             writer.uint32(10).string(message.tag);
         }
@@ -386,8 +402,12 @@ export const OutboundHandlerConfig: MessageFns<OutboundHandlerConfig, 'xray.core
         return {
             $type: OutboundHandlerConfig.$type,
             tag: isSet(object.tag) ? globalThis.String(object.tag) : '',
-            senderSettings: isSet(object.senderSettings) ? TypedMessage.fromJSON(object.senderSettings) : undefined,
-            proxySettings: isSet(object.proxySettings) ? TypedMessage.fromJSON(object.proxySettings) : undefined,
+            senderSettings: isSet(object.senderSettings)
+                ? TypedMessage.fromJSON(object.senderSettings)
+                : undefined,
+            proxySettings: isSet(object.proxySettings)
+                ? TypedMessage.fromJSON(object.proxySettings)
+                : undefined,
             expire: isSet(object.expire) ? globalThis.Number(object.expire) : 0,
             comment: isSet(object.comment) ? globalThis.String(object.comment) : '',
         };
@@ -419,12 +439,14 @@ export const OutboundHandlerConfig: MessageFns<OutboundHandlerConfig, 'xray.core
     fromPartial(object: DeepPartial<OutboundHandlerConfig>): OutboundHandlerConfig {
         const message = createBaseOutboundHandlerConfig();
         message.tag = object.tag ?? '';
-        message.senderSettings = (object.senderSettings !== undefined && object.senderSettings !== null)
-            ? TypedMessage.fromPartial(object.senderSettings)
-            : undefined;
-        message.proxySettings = (object.proxySettings !== undefined && object.proxySettings !== null)
-            ? TypedMessage.fromPartial(object.proxySettings)
-            : undefined;
+        message.senderSettings =
+            object.senderSettings !== undefined && object.senderSettings !== null
+                ? TypedMessage.fromPartial(object.senderSettings)
+                : undefined;
+        message.proxySettings =
+            object.proxySettings !== undefined && object.proxySettings !== null
+                ? TypedMessage.fromPartial(object.proxySettings)
+                : undefined;
         message.expire = object.expire ?? 0;
         message.comment = object.comment ?? '';
         return message;
@@ -435,11 +457,15 @@ messageTypeRegistry.set(OutboundHandlerConfig.$type, OutboundHandlerConfig);
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function longToNumber(int64: { toString(): string }): number {
     const num = globalThis.Number(int64.toString());

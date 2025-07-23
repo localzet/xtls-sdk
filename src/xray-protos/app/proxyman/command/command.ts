@@ -104,7 +104,10 @@ function createBaseAddUserOperation(): AddUserOperation {
     return { $type: 'xray.app.proxyman.command.AddUserOperation', user: undefined };
 }
 
-export const AddUserOperation: MessageFns<AddUserOperation, 'xray.app.proxyman.command.AddUserOperation'> = {
+export const AddUserOperation: MessageFns<
+    AddUserOperation,
+    'xray.app.proxyman.command.AddUserOperation'
+> = {
     $type: 'xray.app.proxyman.command.AddUserOperation' as const,
 
     encode(message: AddUserOperation, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -139,7 +142,10 @@ export const AddUserOperation: MessageFns<AddUserOperation, 'xray.app.proxyman.c
     },
 
     fromJSON(object: any): AddUserOperation {
-        return { $type: AddUserOperation.$type, user: isSet(object.user) ? User.fromJSON(object.user) : undefined };
+        return {
+            $type: AddUserOperation.$type,
+            user: isSet(object.user) ? User.fromJSON(object.user) : undefined,
+        };
     },
 
     toJSON(message: AddUserOperation): unknown {
@@ -155,7 +161,10 @@ export const AddUserOperation: MessageFns<AddUserOperation, 'xray.app.proxyman.c
     },
     fromPartial(object: DeepPartial<AddUserOperation>): AddUserOperation {
         const message = createBaseAddUserOperation();
-        message.user = (object.user !== undefined && object.user !== null) ? User.fromPartial(object.user) : undefined;
+        message.user =
+            object.user !== undefined && object.user !== null
+                ? User.fromPartial(object.user)
+                : undefined;
         return message;
     },
 };
@@ -166,7 +175,10 @@ function createBaseRemoveUserOperation(): RemoveUserOperation {
     return { $type: 'xray.app.proxyman.command.RemoveUserOperation', email: '' };
 }
 
-export const RemoveUserOperation: MessageFns<RemoveUserOperation, 'xray.app.proxyman.command.RemoveUserOperation'> = {
+export const RemoveUserOperation: MessageFns<
+    RemoveUserOperation,
+    'xray.app.proxyman.command.RemoveUserOperation'
+> = {
     $type: 'xray.app.proxyman.command.RemoveUserOperation' as const,
 
     encode(message: RemoveUserOperation, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -201,7 +213,10 @@ export const RemoveUserOperation: MessageFns<RemoveUserOperation, 'xray.app.prox
     },
 
     fromJSON(object: any): RemoveUserOperation {
-        return { $type: RemoveUserOperation.$type, email: isSet(object.email) ? globalThis.String(object.email) : '' };
+        return {
+            $type: RemoveUserOperation.$type,
+            email: isSet(object.email) ? globalThis.String(object.email) : '',
+        };
     },
 
     toJSON(message: RemoveUserOperation): unknown {
@@ -228,7 +243,10 @@ function createBaseAddInboundRequest(): AddInboundRequest {
     return { $type: 'xray.app.proxyman.command.AddInboundRequest', inbound: undefined };
 }
 
-export const AddInboundRequest: MessageFns<AddInboundRequest, 'xray.app.proxyman.command.AddInboundRequest'> = {
+export const AddInboundRequest: MessageFns<
+    AddInboundRequest,
+    'xray.app.proxyman.command.AddInboundRequest'
+> = {
     $type: 'xray.app.proxyman.command.AddInboundRequest' as const,
 
     encode(message: AddInboundRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -265,7 +283,9 @@ export const AddInboundRequest: MessageFns<AddInboundRequest, 'xray.app.proxyman
     fromJSON(object: any): AddInboundRequest {
         return {
             $type: AddInboundRequest.$type,
-            inbound: isSet(object.inbound) ? InboundHandlerConfig.fromJSON(object.inbound) : undefined,
+            inbound: isSet(object.inbound)
+                ? InboundHandlerConfig.fromJSON(object.inbound)
+                : undefined,
         };
     },
 
@@ -282,9 +302,10 @@ export const AddInboundRequest: MessageFns<AddInboundRequest, 'xray.app.proxyman
     },
     fromPartial(object: DeepPartial<AddInboundRequest>): AddInboundRequest {
         const message = createBaseAddInboundRequest();
-        message.inbound = (object.inbound !== undefined && object.inbound !== null)
-            ? InboundHandlerConfig.fromPartial(object.inbound)
-            : undefined;
+        message.inbound =
+            object.inbound !== undefined && object.inbound !== null
+                ? InboundHandlerConfig.fromPartial(object.inbound)
+                : undefined;
         return message;
     },
 };
@@ -295,7 +316,10 @@ function createBaseAddInboundResponse(): AddInboundResponse {
     return { $type: 'xray.app.proxyman.command.AddInboundResponse' };
 }
 
-export const AddInboundResponse: MessageFns<AddInboundResponse, 'xray.app.proxyman.command.AddInboundResponse'> = {
+export const AddInboundResponse: MessageFns<
+    AddInboundResponse,
+    'xray.app.proxyman.command.AddInboundResponse'
+> = {
     $type: 'xray.app.proxyman.command.AddInboundResponse' as const,
 
     encode(_: AddInboundResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -342,62 +366,67 @@ function createBaseRemoveInboundRequest(): RemoveInboundRequest {
     return { $type: 'xray.app.proxyman.command.RemoveInboundRequest', tag: '' };
 }
 
-export const RemoveInboundRequest: MessageFns<RemoveInboundRequest, 'xray.app.proxyman.command.RemoveInboundRequest'> =
-    {
-        $type: 'xray.app.proxyman.command.RemoveInboundRequest' as const,
+export const RemoveInboundRequest: MessageFns<
+    RemoveInboundRequest,
+    'xray.app.proxyman.command.RemoveInboundRequest'
+> = {
+    $type: 'xray.app.proxyman.command.RemoveInboundRequest' as const,
 
-        encode(message: RemoveInboundRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-            if (message.tag !== '') {
-                writer.uint32(10).string(message.tag);
-            }
-            return writer;
-        },
+    encode(message: RemoveInboundRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+        if (message.tag !== '') {
+            writer.uint32(10).string(message.tag);
+        }
+        return writer;
+    },
 
-        decode(input: BinaryReader | Uint8Array, length?: number): RemoveInboundRequest {
-            const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-            let end = length === undefined ? reader.len : reader.pos + length;
-            const message = createBaseRemoveInboundRequest();
-            while (reader.pos < end) {
-                const tag = reader.uint32();
-                switch (tag >>> 3) {
-                    case 1: {
-                        if (tag !== 10) {
-                            break;
-                        }
-
-                        message.tag = reader.string();
-                        continue;
+    decode(input: BinaryReader | Uint8Array, length?: number): RemoveInboundRequest {
+        const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseRemoveInboundRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 10) {
+                        break;
                     }
+
+                    message.tag = reader.string();
+                    continue;
                 }
-                if ((tag & 7) === 4 || tag === 0) {
-                    break;
-                }
-                reader.skip(tag & 7);
             }
-            return message;
-        },
-
-        fromJSON(object: any): RemoveInboundRequest {
-            return { $type: RemoveInboundRequest.$type, tag: isSet(object.tag) ? globalThis.String(object.tag) : '' };
-        },
-
-        toJSON(message: RemoveInboundRequest): unknown {
-            const obj: any = {};
-            if (message.tag !== '') {
-                obj.tag = message.tag;
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
             }
-            return obj;
-        },
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
 
-        create(base?: DeepPartial<RemoveInboundRequest>): RemoveInboundRequest {
-            return RemoveInboundRequest.fromPartial(base ?? {});
-        },
-        fromPartial(object: DeepPartial<RemoveInboundRequest>): RemoveInboundRequest {
-            const message = createBaseRemoveInboundRequest();
-            message.tag = object.tag ?? '';
-            return message;
-        },
-    };
+    fromJSON(object: any): RemoveInboundRequest {
+        return {
+            $type: RemoveInboundRequest.$type,
+            tag: isSet(object.tag) ? globalThis.String(object.tag) : '',
+        };
+    },
+
+    toJSON(message: RemoveInboundRequest): unknown {
+        const obj: any = {};
+        if (message.tag !== '') {
+            obj.tag = message.tag;
+        }
+        return obj;
+    },
+
+    create(base?: DeepPartial<RemoveInboundRequest>): RemoveInboundRequest {
+        return RemoveInboundRequest.fromPartial(base ?? {});
+    },
+    fromPartial(object: DeepPartial<RemoveInboundRequest>): RemoveInboundRequest {
+        const message = createBaseRemoveInboundRequest();
+        message.tag = object.tag ?? '';
+        return message;
+    },
+};
 
 messageTypeRegistry.set(RemoveInboundRequest.$type, RemoveInboundRequest);
 
@@ -452,10 +481,17 @@ export const RemoveInboundResponse: MessageFns<
 messageTypeRegistry.set(RemoveInboundResponse.$type, RemoveInboundResponse);
 
 function createBaseAlterInboundRequest(): AlterInboundRequest {
-    return { $type: 'xray.app.proxyman.command.AlterInboundRequest', tag: '', operation: undefined };
+    return {
+        $type: 'xray.app.proxyman.command.AlterInboundRequest',
+        tag: '',
+        operation: undefined,
+    };
 }
 
-export const AlterInboundRequest: MessageFns<AlterInboundRequest, 'xray.app.proxyman.command.AlterInboundRequest'> = {
+export const AlterInboundRequest: MessageFns<
+    AlterInboundRequest,
+    'xray.app.proxyman.command.AlterInboundRequest'
+> = {
     $type: 'xray.app.proxyman.command.AlterInboundRequest' as const,
 
     encode(message: AlterInboundRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -504,7 +540,9 @@ export const AlterInboundRequest: MessageFns<AlterInboundRequest, 'xray.app.prox
         return {
             $type: AlterInboundRequest.$type,
             tag: isSet(object.tag) ? globalThis.String(object.tag) : '',
-            operation: isSet(object.operation) ? TypedMessage.fromJSON(object.operation) : undefined,
+            operation: isSet(object.operation)
+                ? TypedMessage.fromJSON(object.operation)
+                : undefined,
         };
     },
 
@@ -525,9 +563,10 @@ export const AlterInboundRequest: MessageFns<AlterInboundRequest, 'xray.app.prox
     fromPartial(object: DeepPartial<AlterInboundRequest>): AlterInboundRequest {
         const message = createBaseAlterInboundRequest();
         message.tag = object.tag ?? '';
-        message.operation = (object.operation !== undefined && object.operation !== null)
-            ? TypedMessage.fromPartial(object.operation)
-            : undefined;
+        message.operation =
+            object.operation !== undefined && object.operation !== null
+                ? TypedMessage.fromPartial(object.operation)
+                : undefined;
         return message;
     },
 };
@@ -538,47 +577,49 @@ function createBaseAlterInboundResponse(): AlterInboundResponse {
     return { $type: 'xray.app.proxyman.command.AlterInboundResponse' };
 }
 
-export const AlterInboundResponse: MessageFns<AlterInboundResponse, 'xray.app.proxyman.command.AlterInboundResponse'> =
-    {
-        $type: 'xray.app.proxyman.command.AlterInboundResponse' as const,
+export const AlterInboundResponse: MessageFns<
+    AlterInboundResponse,
+    'xray.app.proxyman.command.AlterInboundResponse'
+> = {
+    $type: 'xray.app.proxyman.command.AlterInboundResponse' as const,
 
-        encode(_: AlterInboundResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-            return writer;
-        },
+    encode(_: AlterInboundResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+        return writer;
+    },
 
-        decode(input: BinaryReader | Uint8Array, length?: number): AlterInboundResponse {
-            const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-            let end = length === undefined ? reader.len : reader.pos + length;
-            const message = createBaseAlterInboundResponse();
-            while (reader.pos < end) {
-                const tag = reader.uint32();
-                switch (tag >>> 3) {
-                }
-                if ((tag & 7) === 4 || tag === 0) {
-                    break;
-                }
-                reader.skip(tag & 7);
+    decode(input: BinaryReader | Uint8Array, length?: number): AlterInboundResponse {
+        const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseAlterInboundResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
             }
-            return message;
-        },
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
 
-        fromJSON(_: any): AlterInboundResponse {
-            return { $type: AlterInboundResponse.$type };
-        },
+    fromJSON(_: any): AlterInboundResponse {
+        return { $type: AlterInboundResponse.$type };
+    },
 
-        toJSON(_: AlterInboundResponse): unknown {
-            const obj: any = {};
-            return obj;
-        },
+    toJSON(_: AlterInboundResponse): unknown {
+        const obj: any = {};
+        return obj;
+    },
 
-        create(base?: DeepPartial<AlterInboundResponse>): AlterInboundResponse {
-            return AlterInboundResponse.fromPartial(base ?? {});
-        },
-        fromPartial(_: DeepPartial<AlterInboundResponse>): AlterInboundResponse {
-            const message = createBaseAlterInboundResponse();
-            return message;
-        },
-    };
+    create(base?: DeepPartial<AlterInboundResponse>): AlterInboundResponse {
+        return AlterInboundResponse.fromPartial(base ?? {});
+    },
+    fromPartial(_: DeepPartial<AlterInboundResponse>): AlterInboundResponse {
+        const message = createBaseAlterInboundResponse();
+        return message;
+    },
+};
 
 messageTypeRegistry.set(AlterInboundResponse.$type, AlterInboundResponse);
 
@@ -592,7 +633,10 @@ export const GetInboundUserRequest: MessageFns<
 > = {
     $type: 'xray.app.proxyman.command.GetInboundUserRequest' as const,
 
-    encode(message: GetInboundUserRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    encode(
+        message: GetInboundUserRequest,
+        writer: BinaryWriter = new BinaryWriter(),
+    ): BinaryWriter {
         if (message.tag !== '') {
             writer.uint32(10).string(message.tag);
         }
@@ -676,7 +720,10 @@ export const GetInboundUserResponse: MessageFns<
 > = {
     $type: 'xray.app.proxyman.command.GetInboundUserResponse' as const,
 
-    encode(message: GetInboundUserResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    encode(
+        message: GetInboundUserResponse,
+        writer: BinaryWriter = new BinaryWriter(),
+    ): BinaryWriter {
         for (const v of message.users) {
             User.encode(v!, writer.uint32(10).fork()).join();
         }
@@ -710,7 +757,9 @@ export const GetInboundUserResponse: MessageFns<
     fromJSON(object: any): GetInboundUserResponse {
         return {
             $type: GetInboundUserResponse.$type,
-            users: globalThis.Array.isArray(object?.users) ? object.users.map((e: any) => User.fromJSON(e)) : [],
+            users: globalThis.Array.isArray(object?.users)
+                ? object.users.map((e: any) => User.fromJSON(e))
+                : [],
         };
     },
 
@@ -744,7 +793,10 @@ export const GetInboundUsersCountResponse: MessageFns<
 > = {
     $type: 'xray.app.proxyman.command.GetInboundUsersCountResponse' as const,
 
-    encode(message: GetInboundUsersCountResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    encode(
+        message: GetInboundUsersCountResponse,
+        writer: BinaryWriter = new BinaryWriter(),
+    ): BinaryWriter {
         if (message.count !== 0) {
             writer.uint32(8).int64(message.count);
         }
@@ -806,7 +858,10 @@ function createBaseAddOutboundRequest(): AddOutboundRequest {
     return { $type: 'xray.app.proxyman.command.AddOutboundRequest', outbound: undefined };
 }
 
-export const AddOutboundRequest: MessageFns<AddOutboundRequest, 'xray.app.proxyman.command.AddOutboundRequest'> = {
+export const AddOutboundRequest: MessageFns<
+    AddOutboundRequest,
+    'xray.app.proxyman.command.AddOutboundRequest'
+> = {
     $type: 'xray.app.proxyman.command.AddOutboundRequest' as const,
 
     encode(message: AddOutboundRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -843,7 +898,9 @@ export const AddOutboundRequest: MessageFns<AddOutboundRequest, 'xray.app.proxym
     fromJSON(object: any): AddOutboundRequest {
         return {
             $type: AddOutboundRequest.$type,
-            outbound: isSet(object.outbound) ? OutboundHandlerConfig.fromJSON(object.outbound) : undefined,
+            outbound: isSet(object.outbound)
+                ? OutboundHandlerConfig.fromJSON(object.outbound)
+                : undefined,
         };
     },
 
@@ -860,9 +917,10 @@ export const AddOutboundRequest: MessageFns<AddOutboundRequest, 'xray.app.proxym
     },
     fromPartial(object: DeepPartial<AddOutboundRequest>): AddOutboundRequest {
         const message = createBaseAddOutboundRequest();
-        message.outbound = (object.outbound !== undefined && object.outbound !== null)
-            ? OutboundHandlerConfig.fromPartial(object.outbound)
-            : undefined;
+        message.outbound =
+            object.outbound !== undefined && object.outbound !== null
+                ? OutboundHandlerConfig.fromPartial(object.outbound)
+                : undefined;
         return message;
     },
 };
@@ -873,7 +931,10 @@ function createBaseAddOutboundResponse(): AddOutboundResponse {
     return { $type: 'xray.app.proxyman.command.AddOutboundResponse' };
 }
 
-export const AddOutboundResponse: MessageFns<AddOutboundResponse, 'xray.app.proxyman.command.AddOutboundResponse'> = {
+export const AddOutboundResponse: MessageFns<
+    AddOutboundResponse,
+    'xray.app.proxyman.command.AddOutboundResponse'
+> = {
     $type: 'xray.app.proxyman.command.AddOutboundResponse' as const,
 
     encode(_: AddOutboundResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -926,7 +987,10 @@ export const RemoveOutboundRequest: MessageFns<
 > = {
     $type: 'xray.app.proxyman.command.RemoveOutboundRequest' as const,
 
-    encode(message: RemoveOutboundRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    encode(
+        message: RemoveOutboundRequest,
+        writer: BinaryWriter = new BinaryWriter(),
+    ): BinaryWriter {
         if (message.tag !== '') {
             writer.uint32(10).string(message.tag);
         }
@@ -958,7 +1022,10 @@ export const RemoveOutboundRequest: MessageFns<
     },
 
     fromJSON(object: any): RemoveOutboundRequest {
-        return { $type: RemoveOutboundRequest.$type, tag: isSet(object.tag) ? globalThis.String(object.tag) : '' };
+        return {
+            $type: RemoveOutboundRequest.$type,
+            tag: isSet(object.tag) ? globalThis.String(object.tag) : '',
+        };
     },
 
     toJSON(message: RemoveOutboundRequest): unknown {
@@ -1032,86 +1099,95 @@ export const RemoveOutboundResponse: MessageFns<
 messageTypeRegistry.set(RemoveOutboundResponse.$type, RemoveOutboundResponse);
 
 function createBaseAlterOutboundRequest(): AlterOutboundRequest {
-    return { $type: 'xray.app.proxyman.command.AlterOutboundRequest', tag: '', operation: undefined };
+    return {
+        $type: 'xray.app.proxyman.command.AlterOutboundRequest',
+        tag: '',
+        operation: undefined,
+    };
 }
 
-export const AlterOutboundRequest: MessageFns<AlterOutboundRequest, 'xray.app.proxyman.command.AlterOutboundRequest'> =
-    {
-        $type: 'xray.app.proxyman.command.AlterOutboundRequest' as const,
+export const AlterOutboundRequest: MessageFns<
+    AlterOutboundRequest,
+    'xray.app.proxyman.command.AlterOutboundRequest'
+> = {
+    $type: 'xray.app.proxyman.command.AlterOutboundRequest' as const,
 
-        encode(message: AlterOutboundRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-            if (message.tag !== '') {
-                writer.uint32(10).string(message.tag);
-            }
-            if (message.operation !== undefined) {
-                TypedMessage.encode(message.operation, writer.uint32(18).fork()).join();
-            }
-            return writer;
-        },
+    encode(message: AlterOutboundRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+        if (message.tag !== '') {
+            writer.uint32(10).string(message.tag);
+        }
+        if (message.operation !== undefined) {
+            TypedMessage.encode(message.operation, writer.uint32(18).fork()).join();
+        }
+        return writer;
+    },
 
-        decode(input: BinaryReader | Uint8Array, length?: number): AlterOutboundRequest {
-            const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-            let end = length === undefined ? reader.len : reader.pos + length;
-            const message = createBaseAlterOutboundRequest();
-            while (reader.pos < end) {
-                const tag = reader.uint32();
-                switch (tag >>> 3) {
-                    case 1: {
-                        if (tag !== 10) {
-                            break;
-                        }
-
-                        message.tag = reader.string();
-                        continue;
+    decode(input: BinaryReader | Uint8Array, length?: number): AlterOutboundRequest {
+        const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseAlterOutboundRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 10) {
+                        break;
                     }
-                    case 2: {
-                        if (tag !== 18) {
-                            break;
-                        }
 
-                        message.operation = TypedMessage.decode(reader, reader.uint32());
-                        continue;
+                    message.tag = reader.string();
+                    continue;
+                }
+                case 2: {
+                    if (tag !== 18) {
+                        break;
                     }
+
+                    message.operation = TypedMessage.decode(reader, reader.uint32());
+                    continue;
                 }
-                if ((tag & 7) === 4 || tag === 0) {
-                    break;
-                }
-                reader.skip(tag & 7);
             }
-            return message;
-        },
-
-        fromJSON(object: any): AlterOutboundRequest {
-            return {
-                $type: AlterOutboundRequest.$type,
-                tag: isSet(object.tag) ? globalThis.String(object.tag) : '',
-                operation: isSet(object.operation) ? TypedMessage.fromJSON(object.operation) : undefined,
-            };
-        },
-
-        toJSON(message: AlterOutboundRequest): unknown {
-            const obj: any = {};
-            if (message.tag !== '') {
-                obj.tag = message.tag;
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
             }
-            if (message.operation !== undefined) {
-                obj.operation = TypedMessage.toJSON(message.operation);
-            }
-            return obj;
-        },
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
 
-        create(base?: DeepPartial<AlterOutboundRequest>): AlterOutboundRequest {
-            return AlterOutboundRequest.fromPartial(base ?? {});
-        },
-        fromPartial(object: DeepPartial<AlterOutboundRequest>): AlterOutboundRequest {
-            const message = createBaseAlterOutboundRequest();
-            message.tag = object.tag ?? '';
-            message.operation = (object.operation !== undefined && object.operation !== null)
+    fromJSON(object: any): AlterOutboundRequest {
+        return {
+            $type: AlterOutboundRequest.$type,
+            tag: isSet(object.tag) ? globalThis.String(object.tag) : '',
+            operation: isSet(object.operation)
+                ? TypedMessage.fromJSON(object.operation)
+                : undefined,
+        };
+    },
+
+    toJSON(message: AlterOutboundRequest): unknown {
+        const obj: any = {};
+        if (message.tag !== '') {
+            obj.tag = message.tag;
+        }
+        if (message.operation !== undefined) {
+            obj.operation = TypedMessage.toJSON(message.operation);
+        }
+        return obj;
+    },
+
+    create(base?: DeepPartial<AlterOutboundRequest>): AlterOutboundRequest {
+        return AlterOutboundRequest.fromPartial(base ?? {});
+    },
+    fromPartial(object: DeepPartial<AlterOutboundRequest>): AlterOutboundRequest {
+        const message = createBaseAlterOutboundRequest();
+        message.tag = object.tag ?? '';
+        message.operation =
+            object.operation !== undefined && object.operation !== null
                 ? TypedMessage.fromPartial(object.operation)
                 : undefined;
-            return message;
-        },
-    };
+        return message;
+    },
+};
 
 messageTypeRegistry.set(AlterOutboundRequest.$type, AlterOutboundRequest);
 
@@ -1370,11 +1446,15 @@ export interface HandlerServiceClient<CallOptionsExt = {}> {
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function longToNumber(int64: { toString(): string }): number {
     const num = globalThis.Number(int64.toString());

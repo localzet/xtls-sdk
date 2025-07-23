@@ -1,5 +1,8 @@
 import { Channel, createClient } from 'nice-grpc';
-import { RoutingServiceClient, RoutingServiceDefinition } from '../xray-protos/app/router/command/command';
+import {
+    RoutingServiceClient,
+    RoutingServiceDefinition,
+} from '../xray-protos/app/router/command/command';
 import createTypedMessage from '../common/utils/create-typed-message/create-typed-message';
 import { ISdkResponse } from '../common/types/sdk-response';
 import { CIDR, Config, GeoIP } from '../xray-protos/app/router/config';

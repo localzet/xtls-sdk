@@ -63,7 +63,14 @@ export interface ClientConfig {
 }
 
 function createBaseServerConfig(): ServerConfig {
-    return { $type: 'xray.proxy.shadowsocks_2022.ServerConfig', method: '', key: '', email: '', level: 0, network: [] };
+    return {
+        $type: 'xray.proxy.shadowsocks_2022.ServerConfig',
+        method: '',
+        key: '',
+        email: '',
+        level: 0,
+        network: [],
+    };
 }
 
 export const ServerConfig: MessageFns<ServerConfig, 'xray.proxy.shadowsocks_2022.ServerConfig'> = {
@@ -163,7 +170,9 @@ export const ServerConfig: MessageFns<ServerConfig, 'xray.proxy.shadowsocks_2022
             key: isSet(object.key) ? globalThis.String(object.key) : '',
             email: isSet(object.email) ? globalThis.String(object.email) : '',
             level: isSet(object.level) ? globalThis.Number(object.level) : 0,
-            network: globalThis.Array.isArray(object?.network) ? object.network.map((e: any) => networkFromJSON(e)) : [],
+            network: globalThis.Array.isArray(object?.network)
+                ? object.network.map((e: any) => networkFromJSON(e))
+                : [],
         };
     },
 
@@ -204,7 +213,13 @@ export const ServerConfig: MessageFns<ServerConfig, 'xray.proxy.shadowsocks_2022
 messageTypeRegistry.set(ServerConfig.$type, ServerConfig);
 
 function createBaseMultiUserServerConfig(): MultiUserServerConfig {
-    return { $type: 'xray.proxy.shadowsocks_2022.MultiUserServerConfig', method: '', key: '', users: [], network: [] };
+    return {
+        $type: 'xray.proxy.shadowsocks_2022.MultiUserServerConfig',
+        method: '',
+        key: '',
+        users: [],
+        network: [],
+    };
 }
 
 export const MultiUserServerConfig: MessageFns<
@@ -213,7 +228,10 @@ export const MultiUserServerConfig: MessageFns<
 > = {
     $type: 'xray.proxy.shadowsocks_2022.MultiUserServerConfig' as const,
 
-    encode(message: MultiUserServerConfig, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    encode(
+        message: MultiUserServerConfig,
+        writer: BinaryWriter = new BinaryWriter(),
+    ): BinaryWriter {
         if (message.method !== '') {
             writer.uint32(10).string(message.method);
         }
@@ -294,8 +312,12 @@ export const MultiUserServerConfig: MessageFns<
             $type: MultiUserServerConfig.$type,
             method: isSet(object.method) ? globalThis.String(object.method) : '',
             key: isSet(object.key) ? globalThis.String(object.key) : '',
-            users: globalThis.Array.isArray(object?.users) ? object.users.map((e: any) => User.fromJSON(e)) : [],
-            network: globalThis.Array.isArray(object?.network) ? object.network.map((e: any) => networkFromJSON(e)) : [],
+            users: globalThis.Array.isArray(object?.users)
+                ? object.users.map((e: any) => User.fromJSON(e))
+                : [],
+            network: globalThis.Array.isArray(object?.network)
+                ? object.network.map((e: any) => networkFromJSON(e))
+                : [],
         };
     },
 
@@ -342,7 +364,10 @@ function createBaseRelayDestination(): RelayDestination {
     };
 }
 
-export const RelayDestination: MessageFns<RelayDestination, 'xray.proxy.shadowsocks_2022.RelayDestination'> = {
+export const RelayDestination: MessageFns<
+    RelayDestination,
+    'xray.proxy.shadowsocks_2022.RelayDestination'
+> = {
     $type: 'xray.proxy.shadowsocks_2022.RelayDestination' as const,
 
     encode(message: RelayDestination, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -457,9 +482,10 @@ export const RelayDestination: MessageFns<RelayDestination, 'xray.proxy.shadowso
     fromPartial(object: DeepPartial<RelayDestination>): RelayDestination {
         const message = createBaseRelayDestination();
         message.key = object.key ?? '';
-        message.address = (object.address !== undefined && object.address !== null)
-            ? IPOrDomain.fromPartial(object.address)
-            : undefined;
+        message.address =
+            object.address !== undefined && object.address !== null
+                ? IPOrDomain.fromPartial(object.address)
+                : undefined;
         message.port = object.port ?? 0;
         message.email = object.email ?? '';
         message.level = object.level ?? 0;
@@ -479,7 +505,10 @@ function createBaseRelayServerConfig(): RelayServerConfig {
     };
 }
 
-export const RelayServerConfig: MessageFns<RelayServerConfig, 'xray.proxy.shadowsocks_2022.RelayServerConfig'> = {
+export const RelayServerConfig: MessageFns<
+    RelayServerConfig,
+    'xray.proxy.shadowsocks_2022.RelayServerConfig'
+> = {
     $type: 'xray.proxy.shadowsocks_2022.RelayServerConfig' as const,
 
     encode(message: RelayServerConfig, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -566,7 +595,9 @@ export const RelayServerConfig: MessageFns<RelayServerConfig, 'xray.proxy.shadow
             destinations: globalThis.Array.isArray(object?.destinations)
                 ? object.destinations.map((e: any) => RelayDestination.fromJSON(e))
                 : [],
-            network: globalThis.Array.isArray(object?.network) ? object.network.map((e: any) => networkFromJSON(e)) : [],
+            network: globalThis.Array.isArray(object?.network)
+                ? object.network.map((e: any) => networkFromJSON(e))
+                : [],
         };
     },
 
@@ -594,7 +625,8 @@ export const RelayServerConfig: MessageFns<RelayServerConfig, 'xray.proxy.shadow
         const message = createBaseRelayServerConfig();
         message.method = object.method ?? '';
         message.key = object.key ?? '';
-        message.destinations = object.destinations?.map((e) => RelayDestination.fromPartial(e)) || [];
+        message.destinations =
+            object.destinations?.map((e) => RelayDestination.fromPartial(e)) || [];
         message.network = object.network?.map((e) => e) || [];
         return message;
     },
@@ -641,7 +673,10 @@ export const Account: MessageFns<Account, 'xray.proxy.shadowsocks_2022.Account'>
     },
 
     fromJSON(object: any): Account {
-        return { $type: Account.$type, key: isSet(object.key) ? globalThis.String(object.key) : '' };
+        return {
+            $type: Account.$type,
+            key: isSet(object.key) ? globalThis.String(object.key) : '',
+        };
     },
 
     toJSON(message: Account): unknown {
@@ -773,7 +808,9 @@ export const ClientConfig: MessageFns<ClientConfig, 'xray.proxy.shadowsocks_2022
             method: isSet(object.method) ? globalThis.String(object.method) : '',
             key: isSet(object.key) ? globalThis.String(object.key) : '',
             udpOverTcp: isSet(object.udpOverTcp) ? globalThis.Boolean(object.udpOverTcp) : false,
-            udpOverTcpVersion: isSet(object.udpOverTcpVersion) ? globalThis.Number(object.udpOverTcpVersion) : 0,
+            udpOverTcpVersion: isSet(object.udpOverTcpVersion)
+                ? globalThis.Number(object.udpOverTcpVersion)
+                : 0,
         };
     },
 
@@ -805,9 +842,10 @@ export const ClientConfig: MessageFns<ClientConfig, 'xray.proxy.shadowsocks_2022
     },
     fromPartial(object: DeepPartial<ClientConfig>): ClientConfig {
         const message = createBaseClientConfig();
-        message.address = (object.address !== undefined && object.address !== null)
-            ? IPOrDomain.fromPartial(object.address)
-            : undefined;
+        message.address =
+            object.address !== undefined && object.address !== null
+                ? IPOrDomain.fromPartial(object.address)
+                : undefined;
         message.port = object.port ?? 0;
         message.method = object.method ?? '';
         message.key = object.key ?? '';
@@ -821,11 +859,15 @@ messageTypeRegistry.set(ClientConfig.$type, ClientConfig);
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function isSet(value: any): boolean {
     return value !== null && value !== undefined;

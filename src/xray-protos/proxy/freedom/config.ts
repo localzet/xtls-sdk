@@ -136,7 +136,10 @@ function createBaseDestinationOverride(): DestinationOverride {
     return { $type: 'xray.proxy.freedom.DestinationOverride', server: undefined };
 }
 
-export const DestinationOverride: MessageFns<DestinationOverride, 'xray.proxy.freedom.DestinationOverride'> = {
+export const DestinationOverride: MessageFns<
+    DestinationOverride,
+    'xray.proxy.freedom.DestinationOverride'
+> = {
     $type: 'xray.proxy.freedom.DestinationOverride' as const,
 
     encode(message: DestinationOverride, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -190,9 +193,10 @@ export const DestinationOverride: MessageFns<DestinationOverride, 'xray.proxy.fr
     },
     fromPartial(object: DeepPartial<DestinationOverride>): DestinationOverride {
         const message = createBaseDestinationOverride();
-        message.server = (object.server !== undefined && object.server !== null)
-            ? ServerEndpoint.fromPartial(object.server)
-            : undefined;
+        message.server =
+            object.server !== undefined && object.server !== null
+                ? ServerEndpoint.fromPartial(object.server)
+                : undefined;
         return message;
     },
 };
@@ -508,7 +512,10 @@ export const Config: MessageFns<Config, 'xray.proxy.freedom.Config'> = {
             writer.uint32(8).int32(message.domainStrategy);
         }
         if (message.destinationOverride !== undefined) {
-            DestinationOverride.encode(message.destinationOverride, writer.uint32(26).fork()).join();
+            DestinationOverride.encode(
+                message.destinationOverride,
+                writer.uint32(26).fork(),
+            ).join();
         }
         if (message.userLevel !== 0) {
             writer.uint32(32).uint32(message.userLevel);
@@ -545,7 +552,10 @@ export const Config: MessageFns<Config, 'xray.proxy.freedom.Config'> = {
                         break;
                     }
 
-                    message.destinationOverride = DestinationOverride.decode(reader, reader.uint32());
+                    message.destinationOverride = DestinationOverride.decode(
+                        reader,
+                        reader.uint32(),
+                    );
                     continue;
                 }
                 case 4: {
@@ -592,14 +602,20 @@ export const Config: MessageFns<Config, 'xray.proxy.freedom.Config'> = {
     fromJSON(object: any): Config {
         return {
             $type: Config.$type,
-            domainStrategy: isSet(object.domainStrategy) ? config_DomainStrategyFromJSON(object.domainStrategy) : 0,
+            domainStrategy: isSet(object.domainStrategy)
+                ? config_DomainStrategyFromJSON(object.domainStrategy)
+                : 0,
             destinationOverride: isSet(object.destinationOverride)
                 ? DestinationOverride.fromJSON(object.destinationOverride)
                 : undefined,
             userLevel: isSet(object.userLevel) ? globalThis.Number(object.userLevel) : 0,
             fragment: isSet(object.fragment) ? Fragment.fromJSON(object.fragment) : undefined,
-            proxyProtocol: isSet(object.proxyProtocol) ? globalThis.Number(object.proxyProtocol) : 0,
-            noises: globalThis.Array.isArray(object?.noises) ? object.noises.map((e: any) => Noise.fromJSON(e)) : [],
+            proxyProtocol: isSet(object.proxyProtocol)
+                ? globalThis.Number(object.proxyProtocol)
+                : 0,
+            noises: globalThis.Array.isArray(object?.noises)
+                ? object.noises.map((e: any) => Noise.fromJSON(e))
+                : [],
         };
     },
 
@@ -632,13 +648,15 @@ export const Config: MessageFns<Config, 'xray.proxy.freedom.Config'> = {
     fromPartial(object: DeepPartial<Config>): Config {
         const message = createBaseConfig();
         message.domainStrategy = object.domainStrategy ?? 0;
-        message.destinationOverride = (object.destinationOverride !== undefined && object.destinationOverride !== null)
-            ? DestinationOverride.fromPartial(object.destinationOverride)
-            : undefined;
+        message.destinationOverride =
+            object.destinationOverride !== undefined && object.destinationOverride !== null
+                ? DestinationOverride.fromPartial(object.destinationOverride)
+                : undefined;
         message.userLevel = object.userLevel ?? 0;
-        message.fragment = (object.fragment !== undefined && object.fragment !== null)
-            ? Fragment.fromPartial(object.fragment)
-            : undefined;
+        message.fragment =
+            object.fragment !== undefined && object.fragment !== null
+                ? Fragment.fromPartial(object.fragment)
+                : undefined;
         message.proxyProtocol = object.proxyProtocol ?? 0;
         message.noises = object.noises?.map((e) => Noise.fromPartial(e)) || [];
         return message;
@@ -674,11 +692,15 @@ function base64FromBytes(arr: Uint8Array): string {
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function longToNumber(int64: { toString(): string }): number {
     const num = globalThis.Number(int64.toString());

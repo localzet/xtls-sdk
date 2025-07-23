@@ -230,7 +230,9 @@ export const NameServer: MessageFns<NameServer, 'xray.app.dns.NameServer'> = {
                         break;
                     }
 
-                    message.prioritizedDomain.push(NameServer_PriorityDomain.decode(reader, reader.uint32()));
+                    message.prioritizedDomain.push(
+                        NameServer_PriorityDomain.decode(reader, reader.uint32()),
+                    );
                     continue;
                 }
                 case 3: {
@@ -246,7 +248,9 @@ export const NameServer: MessageFns<NameServer, 'xray.app.dns.NameServer'> = {
                         break;
                     }
 
-                    message.originalRules.push(NameServer_OriginalRule.decode(reader, reader.uint32()));
+                    message.originalRules.push(
+                        NameServer_OriginalRule.decode(reader, reader.uint32()),
+                    );
                     continue;
                 }
                 case 7: {
@@ -271,15 +275,21 @@ export const NameServer: MessageFns<NameServer, 'xray.app.dns.NameServer'> = {
             $type: NameServer.$type,
             address: isSet(object.address) ? Endpoint.fromJSON(object.address) : undefined,
             clientIp: isSet(object.clientIp) ? bytesFromBase64(object.clientIp) : new Uint8Array(0),
-            skipFallback: isSet(object.skipFallback) ? globalThis.Boolean(object.skipFallback) : false,
+            skipFallback: isSet(object.skipFallback)
+                ? globalThis.Boolean(object.skipFallback)
+                : false,
             prioritizedDomain: globalThis.Array.isArray(object?.prioritizedDomain)
                 ? object.prioritizedDomain.map((e: any) => NameServer_PriorityDomain.fromJSON(e))
                 : [],
-            geoip: globalThis.Array.isArray(object?.geoip) ? object.geoip.map((e: any) => GeoIP.fromJSON(e)) : [],
+            geoip: globalThis.Array.isArray(object?.geoip)
+                ? object.geoip.map((e: any) => GeoIP.fromJSON(e))
+                : [],
             originalRules: globalThis.Array.isArray(object?.originalRules)
                 ? object.originalRules.map((e: any) => NameServer_OriginalRule.fromJSON(e))
                 : [],
-            queryStrategy: isSet(object.queryStrategy) ? queryStrategyFromJSON(object.queryStrategy) : 0,
+            queryStrategy: isSet(object.queryStrategy)
+                ? queryStrategyFromJSON(object.queryStrategy)
+                : 0,
         };
     },
 
@@ -295,7 +305,9 @@ export const NameServer: MessageFns<NameServer, 'xray.app.dns.NameServer'> = {
             obj.skipFallback = message.skipFallback;
         }
         if (message.prioritizedDomain?.length) {
-            obj.prioritizedDomain = message.prioritizedDomain.map((e) => NameServer_PriorityDomain.toJSON(e));
+            obj.prioritizedDomain = message.prioritizedDomain.map((e) =>
+                NameServer_PriorityDomain.toJSON(e),
+            );
         }
         if (message.geoip?.length) {
             obj.geoip = message.geoip.map((e) => GeoIP.toJSON(e));
@@ -314,14 +326,17 @@ export const NameServer: MessageFns<NameServer, 'xray.app.dns.NameServer'> = {
     },
     fromPartial(object: DeepPartial<NameServer>): NameServer {
         const message = createBaseNameServer();
-        message.address = (object.address !== undefined && object.address !== null)
-            ? Endpoint.fromPartial(object.address)
-            : undefined;
+        message.address =
+            object.address !== undefined && object.address !== null
+                ? Endpoint.fromPartial(object.address)
+                : undefined;
         message.clientIp = object.clientIp ?? new Uint8Array(0);
         message.skipFallback = object.skipFallback ?? false;
-        message.prioritizedDomain = object.prioritizedDomain?.map((e) => NameServer_PriorityDomain.fromPartial(e)) || [];
+        message.prioritizedDomain =
+            object.prioritizedDomain?.map((e) => NameServer_PriorityDomain.fromPartial(e)) || [];
         message.geoip = object.geoip?.map((e) => GeoIP.fromPartial(e)) || [];
-        message.originalRules = object.originalRules?.map((e) => NameServer_OriginalRule.fromPartial(e)) || [];
+        message.originalRules =
+            object.originalRules?.map((e) => NameServer_OriginalRule.fromPartial(e)) || [];
         message.queryStrategy = object.queryStrategy ?? 0;
         return message;
     },
@@ -339,7 +354,10 @@ export const NameServer_PriorityDomain: MessageFns<
 > = {
     $type: 'xray.app.dns.NameServer.PriorityDomain' as const,
 
-    encode(message: NameServer_PriorityDomain, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    encode(
+        message: NameServer_PriorityDomain,
+        writer: BinaryWriter = new BinaryWriter(),
+    ): BinaryWriter {
         if (message.type !== 0) {
             writer.uint32(8).int32(message.type);
         }
@@ -417,10 +435,16 @@ function createBaseNameServer_OriginalRule(): NameServer_OriginalRule {
     return { $type: 'xray.app.dns.NameServer.OriginalRule', rule: '', size: 0 };
 }
 
-export const NameServer_OriginalRule: MessageFns<NameServer_OriginalRule, 'xray.app.dns.NameServer.OriginalRule'> = {
+export const NameServer_OriginalRule: MessageFns<
+    NameServer_OriginalRule,
+    'xray.app.dns.NameServer.OriginalRule'
+> = {
     $type: 'xray.app.dns.NameServer.OriginalRule' as const,
 
-    encode(message: NameServer_OriginalRule, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    encode(
+        message: NameServer_OriginalRule,
+        writer: BinaryWriter = new BinaryWriter(),
+    ): BinaryWriter {
         if (message.rule !== '') {
             writer.uint32(10).string(message.rule);
         }
@@ -630,9 +654,15 @@ export const Config: MessageFns<Config, 'xray.app.dns.Config'> = {
                 ? object.staticHosts.map((e: any) => Config_HostMapping.fromJSON(e))
                 : [],
             tag: isSet(object.tag) ? globalThis.String(object.tag) : '',
-            disableCache: isSet(object.disableCache) ? globalThis.Boolean(object.disableCache) : false,
-            queryStrategy: isSet(object.queryStrategy) ? queryStrategyFromJSON(object.queryStrategy) : 0,
-            disableFallback: isSet(object.disableFallback) ? globalThis.Boolean(object.disableFallback) : false,
+            disableCache: isSet(object.disableCache)
+                ? globalThis.Boolean(object.disableCache)
+                : false,
+            queryStrategy: isSet(object.queryStrategy)
+                ? queryStrategyFromJSON(object.queryStrategy)
+                : 0,
+            disableFallback: isSet(object.disableFallback)
+                ? globalThis.Boolean(object.disableFallback)
+                : false,
             disableFallbackIfMatch: isSet(object.disableFallbackIfMatch)
                 ? globalThis.Boolean(object.disableFallbackIfMatch)
                 : false,
@@ -675,7 +705,8 @@ export const Config: MessageFns<Config, 'xray.app.dns.Config'> = {
         const message = createBaseConfig();
         message.nameServer = object.nameServer?.map((e) => NameServer.fromPartial(e)) || [];
         message.clientIp = object.clientIp ?? new Uint8Array(0);
-        message.staticHosts = object.staticHosts?.map((e) => Config_HostMapping.fromPartial(e)) || [];
+        message.staticHosts =
+            object.staticHosts?.map((e) => Config_HostMapping.fromPartial(e)) || [];
         message.tag = object.tag ?? '';
         message.disableCache = object.disableCache ?? false;
         message.queryStrategy = object.queryStrategy ?? 0;
@@ -688,115 +719,129 @@ export const Config: MessageFns<Config, 'xray.app.dns.Config'> = {
 messageTypeRegistry.set(Config.$type, Config);
 
 function createBaseConfig_HostMapping(): Config_HostMapping {
-    return { $type: 'xray.app.dns.Config.HostMapping', type: 0, domain: '', ip: [], proxiedDomain: '' };
+    return {
+        $type: 'xray.app.dns.Config.HostMapping',
+        type: 0,
+        domain: '',
+        ip: [],
+        proxiedDomain: '',
+    };
 }
 
-export const Config_HostMapping: MessageFns<Config_HostMapping, 'xray.app.dns.Config.HostMapping'> = {
-    $type: 'xray.app.dns.Config.HostMapping' as const,
+export const Config_HostMapping: MessageFns<Config_HostMapping, 'xray.app.dns.Config.HostMapping'> =
+    {
+        $type: 'xray.app.dns.Config.HostMapping' as const,
 
-    encode(message: Config_HostMapping, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-        if (message.type !== 0) {
-            writer.uint32(8).int32(message.type);
-        }
-        if (message.domain !== '') {
-            writer.uint32(18).string(message.domain);
-        }
-        for (const v of message.ip) {
-            writer.uint32(26).bytes(v!);
-        }
-        if (message.proxiedDomain !== '') {
-            writer.uint32(34).string(message.proxiedDomain);
-        }
-        return writer;
-    },
-
-    decode(input: BinaryReader | Uint8Array, length?: number): Config_HostMapping {
-        const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-        let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseConfig_HostMapping();
-        while (reader.pos < end) {
-            const tag = reader.uint32();
-            switch (tag >>> 3) {
-                case 1: {
-                    if (tag !== 8) {
-                        break;
-                    }
-
-                    message.type = reader.int32() as any;
-                    continue;
-                }
-                case 2: {
-                    if (tag !== 18) {
-                        break;
-                    }
-
-                    message.domain = reader.string();
-                    continue;
-                }
-                case 3: {
-                    if (tag !== 26) {
-                        break;
-                    }
-
-                    message.ip.push(reader.bytes());
-                    continue;
-                }
-                case 4: {
-                    if (tag !== 34) {
-                        break;
-                    }
-
-                    message.proxiedDomain = reader.string();
-                    continue;
-                }
+        encode(
+            message: Config_HostMapping,
+            writer: BinaryWriter = new BinaryWriter(),
+        ): BinaryWriter {
+            if (message.type !== 0) {
+                writer.uint32(8).int32(message.type);
             }
-            if ((tag & 7) === 4 || tag === 0) {
-                break;
+            if (message.domain !== '') {
+                writer.uint32(18).string(message.domain);
             }
-            reader.skip(tag & 7);
-        }
-        return message;
-    },
+            for (const v of message.ip) {
+                writer.uint32(26).bytes(v!);
+            }
+            if (message.proxiedDomain !== '') {
+                writer.uint32(34).string(message.proxiedDomain);
+            }
+            return writer;
+        },
 
-    fromJSON(object: any): Config_HostMapping {
-        return {
-            $type: Config_HostMapping.$type,
-            type: isSet(object.type) ? domainMatchingTypeFromJSON(object.type) : 0,
-            domain: isSet(object.domain) ? globalThis.String(object.domain) : '',
-            ip: globalThis.Array.isArray(object?.ip) ? object.ip.map((e: any) => bytesFromBase64(e)) : [],
-            proxiedDomain: isSet(object.proxiedDomain) ? globalThis.String(object.proxiedDomain) : '',
-        };
-    },
+        decode(input: BinaryReader | Uint8Array, length?: number): Config_HostMapping {
+            const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+            let end = length === undefined ? reader.len : reader.pos + length;
+            const message = createBaseConfig_HostMapping();
+            while (reader.pos < end) {
+                const tag = reader.uint32();
+                switch (tag >>> 3) {
+                    case 1: {
+                        if (tag !== 8) {
+                            break;
+                        }
 
-    toJSON(message: Config_HostMapping): unknown {
-        const obj: any = {};
-        if (message.type !== 0) {
-            obj.type = domainMatchingTypeToJSON(message.type);
-        }
-        if (message.domain !== '') {
-            obj.domain = message.domain;
-        }
-        if (message.ip?.length) {
-            obj.ip = message.ip.map((e) => base64FromBytes(e));
-        }
-        if (message.proxiedDomain !== '') {
-            obj.proxiedDomain = message.proxiedDomain;
-        }
-        return obj;
-    },
+                        message.type = reader.int32() as any;
+                        continue;
+                    }
+                    case 2: {
+                        if (tag !== 18) {
+                            break;
+                        }
 
-    create(base?: DeepPartial<Config_HostMapping>): Config_HostMapping {
-        return Config_HostMapping.fromPartial(base ?? {});
-    },
-    fromPartial(object: DeepPartial<Config_HostMapping>): Config_HostMapping {
-        const message = createBaseConfig_HostMapping();
-        message.type = object.type ?? 0;
-        message.domain = object.domain ?? '';
-        message.ip = object.ip?.map((e) => e) || [];
-        message.proxiedDomain = object.proxiedDomain ?? '';
-        return message;
-    },
-};
+                        message.domain = reader.string();
+                        continue;
+                    }
+                    case 3: {
+                        if (tag !== 26) {
+                            break;
+                        }
+
+                        message.ip.push(reader.bytes());
+                        continue;
+                    }
+                    case 4: {
+                        if (tag !== 34) {
+                            break;
+                        }
+
+                        message.proxiedDomain = reader.string();
+                        continue;
+                    }
+                }
+                if ((tag & 7) === 4 || tag === 0) {
+                    break;
+                }
+                reader.skip(tag & 7);
+            }
+            return message;
+        },
+
+        fromJSON(object: any): Config_HostMapping {
+            return {
+                $type: Config_HostMapping.$type,
+                type: isSet(object.type) ? domainMatchingTypeFromJSON(object.type) : 0,
+                domain: isSet(object.domain) ? globalThis.String(object.domain) : '',
+                ip: globalThis.Array.isArray(object?.ip)
+                    ? object.ip.map((e: any) => bytesFromBase64(e))
+                    : [],
+                proxiedDomain: isSet(object.proxiedDomain)
+                    ? globalThis.String(object.proxiedDomain)
+                    : '',
+            };
+        },
+
+        toJSON(message: Config_HostMapping): unknown {
+            const obj: any = {};
+            if (message.type !== 0) {
+                obj.type = domainMatchingTypeToJSON(message.type);
+            }
+            if (message.domain !== '') {
+                obj.domain = message.domain;
+            }
+            if (message.ip?.length) {
+                obj.ip = message.ip.map((e) => base64FromBytes(e));
+            }
+            if (message.proxiedDomain !== '') {
+                obj.proxiedDomain = message.proxiedDomain;
+            }
+            return obj;
+        },
+
+        create(base?: DeepPartial<Config_HostMapping>): Config_HostMapping {
+            return Config_HostMapping.fromPartial(base ?? {});
+        },
+        fromPartial(object: DeepPartial<Config_HostMapping>): Config_HostMapping {
+            const message = createBaseConfig_HostMapping();
+            message.type = object.type ?? 0;
+            message.domain = object.domain ?? '';
+            message.ip = object.ip?.map((e) => e) || [];
+            message.proxiedDomain = object.proxiedDomain ?? '';
+            return message;
+        },
+    };
 
 messageTypeRegistry.set(Config_HostMapping.$type, Config_HostMapping);
 
@@ -827,11 +872,15 @@ function base64FromBytes(arr: Uint8Array): string {
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function isSet(value: any): boolean {
     return value !== null && value !== undefined;

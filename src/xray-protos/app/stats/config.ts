@@ -69,7 +69,12 @@ export const Config: MessageFns<Config, 'xray.app.stats.Config'> = {
 messageTypeRegistry.set(Config.$type, Config);
 
 function createBaseChannelConfig(): ChannelConfig {
-    return { $type: 'xray.app.stats.ChannelConfig', Blocking: false, SubscriberLimit: 0, BufferSize: 0 };
+    return {
+        $type: 'xray.app.stats.ChannelConfig',
+        Blocking: false,
+        SubscriberLimit: 0,
+        BufferSize: 0,
+    };
 }
 
 export const ChannelConfig: MessageFns<ChannelConfig, 'xray.app.stats.ChannelConfig'> = {
@@ -132,7 +137,9 @@ export const ChannelConfig: MessageFns<ChannelConfig, 'xray.app.stats.ChannelCon
         return {
             $type: ChannelConfig.$type,
             Blocking: isSet(object.Blocking) ? globalThis.Boolean(object.Blocking) : false,
-            SubscriberLimit: isSet(object.SubscriberLimit) ? globalThis.Number(object.SubscriberLimit) : 0,
+            SubscriberLimit: isSet(object.SubscriberLimit)
+                ? globalThis.Number(object.SubscriberLimit)
+                : 0,
             BufferSize: isSet(object.BufferSize) ? globalThis.Number(object.BufferSize) : 0,
         };
     },
@@ -167,11 +174,15 @@ messageTypeRegistry.set(ChannelConfig.$type, ChannelConfig);
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function isSet(value: any): boolean {
     return value !== null && value !== undefined;

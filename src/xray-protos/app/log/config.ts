@@ -187,8 +187,12 @@ export const Config: MessageFns<Config, 'xray.app.log.Config'> = {
             errorLogLevel: isSet(object.errorLogLevel) ? severityFromJSON(object.errorLogLevel) : 0,
             errorLogPath: isSet(object.errorLogPath) ? globalThis.String(object.errorLogPath) : '',
             accessLogType: isSet(object.accessLogType) ? logTypeFromJSON(object.accessLogType) : 0,
-            accessLogPath: isSet(object.accessLogPath) ? globalThis.String(object.accessLogPath) : '',
-            enableDnsLog: isSet(object.enableDnsLog) ? globalThis.Boolean(object.enableDnsLog) : false,
+            accessLogPath: isSet(object.accessLogPath)
+                ? globalThis.String(object.accessLogPath)
+                : '',
+            enableDnsLog: isSet(object.enableDnsLog)
+                ? globalThis.Boolean(object.enableDnsLog)
+                : false,
             maskAddress: isSet(object.maskAddress) ? globalThis.String(object.maskAddress) : '',
         };
     },
@@ -239,11 +243,15 @@ messageTypeRegistry.set(Config.$type, Config);
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function isSet(value: any): boolean {
     return value !== null && value !== undefined;

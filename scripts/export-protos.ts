@@ -38,7 +38,7 @@ function findProtoFiles(dir: string): string[] {
     const files: string[] = [];
 
     function walk(currentDir: string) {
-        fs.readdirSync(currentDir).forEach(file => {
+        fs.readdirSync(currentDir).forEach((file) => {
             const filePath = path.join(currentDir, file);
             const stat = fs.statSync(filePath);
 
@@ -108,7 +108,6 @@ async function main() {
         }
 
         console.log('🎉 Генерация завершена успешно!');
-
     } catch (error) {
         console.error('💥 Критическая ошибка:', error);
     } finally {

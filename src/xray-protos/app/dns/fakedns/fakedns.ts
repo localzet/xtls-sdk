@@ -108,7 +108,10 @@ function createBaseFakeDnsPoolMulti(): FakeDnsPoolMulti {
     return { $type: 'xray.app.dns.fakedns.FakeDnsPoolMulti', pools: [] };
 }
 
-export const FakeDnsPoolMulti: MessageFns<FakeDnsPoolMulti, 'xray.app.dns.fakedns.FakeDnsPoolMulti'> = {
+export const FakeDnsPoolMulti: MessageFns<
+    FakeDnsPoolMulti,
+    'xray.app.dns.fakedns.FakeDnsPoolMulti'
+> = {
     $type: 'xray.app.dns.fakedns.FakeDnsPoolMulti' as const,
 
     encode(message: FakeDnsPoolMulti, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -145,7 +148,9 @@ export const FakeDnsPoolMulti: MessageFns<FakeDnsPoolMulti, 'xray.app.dns.fakedn
     fromJSON(object: any): FakeDnsPoolMulti {
         return {
             $type: FakeDnsPoolMulti.$type,
-            pools: globalThis.Array.isArray(object?.pools) ? object.pools.map((e: any) => FakeDnsPool.fromJSON(e)) : [],
+            pools: globalThis.Array.isArray(object?.pools)
+                ? object.pools.map((e: any) => FakeDnsPool.fromJSON(e))
+                : [],
         };
     },
 
@@ -171,11 +176,15 @@ messageTypeRegistry.set(FakeDnsPoolMulti.$type, FakeDnsPoolMulti);
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function longToNumber(int64: { toString(): string }): number {
     const num = globalThis.Number(int64.toString());

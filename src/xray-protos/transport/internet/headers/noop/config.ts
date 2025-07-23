@@ -69,7 +69,10 @@ function createBaseConnectionConfig(): ConnectionConfig {
     return { $type: 'xray.transport.internet.headers.noop.ConnectionConfig' };
 }
 
-export const ConnectionConfig: MessageFns<ConnectionConfig, 'xray.transport.internet.headers.noop.ConnectionConfig'> = {
+export const ConnectionConfig: MessageFns<
+    ConnectionConfig,
+    'xray.transport.internet.headers.noop.ConnectionConfig'
+> = {
     $type: 'xray.transport.internet.headers.noop.ConnectionConfig' as const,
 
     encode(_: ConnectionConfig, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -114,11 +117,15 @@ messageTypeRegistry.set(ConnectionConfig.$type, ConnectionConfig);
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 export interface MessageFns<T, V extends string> {
     readonly $type: V;

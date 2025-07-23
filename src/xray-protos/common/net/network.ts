@@ -114,7 +114,9 @@ export const NetworkList: MessageFns<NetworkList, 'xray.common.net.NetworkList'>
     fromJSON(object: any): NetworkList {
         return {
             $type: NetworkList.$type,
-            network: globalThis.Array.isArray(object?.network) ? object.network.map((e: any) => networkFromJSON(e)) : [],
+            network: globalThis.Array.isArray(object?.network)
+                ? object.network.map((e: any) => networkFromJSON(e))
+                : [],
         };
     },
 
@@ -140,11 +142,15 @@ messageTypeRegistry.set(NetworkList.$type, NetworkList);
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 export interface MessageFns<T, V extends string> {
     readonly $type: V;

@@ -35,7 +35,11 @@ export interface HealthPingConfig {
 }
 
 function createBaseConfig(): Config {
-    return { $type: 'xray.core.app.observatory.burst.Config', subjectSelector: [], pingConfig: undefined };
+    return {
+        $type: 'xray.core.app.observatory.burst.Config',
+        subjectSelector: [],
+        pingConfig: undefined,
+    };
 }
 
 export const Config: MessageFns<Config, 'xray.core.app.observatory.burst.Config'> = {
@@ -89,7 +93,9 @@ export const Config: MessageFns<Config, 'xray.core.app.observatory.burst.Config'
             subjectSelector: globalThis.Array.isArray(object?.subjectSelector)
                 ? object.subjectSelector.map((e: any) => globalThis.String(e))
                 : [],
-            pingConfig: isSet(object.pingConfig) ? HealthPingConfig.fromJSON(object.pingConfig) : undefined,
+            pingConfig: isSet(object.pingConfig)
+                ? HealthPingConfig.fromJSON(object.pingConfig)
+                : undefined,
         };
     },
 
@@ -110,9 +116,10 @@ export const Config: MessageFns<Config, 'xray.core.app.observatory.burst.Config'
     fromPartial(object: DeepPartial<Config>): Config {
         const message = createBaseConfig();
         message.subjectSelector = object.subjectSelector?.map((e) => e) || [];
-        message.pingConfig = (object.pingConfig !== undefined && object.pingConfig !== null)
-            ? HealthPingConfig.fromPartial(object.pingConfig)
-            : undefined;
+        message.pingConfig =
+            object.pingConfig !== undefined && object.pingConfig !== null
+                ? HealthPingConfig.fromPartial(object.pingConfig)
+                : undefined;
         return message;
     },
 };
@@ -130,7 +137,10 @@ function createBaseHealthPingConfig(): HealthPingConfig {
     };
 }
 
-export const HealthPingConfig: MessageFns<HealthPingConfig, 'xray.core.app.observatory.burst.HealthPingConfig'> = {
+export const HealthPingConfig: MessageFns<
+    HealthPingConfig,
+    'xray.core.app.observatory.burst.HealthPingConfig'
+> = {
     $type: 'xray.core.app.observatory.burst.HealthPingConfig' as const,
 
     encode(message: HealthPingConfig, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -214,7 +224,9 @@ export const HealthPingConfig: MessageFns<HealthPingConfig, 'xray.core.app.obser
             destination: isSet(object.destination) ? globalThis.String(object.destination) : '',
             connectivity: isSet(object.connectivity) ? globalThis.String(object.connectivity) : '',
             interval: isSet(object.interval) ? globalThis.Number(object.interval) : 0,
-            samplingCount: isSet(object.samplingCount) ? globalThis.Number(object.samplingCount) : 0,
+            samplingCount: isSet(object.samplingCount)
+                ? globalThis.Number(object.samplingCount)
+                : 0,
             timeout: isSet(object.timeout) ? globalThis.Number(object.timeout) : 0,
         };
     },
@@ -257,11 +269,15 @@ messageTypeRegistry.set(HealthPingConfig.$type, HealthPingConfig);
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function longToNumber(int64: { toString(): string }): number {
     const num = globalThis.Number(int64.toString());

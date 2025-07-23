@@ -25,9 +25,7 @@ export interface AllocationStrategy {
      * Number of handlers (ports) running in parallel.
      * Default value is 3 if unset.
      */
-    concurrency:
-        | AllocationStrategy_AllocationStrategyConcurrency
-        | undefined;
+    concurrency: AllocationStrategy_AllocationStrategyConcurrency | undefined;
     /**
      * Number of minutes before a handler is regenerated.
      * Default value is 5 if unset.
@@ -109,9 +107,7 @@ export interface SniffingConfig {
 export interface ReceiverConfig {
     $type: 'xray.app.proxyman.ReceiverConfig';
     /** PortList specifies the ports which the Receiver should listen on. */
-    portList:
-        | PortList
-        | undefined;
+    portList: PortList | undefined;
     /** Listen specifies the IP address that the Receiver should listen on. */
     listen: IPOrDomain | undefined;
     allocationStrategy: AllocationStrategy | undefined;
@@ -201,10 +197,18 @@ export const InboundConfig: MessageFns<InboundConfig, 'xray.app.proxyman.Inbound
 messageTypeRegistry.set(InboundConfig.$type, InboundConfig);
 
 function createBaseAllocationStrategy(): AllocationStrategy {
-    return { $type: 'xray.app.proxyman.AllocationStrategy', type: 0, concurrency: undefined, refresh: undefined };
+    return {
+        $type: 'xray.app.proxyman.AllocationStrategy',
+        type: 0,
+        concurrency: undefined,
+        refresh: undefined,
+    };
 }
 
-export const AllocationStrategy: MessageFns<AllocationStrategy, 'xray.app.proxyman.AllocationStrategy'> = {
+export const AllocationStrategy: MessageFns<
+    AllocationStrategy,
+    'xray.app.proxyman.AllocationStrategy'
+> = {
     $type: 'xray.app.proxyman.AllocationStrategy' as const,
 
     encode(message: AllocationStrategy, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -212,10 +216,16 @@ export const AllocationStrategy: MessageFns<AllocationStrategy, 'xray.app.proxym
             writer.uint32(8).int32(message.type);
         }
         if (message.concurrency !== undefined) {
-            AllocationStrategy_AllocationStrategyConcurrency.encode(message.concurrency, writer.uint32(18).fork()).join();
+            AllocationStrategy_AllocationStrategyConcurrency.encode(
+                message.concurrency,
+                writer.uint32(18).fork(),
+            ).join();
         }
         if (message.refresh !== undefined) {
-            AllocationStrategy_AllocationStrategyRefresh.encode(message.refresh, writer.uint32(26).fork()).join();
+            AllocationStrategy_AllocationStrategyRefresh.encode(
+                message.refresh,
+                writer.uint32(26).fork(),
+            ).join();
         }
         return writer;
     },
@@ -240,7 +250,10 @@ export const AllocationStrategy: MessageFns<AllocationStrategy, 'xray.app.proxym
                         break;
                     }
 
-                    message.concurrency = AllocationStrategy_AllocationStrategyConcurrency.decode(reader, reader.uint32());
+                    message.concurrency = AllocationStrategy_AllocationStrategyConcurrency.decode(
+                        reader,
+                        reader.uint32(),
+                    );
                     continue;
                 }
                 case 3: {
@@ -248,7 +261,10 @@ export const AllocationStrategy: MessageFns<AllocationStrategy, 'xray.app.proxym
                         break;
                     }
 
-                    message.refresh = AllocationStrategy_AllocationStrategyRefresh.decode(reader, reader.uint32());
+                    message.refresh = AllocationStrategy_AllocationStrategyRefresh.decode(
+                        reader,
+                        reader.uint32(),
+                    );
                     continue;
                 }
             }
@@ -279,7 +295,9 @@ export const AllocationStrategy: MessageFns<AllocationStrategy, 'xray.app.proxym
             obj.type = allocationStrategy_TypeToJSON(message.type);
         }
         if (message.concurrency !== undefined) {
-            obj.concurrency = AllocationStrategy_AllocationStrategyConcurrency.toJSON(message.concurrency);
+            obj.concurrency = AllocationStrategy_AllocationStrategyConcurrency.toJSON(
+                message.concurrency,
+            );
         }
         if (message.refresh !== undefined) {
             obj.refresh = AllocationStrategy_AllocationStrategyRefresh.toJSON(message.refresh);
@@ -293,12 +311,14 @@ export const AllocationStrategy: MessageFns<AllocationStrategy, 'xray.app.proxym
     fromPartial(object: DeepPartial<AllocationStrategy>): AllocationStrategy {
         const message = createBaseAllocationStrategy();
         message.type = object.type ?? 0;
-        message.concurrency = (object.concurrency !== undefined && object.concurrency !== null)
-            ? AllocationStrategy_AllocationStrategyConcurrency.fromPartial(object.concurrency)
-            : undefined;
-        message.refresh = (object.refresh !== undefined && object.refresh !== null)
-            ? AllocationStrategy_AllocationStrategyRefresh.fromPartial(object.refresh)
-            : undefined;
+        message.concurrency =
+            object.concurrency !== undefined && object.concurrency !== null
+                ? AllocationStrategy_AllocationStrategyConcurrency.fromPartial(object.concurrency)
+                : undefined;
+        message.refresh =
+            object.refresh !== undefined && object.refresh !== null
+                ? AllocationStrategy_AllocationStrategyRefresh.fromPartial(object.refresh)
+                : undefined;
         return message;
     },
 };
@@ -306,7 +326,10 @@ export const AllocationStrategy: MessageFns<AllocationStrategy, 'xray.app.proxym
 messageTypeRegistry.set(AllocationStrategy.$type, AllocationStrategy);
 
 function createBaseAllocationStrategy_AllocationStrategyConcurrency(): AllocationStrategy_AllocationStrategyConcurrency {
-    return { $type: 'xray.app.proxyman.AllocationStrategy.AllocationStrategyConcurrency', value: 0 };
+    return {
+        $type: 'xray.app.proxyman.AllocationStrategy.AllocationStrategyConcurrency',
+        value: 0,
+    };
 }
 
 export const AllocationStrategy_AllocationStrategyConcurrency: MessageFns<
@@ -325,7 +348,10 @@ export const AllocationStrategy_AllocationStrategyConcurrency: MessageFns<
         return writer;
     },
 
-    decode(input: BinaryReader | Uint8Array, length?: number): AllocationStrategy_AllocationStrategyConcurrency {
+    decode(
+        input: BinaryReader | Uint8Array,
+        length?: number,
+    ): AllocationStrategy_AllocationStrategyConcurrency {
         const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseAllocationStrategy_AllocationStrategyConcurrency();
@@ -403,7 +429,10 @@ export const AllocationStrategy_AllocationStrategyRefresh: MessageFns<
         return writer;
     },
 
-    decode(input: BinaryReader | Uint8Array, length?: number): AllocationStrategy_AllocationStrategyRefresh {
+    decode(
+        input: BinaryReader | Uint8Array,
+        length?: number,
+    ): AllocationStrategy_AllocationStrategyRefresh {
         const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseAllocationStrategy_AllocationStrategyRefresh();
@@ -560,7 +589,9 @@ export const SniffingConfig: MessageFns<SniffingConfig, 'xray.app.proxyman.Sniff
             domainsExcluded: globalThis.Array.isArray(object?.domainsExcluded)
                 ? object.domainsExcluded.map((e: any) => globalThis.String(e))
                 : [],
-            metadataOnly: isSet(object.metadataOnly) ? globalThis.Boolean(object.metadataOnly) : false,
+            metadataOnly: isSet(object.metadataOnly)
+                ? globalThis.Boolean(object.metadataOnly)
+                : false,
             routeOnly: isSet(object.routeOnly) ? globalThis.Boolean(object.routeOnly) : false,
         };
     },
@@ -710,11 +741,15 @@ export const ReceiverConfig: MessageFns<ReceiverConfig, 'xray.app.proxyman.Recei
             allocationStrategy: isSet(object.allocationStrategy)
                 ? AllocationStrategy.fromJSON(object.allocationStrategy)
                 : undefined,
-            streamSettings: isSet(object.streamSettings) ? StreamConfig.fromJSON(object.streamSettings) : undefined,
+            streamSettings: isSet(object.streamSettings)
+                ? StreamConfig.fromJSON(object.streamSettings)
+                : undefined,
             receiveOriginalDestination: isSet(object.receiveOriginalDestination)
                 ? globalThis.Boolean(object.receiveOriginalDestination)
                 : false,
-            sniffingSettings: isSet(object.sniffingSettings) ? SniffingConfig.fromJSON(object.sniffingSettings) : undefined,
+            sniffingSettings: isSet(object.sniffingSettings)
+                ? SniffingConfig.fromJSON(object.sniffingSettings)
+                : undefined,
         };
     },
 
@@ -746,22 +781,27 @@ export const ReceiverConfig: MessageFns<ReceiverConfig, 'xray.app.proxyman.Recei
     },
     fromPartial(object: DeepPartial<ReceiverConfig>): ReceiverConfig {
         const message = createBaseReceiverConfig();
-        message.portList = (object.portList !== undefined && object.portList !== null)
-            ? PortList.fromPartial(object.portList)
-            : undefined;
-        message.listen = (object.listen !== undefined && object.listen !== null)
-            ? IPOrDomain.fromPartial(object.listen)
-            : undefined;
-        message.allocationStrategy = (object.allocationStrategy !== undefined && object.allocationStrategy !== null)
-            ? AllocationStrategy.fromPartial(object.allocationStrategy)
-            : undefined;
-        message.streamSettings = (object.streamSettings !== undefined && object.streamSettings !== null)
-            ? StreamConfig.fromPartial(object.streamSettings)
-            : undefined;
+        message.portList =
+            object.portList !== undefined && object.portList !== null
+                ? PortList.fromPartial(object.portList)
+                : undefined;
+        message.listen =
+            object.listen !== undefined && object.listen !== null
+                ? IPOrDomain.fromPartial(object.listen)
+                : undefined;
+        message.allocationStrategy =
+            object.allocationStrategy !== undefined && object.allocationStrategy !== null
+                ? AllocationStrategy.fromPartial(object.allocationStrategy)
+                : undefined;
+        message.streamSettings =
+            object.streamSettings !== undefined && object.streamSettings !== null
+                ? StreamConfig.fromPartial(object.streamSettings)
+                : undefined;
         message.receiveOriginalDestination = object.receiveOriginalDestination ?? false;
-        message.sniffingSettings = (object.sniffingSettings !== undefined && object.sniffingSettings !== null)
-            ? SniffingConfig.fromPartial(object.sniffingSettings)
-            : undefined;
+        message.sniffingSettings =
+            object.sniffingSettings !== undefined && object.sniffingSettings !== null
+                ? SniffingConfig.fromPartial(object.sniffingSettings)
+                : undefined;
         return message;
     },
 };
@@ -777,7 +817,10 @@ function createBaseInboundHandlerConfig(): InboundHandlerConfig {
     };
 }
 
-export const InboundHandlerConfig: MessageFns<InboundHandlerConfig, 'xray.app.proxyman.InboundHandlerConfig'> = {
+export const InboundHandlerConfig: MessageFns<
+    InboundHandlerConfig,
+    'xray.app.proxyman.InboundHandlerConfig'
+> = {
     $type: 'xray.app.proxyman.InboundHandlerConfig' as const,
 
     encode(message: InboundHandlerConfig, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -837,8 +880,12 @@ export const InboundHandlerConfig: MessageFns<InboundHandlerConfig, 'xray.app.pr
         return {
             $type: InboundHandlerConfig.$type,
             tag: isSet(object.tag) ? globalThis.String(object.tag) : '',
-            receiverSettings: isSet(object.receiverSettings) ? TypedMessage.fromJSON(object.receiverSettings) : undefined,
-            proxySettings: isSet(object.proxySettings) ? TypedMessage.fromJSON(object.proxySettings) : undefined,
+            receiverSettings: isSet(object.receiverSettings)
+                ? TypedMessage.fromJSON(object.receiverSettings)
+                : undefined,
+            proxySettings: isSet(object.proxySettings)
+                ? TypedMessage.fromJSON(object.proxySettings)
+                : undefined,
         };
     },
 
@@ -862,12 +909,14 @@ export const InboundHandlerConfig: MessageFns<InboundHandlerConfig, 'xray.app.pr
     fromPartial(object: DeepPartial<InboundHandlerConfig>): InboundHandlerConfig {
         const message = createBaseInboundHandlerConfig();
         message.tag = object.tag ?? '';
-        message.receiverSettings = (object.receiverSettings !== undefined && object.receiverSettings !== null)
-            ? TypedMessage.fromPartial(object.receiverSettings)
-            : undefined;
-        message.proxySettings = (object.proxySettings !== undefined && object.proxySettings !== null)
-            ? TypedMessage.fromPartial(object.proxySettings)
-            : undefined;
+        message.receiverSettings =
+            object.receiverSettings !== undefined && object.receiverSettings !== null
+                ? TypedMessage.fromPartial(object.receiverSettings)
+                : undefined;
+        message.proxySettings =
+            object.proxySettings !== undefined && object.proxySettings !== null
+                ? TypedMessage.fromPartial(object.proxySettings)
+                : undefined;
         return message;
     },
 };
@@ -1014,8 +1063,12 @@ export const SenderConfig: MessageFns<SenderConfig, 'xray.app.proxyman.SenderCon
         return {
             $type: SenderConfig.$type,
             via: isSet(object.via) ? IPOrDomain.fromJSON(object.via) : undefined,
-            streamSettings: isSet(object.streamSettings) ? StreamConfig.fromJSON(object.streamSettings) : undefined,
-            proxySettings: isSet(object.proxySettings) ? ProxyConfig.fromJSON(object.proxySettings) : undefined,
+            streamSettings: isSet(object.streamSettings)
+                ? StreamConfig.fromJSON(object.streamSettings)
+                : undefined,
+            proxySettings: isSet(object.proxySettings)
+                ? ProxyConfig.fromJSON(object.proxySettings)
+                : undefined,
             multiplexSettings: isSet(object.multiplexSettings)
                 ? MultiplexingConfig.fromJSON(object.multiplexSettings)
                 : undefined,
@@ -1048,16 +1101,22 @@ export const SenderConfig: MessageFns<SenderConfig, 'xray.app.proxyman.SenderCon
     },
     fromPartial(object: DeepPartial<SenderConfig>): SenderConfig {
         const message = createBaseSenderConfig();
-        message.via = (object.via !== undefined && object.via !== null) ? IPOrDomain.fromPartial(object.via) : undefined;
-        message.streamSettings = (object.streamSettings !== undefined && object.streamSettings !== null)
-            ? StreamConfig.fromPartial(object.streamSettings)
-            : undefined;
-        message.proxySettings = (object.proxySettings !== undefined && object.proxySettings !== null)
-            ? ProxyConfig.fromPartial(object.proxySettings)
-            : undefined;
-        message.multiplexSettings = (object.multiplexSettings !== undefined && object.multiplexSettings !== null)
-            ? MultiplexingConfig.fromPartial(object.multiplexSettings)
-            : undefined;
+        message.via =
+            object.via !== undefined && object.via !== null
+                ? IPOrDomain.fromPartial(object.via)
+                : undefined;
+        message.streamSettings =
+            object.streamSettings !== undefined && object.streamSettings !== null
+                ? StreamConfig.fromPartial(object.streamSettings)
+                : undefined;
+        message.proxySettings =
+            object.proxySettings !== undefined && object.proxySettings !== null
+                ? ProxyConfig.fromPartial(object.proxySettings)
+                : undefined;
+        message.multiplexSettings =
+            object.multiplexSettings !== undefined && object.multiplexSettings !== null
+                ? MultiplexingConfig.fromPartial(object.multiplexSettings)
+                : undefined;
         message.viaCidr = object.viaCidr ?? '';
         return message;
     },
@@ -1075,7 +1134,10 @@ function createBaseMultiplexingConfig(): MultiplexingConfig {
     };
 }
 
-export const MultiplexingConfig: MessageFns<MultiplexingConfig, 'xray.app.proxyman.MultiplexingConfig'> = {
+export const MultiplexingConfig: MessageFns<
+    MultiplexingConfig,
+    'xray.app.proxyman.MultiplexingConfig'
+> = {
     $type: 'xray.app.proxyman.MultiplexingConfig' as const,
 
     encode(message: MultiplexingConfig, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -1147,8 +1209,12 @@ export const MultiplexingConfig: MessageFns<MultiplexingConfig, 'xray.app.proxym
             $type: MultiplexingConfig.$type,
             enabled: isSet(object.enabled) ? globalThis.Boolean(object.enabled) : false,
             concurrency: isSet(object.concurrency) ? globalThis.Number(object.concurrency) : 0,
-            xudpConcurrency: isSet(object.xudpConcurrency) ? globalThis.Number(object.xudpConcurrency) : 0,
-            xudpProxyUDP443: isSet(object.xudpProxyUDP443) ? globalThis.String(object.xudpProxyUDP443) : '',
+            xudpConcurrency: isSet(object.xudpConcurrency)
+                ? globalThis.Number(object.xudpConcurrency)
+                : 0,
+            xudpProxyUDP443: isSet(object.xudpProxyUDP443)
+                ? globalThis.String(object.xudpProxyUDP443)
+                : '',
         };
     },
 
@@ -1186,11 +1252,15 @@ messageTypeRegistry.set(MultiplexingConfig.$type, MultiplexingConfig);
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function isSet(value: any): boolean {
     return value !== null && value !== undefined;

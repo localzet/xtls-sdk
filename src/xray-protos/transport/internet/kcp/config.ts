@@ -114,7 +114,10 @@ export const MTU: MessageFns<MTU, 'xray.transport.internet.kcp.MTU'> = {
     },
 
     fromJSON(object: any): MTU {
-        return { $type: MTU.$type, value: isSet(object.value) ? globalThis.Number(object.value) : 0 };
+        return {
+            $type: MTU.$type,
+            value: isSet(object.value) ? globalThis.Number(object.value) : 0,
+        };
     },
 
     toJSON(message: MTU): unknown {
@@ -176,7 +179,10 @@ export const TTI: MessageFns<TTI, 'xray.transport.internet.kcp.TTI'> = {
     },
 
     fromJSON(object: any): TTI {
-        return { $type: TTI.$type, value: isSet(object.value) ? globalThis.Number(object.value) : 0 };
+        return {
+            $type: TTI.$type,
+            value: isSet(object.value) ? globalThis.Number(object.value) : 0,
+        };
     },
 
     toJSON(message: TTI): unknown {
@@ -203,7 +209,10 @@ function createBaseUplinkCapacity(): UplinkCapacity {
     return { $type: 'xray.transport.internet.kcp.UplinkCapacity', value: 0 };
 }
 
-export const UplinkCapacity: MessageFns<UplinkCapacity, 'xray.transport.internet.kcp.UplinkCapacity'> = {
+export const UplinkCapacity: MessageFns<
+    UplinkCapacity,
+    'xray.transport.internet.kcp.UplinkCapacity'
+> = {
     $type: 'xray.transport.internet.kcp.UplinkCapacity' as const,
 
     encode(message: UplinkCapacity, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -238,7 +247,10 @@ export const UplinkCapacity: MessageFns<UplinkCapacity, 'xray.transport.internet
     },
 
     fromJSON(object: any): UplinkCapacity {
-        return { $type: UplinkCapacity.$type, value: isSet(object.value) ? globalThis.Number(object.value) : 0 };
+        return {
+            $type: UplinkCapacity.$type,
+            value: isSet(object.value) ? globalThis.Number(object.value) : 0,
+        };
     },
 
     toJSON(message: UplinkCapacity): unknown {
@@ -265,7 +277,10 @@ function createBaseDownlinkCapacity(): DownlinkCapacity {
     return { $type: 'xray.transport.internet.kcp.DownlinkCapacity', value: 0 };
 }
 
-export const DownlinkCapacity: MessageFns<DownlinkCapacity, 'xray.transport.internet.kcp.DownlinkCapacity'> = {
+export const DownlinkCapacity: MessageFns<
+    DownlinkCapacity,
+    'xray.transport.internet.kcp.DownlinkCapacity'
+> = {
     $type: 'xray.transport.internet.kcp.DownlinkCapacity' as const,
 
     encode(message: DownlinkCapacity, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -300,7 +315,10 @@ export const DownlinkCapacity: MessageFns<DownlinkCapacity, 'xray.transport.inte
     },
 
     fromJSON(object: any): DownlinkCapacity {
-        return { $type: DownlinkCapacity.$type, value: isSet(object.value) ? globalThis.Number(object.value) : 0 };
+        return {
+            $type: DownlinkCapacity.$type,
+            value: isSet(object.value) ? globalThis.Number(object.value) : 0,
+        };
     },
 
     toJSON(message: DownlinkCapacity): unknown {
@@ -362,7 +380,10 @@ export const WriteBuffer: MessageFns<WriteBuffer, 'xray.transport.internet.kcp.W
     },
 
     fromJSON(object: any): WriteBuffer {
-        return { $type: WriteBuffer.$type, size: isSet(object.size) ? globalThis.Number(object.size) : 0 };
+        return {
+            $type: WriteBuffer.$type,
+            size: isSet(object.size) ? globalThis.Number(object.size) : 0,
+        };
     },
 
     toJSON(message: WriteBuffer): unknown {
@@ -424,7 +445,10 @@ export const ReadBuffer: MessageFns<ReadBuffer, 'xray.transport.internet.kcp.Rea
     },
 
     fromJSON(object: any): ReadBuffer {
-        return { $type: ReadBuffer.$type, size: isSet(object.size) ? globalThis.Number(object.size) : 0 };
+        return {
+            $type: ReadBuffer.$type,
+            size: isSet(object.size) ? globalThis.Number(object.size) : 0,
+        };
     },
 
     toJSON(message: ReadBuffer): unknown {
@@ -451,7 +475,10 @@ function createBaseConnectionReuse(): ConnectionReuse {
     return { $type: 'xray.transport.internet.kcp.ConnectionReuse', enable: false };
 }
 
-export const ConnectionReuse: MessageFns<ConnectionReuse, 'xray.transport.internet.kcp.ConnectionReuse'> = {
+export const ConnectionReuse: MessageFns<
+    ConnectionReuse,
+    'xray.transport.internet.kcp.ConnectionReuse'
+> = {
     $type: 'xray.transport.internet.kcp.ConnectionReuse' as const,
 
     encode(message: ConnectionReuse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -516,7 +543,10 @@ function createBaseEncryptionSeed(): EncryptionSeed {
     return { $type: 'xray.transport.internet.kcp.EncryptionSeed', seed: '' };
 }
 
-export const EncryptionSeed: MessageFns<EncryptionSeed, 'xray.transport.internet.kcp.EncryptionSeed'> = {
+export const EncryptionSeed: MessageFns<
+    EncryptionSeed,
+    'xray.transport.internet.kcp.EncryptionSeed'
+> = {
     $type: 'xray.transport.internet.kcp.EncryptionSeed' as const,
 
     encode(message: EncryptionSeed, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -551,7 +581,10 @@ export const EncryptionSeed: MessageFns<EncryptionSeed, 'xray.transport.internet
     },
 
     fromJSON(object: any): EncryptionSeed {
-        return { $type: EncryptionSeed.$type, seed: isSet(object.seed) ? globalThis.String(object.seed) : '' };
+        return {
+            $type: EncryptionSeed.$type,
+            seed: isSet(object.seed) ? globalThis.String(object.seed) : '',
+        };
     },
 
     toJSON(message: EncryptionSeed): unknown {
@@ -716,12 +749,22 @@ export const Config: MessageFns<Config, 'xray.transport.internet.kcp.Config'> = 
             $type: Config.$type,
             mtu: isSet(object.mtu) ? MTU.fromJSON(object.mtu) : undefined,
             tti: isSet(object.tti) ? TTI.fromJSON(object.tti) : undefined,
-            uplinkCapacity: isSet(object.uplinkCapacity) ? UplinkCapacity.fromJSON(object.uplinkCapacity) : undefined,
-            downlinkCapacity: isSet(object.downlinkCapacity) ? DownlinkCapacity.fromJSON(object.downlinkCapacity) : undefined,
+            uplinkCapacity: isSet(object.uplinkCapacity)
+                ? UplinkCapacity.fromJSON(object.uplinkCapacity)
+                : undefined,
+            downlinkCapacity: isSet(object.downlinkCapacity)
+                ? DownlinkCapacity.fromJSON(object.downlinkCapacity)
+                : undefined,
             congestion: isSet(object.congestion) ? globalThis.Boolean(object.congestion) : false,
-            writeBuffer: isSet(object.writeBuffer) ? WriteBuffer.fromJSON(object.writeBuffer) : undefined,
-            readBuffer: isSet(object.readBuffer) ? ReadBuffer.fromJSON(object.readBuffer) : undefined,
-            headerConfig: isSet(object.headerConfig) ? TypedMessage.fromJSON(object.headerConfig) : undefined,
+            writeBuffer: isSet(object.writeBuffer)
+                ? WriteBuffer.fromJSON(object.writeBuffer)
+                : undefined,
+            readBuffer: isSet(object.readBuffer)
+                ? ReadBuffer.fromJSON(object.readBuffer)
+                : undefined,
+            headerConfig: isSet(object.headerConfig)
+                ? TypedMessage.fromJSON(object.headerConfig)
+                : undefined,
             seed: isSet(object.seed) ? EncryptionSeed.fromJSON(object.seed) : undefined,
         };
     },
@@ -763,27 +806,39 @@ export const Config: MessageFns<Config, 'xray.transport.internet.kcp.Config'> = 
     },
     fromPartial(object: DeepPartial<Config>): Config {
         const message = createBaseConfig();
-        message.mtu = (object.mtu !== undefined && object.mtu !== null) ? MTU.fromPartial(object.mtu) : undefined;
-        message.tti = (object.tti !== undefined && object.tti !== null) ? TTI.fromPartial(object.tti) : undefined;
-        message.uplinkCapacity = (object.uplinkCapacity !== undefined && object.uplinkCapacity !== null)
-            ? UplinkCapacity.fromPartial(object.uplinkCapacity)
-            : undefined;
-        message.downlinkCapacity = (object.downlinkCapacity !== undefined && object.downlinkCapacity !== null)
-            ? DownlinkCapacity.fromPartial(object.downlinkCapacity)
-            : undefined;
+        message.mtu =
+            object.mtu !== undefined && object.mtu !== null
+                ? MTU.fromPartial(object.mtu)
+                : undefined;
+        message.tti =
+            object.tti !== undefined && object.tti !== null
+                ? TTI.fromPartial(object.tti)
+                : undefined;
+        message.uplinkCapacity =
+            object.uplinkCapacity !== undefined && object.uplinkCapacity !== null
+                ? UplinkCapacity.fromPartial(object.uplinkCapacity)
+                : undefined;
+        message.downlinkCapacity =
+            object.downlinkCapacity !== undefined && object.downlinkCapacity !== null
+                ? DownlinkCapacity.fromPartial(object.downlinkCapacity)
+                : undefined;
         message.congestion = object.congestion ?? false;
-        message.writeBuffer = (object.writeBuffer !== undefined && object.writeBuffer !== null)
-            ? WriteBuffer.fromPartial(object.writeBuffer)
-            : undefined;
-        message.readBuffer = (object.readBuffer !== undefined && object.readBuffer !== null)
-            ? ReadBuffer.fromPartial(object.readBuffer)
-            : undefined;
-        message.headerConfig = (object.headerConfig !== undefined && object.headerConfig !== null)
-            ? TypedMessage.fromPartial(object.headerConfig)
-            : undefined;
-        message.seed = (object.seed !== undefined && object.seed !== null)
-            ? EncryptionSeed.fromPartial(object.seed)
-            : undefined;
+        message.writeBuffer =
+            object.writeBuffer !== undefined && object.writeBuffer !== null
+                ? WriteBuffer.fromPartial(object.writeBuffer)
+                : undefined;
+        message.readBuffer =
+            object.readBuffer !== undefined && object.readBuffer !== null
+                ? ReadBuffer.fromPartial(object.readBuffer)
+                : undefined;
+        message.headerConfig =
+            object.headerConfig !== undefined && object.headerConfig !== null
+                ? TypedMessage.fromPartial(object.headerConfig)
+                : undefined;
+        message.seed =
+            object.seed !== undefined && object.seed !== null
+                ? EncryptionSeed.fromPartial(object.seed)
+                : undefined;
         return message;
     },
 };
@@ -792,11 +847,15 @@ messageTypeRegistry.set(Config.$type, Config);
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function isSet(value: any): boolean {
     return value !== null && value !== undefined;

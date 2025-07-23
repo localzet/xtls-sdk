@@ -18,7 +18,11 @@ export interface Config {
 }
 
 function createBaseConfig(): Config {
-    return { $type: 'xray.transport.internet.tcp.Config', headerSettings: undefined, acceptProxyProtocol: false };
+    return {
+        $type: 'xray.transport.internet.tcp.Config',
+        headerSettings: undefined,
+        acceptProxyProtocol: false,
+    };
 }
 
 export const Config: MessageFns<Config, 'xray.transport.internet.tcp.Config'> = {
@@ -69,8 +73,12 @@ export const Config: MessageFns<Config, 'xray.transport.internet.tcp.Config'> = 
     fromJSON(object: any): Config {
         return {
             $type: Config.$type,
-            headerSettings: isSet(object.headerSettings) ? TypedMessage.fromJSON(object.headerSettings) : undefined,
-            acceptProxyProtocol: isSet(object.acceptProxyProtocol) ? globalThis.Boolean(object.acceptProxyProtocol) : false,
+            headerSettings: isSet(object.headerSettings)
+                ? TypedMessage.fromJSON(object.headerSettings)
+                : undefined,
+            acceptProxyProtocol: isSet(object.acceptProxyProtocol)
+                ? globalThis.Boolean(object.acceptProxyProtocol)
+                : false,
         };
     },
 
@@ -90,9 +98,10 @@ export const Config: MessageFns<Config, 'xray.transport.internet.tcp.Config'> = 
     },
     fromPartial(object: DeepPartial<Config>): Config {
         const message = createBaseConfig();
-        message.headerSettings = (object.headerSettings !== undefined && object.headerSettings !== null)
-            ? TypedMessage.fromPartial(object.headerSettings)
-            : undefined;
+        message.headerSettings =
+            object.headerSettings !== undefined && object.headerSettings !== null
+                ? TypedMessage.fromPartial(object.headerSettings)
+                : undefined;
         message.acceptProxyProtocol = object.acceptProxyProtocol ?? false;
         return message;
     },
@@ -102,11 +111,15 @@ messageTypeRegistry.set(Config.$type, Config);
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function isSet(value: any): boolean {
     return value !== null && value !== undefined;

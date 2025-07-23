@@ -1,5 +1,8 @@
 import { Channel, createClient } from 'nice-grpc';
-import { StatsServiceClient, StatsServiceDefinition } from '../xray-protos/app/stats/command/command';
+import {
+    StatsServiceClient,
+    StatsServiceDefinition,
+} from '../xray-protos/app/stats/command/command';
 import { ISdkResponse } from '../common/types';
 import { STATS_ERRORS } from '../common/errors';
 import {

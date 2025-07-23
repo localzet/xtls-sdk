@@ -19,15 +19,18 @@ export interface Account {
      */
     id: string;
     /** Security settings. Only applies to client side. */
-    securitySettings:
-        | SecurityConfig
-        | undefined;
+    securitySettings: SecurityConfig | undefined;
     /** Define tests enabled for this account */
     testsEnabled: string;
 }
 
 function createBaseAccount(): Account {
-    return { $type: 'xray.proxy.vmess.Account', id: '', securitySettings: undefined, testsEnabled: '' };
+    return {
+        $type: 'xray.proxy.vmess.Account',
+        id: '',
+        securitySettings: undefined,
+        testsEnabled: '',
+    };
 }
 
 export const Account: MessageFns<Account, 'xray.proxy.vmess.Account'> = {
@@ -90,7 +93,9 @@ export const Account: MessageFns<Account, 'xray.proxy.vmess.Account'> = {
         return {
             $type: Account.$type,
             id: isSet(object.id) ? globalThis.String(object.id) : '',
-            securitySettings: isSet(object.securitySettings) ? SecurityConfig.fromJSON(object.securitySettings) : undefined,
+            securitySettings: isSet(object.securitySettings)
+                ? SecurityConfig.fromJSON(object.securitySettings)
+                : undefined,
             testsEnabled: isSet(object.testsEnabled) ? globalThis.String(object.testsEnabled) : '',
         };
     },
@@ -115,9 +120,10 @@ export const Account: MessageFns<Account, 'xray.proxy.vmess.Account'> = {
     fromPartial(object: DeepPartial<Account>): Account {
         const message = createBaseAccount();
         message.id = object.id ?? '';
-        message.securitySettings = (object.securitySettings !== undefined && object.securitySettings !== null)
-            ? SecurityConfig.fromPartial(object.securitySettings)
-            : undefined;
+        message.securitySettings =
+            object.securitySettings !== undefined && object.securitySettings !== null
+                ? SecurityConfig.fromPartial(object.securitySettings)
+                : undefined;
         message.testsEnabled = object.testsEnabled ?? '';
         return message;
     },
@@ -127,11 +133,15 @@ messageTypeRegistry.set(Account.$type, Account);
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function isSet(value: any): boolean {
     return value !== null && value !== undefined;

@@ -128,8 +128,12 @@ export const Config: MessageFns<Config, 'xray.proxy.dokodemo.Config'> = {
             $type: Config.$type,
             address: isSet(object.address) ? IPOrDomain.fromJSON(object.address) : undefined,
             port: isSet(object.port) ? globalThis.Number(object.port) : 0,
-            networks: globalThis.Array.isArray(object?.networks) ? object.networks.map((e: any) => networkFromJSON(e)) : [],
-            followRedirect: isSet(object.followRedirect) ? globalThis.Boolean(object.followRedirect) : false,
+            networks: globalThis.Array.isArray(object?.networks)
+                ? object.networks.map((e: any) => networkFromJSON(e))
+                : [],
+            followRedirect: isSet(object.followRedirect)
+                ? globalThis.Boolean(object.followRedirect)
+                : false,
             userLevel: isSet(object.userLevel) ? globalThis.Number(object.userLevel) : 0,
         };
     },
@@ -159,9 +163,10 @@ export const Config: MessageFns<Config, 'xray.proxy.dokodemo.Config'> = {
     },
     fromPartial(object: DeepPartial<Config>): Config {
         const message = createBaseConfig();
-        message.address = (object.address !== undefined && object.address !== null)
-            ? IPOrDomain.fromPartial(object.address)
-            : undefined;
+        message.address =
+            object.address !== undefined && object.address !== null
+                ? IPOrDomain.fromPartial(object.address)
+                : undefined;
         message.port = object.port ?? 0;
         message.networks = object.networks?.map((e) => e) || [];
         message.followRedirect = object.followRedirect ?? false;
@@ -174,11 +179,15 @@ messageTypeRegistry.set(Config.$type, Config);
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function isSet(value: any): boolean {
     return value !== null && value !== undefined;
