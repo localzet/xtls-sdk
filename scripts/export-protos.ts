@@ -59,14 +59,14 @@ async function generateTsFromProto(protoFile: string): Promise<void> {
     try {
         const command = [
             'protoc',
-            `--plugin=./node_modules/.bin/protoc-gen-ts_proto`,
+            "--plugin=./node_modules/.bin/protoc-gen-ts_proto",
             `--ts_proto_out=${PROTO_DIR}`,
-            `--ts_proto_opt=outputServices=generic-definitions,useExactTypes=false`,
-            `--ts_proto_opt=outputServices=nice-grpc`,
-            `--ts_proto_opt=outputTypeRegistry=true`,
-            `--ts_proto_opt=outputEncodeMethods=true`,
-            `--ts_proto_opt=outputJsonMethods=true`,
-            `--ts_proto_opt=lowerCaseServiceMethods=true`,
+            "--ts_proto_opt=outputServices=generic-definitions,useExactTypes=false",
+            "--ts_proto_opt=outputServices=nice-grpc",
+            "--ts_proto_opt=outputTypeRegistry=true",
+            "--ts_proto_opt=outputEncodeMethods=true",
+            "--ts_proto_opt=outputJsonMethods=true",
+            "--ts_proto_opt=lowerCaseServiceMethods=true",
             `--proto_path=${path.dirname(protoFile)}`,
             protoFile,
         ].join(' ');
