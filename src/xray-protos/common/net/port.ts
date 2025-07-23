@@ -147,7 +147,9 @@ export const PortList: MessageFns<PortList, 'xray.common.net.PortList'> = {
     fromJSON(object: any): PortList {
         return {
             $type: PortList.$type,
-            range: globalThis.Array.isArray(object?.range) ? object.range.map((e: any) => PortRange.fromJSON(e)) : [],
+            range: globalThis.Array.isArray(object?.range)
+                ? object.range.map((e: any) => PortRange.fromJSON(e))
+                : [],
         };
     },
 
@@ -173,11 +175,15 @@ messageTypeRegistry.set(PortList.$type, PortList);
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function isSet(value: any): boolean {
     return value !== null && value !== undefined;

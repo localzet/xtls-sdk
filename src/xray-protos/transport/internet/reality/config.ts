@@ -286,17 +286,29 @@ export const Config: MessageFns<Config, 'xray.transport.internet.reality.Config'
             serverNames: globalThis.Array.isArray(object?.serverNames)
                 ? object.serverNames.map((e: any) => globalThis.String(e))
                 : [],
-            privateKey: isSet(object.privateKey) ? bytesFromBase64(object.privateKey) : new Uint8Array(0),
-            minClientVer: isSet(object.minClientVer) ? bytesFromBase64(object.minClientVer) : new Uint8Array(0),
-            maxClientVer: isSet(object.maxClientVer) ? bytesFromBase64(object.maxClientVer) : new Uint8Array(0),
+            privateKey: isSet(object.privateKey)
+                ? bytesFromBase64(object.privateKey)
+                : new Uint8Array(0),
+            minClientVer: isSet(object.minClientVer)
+                ? bytesFromBase64(object.minClientVer)
+                : new Uint8Array(0),
+            maxClientVer: isSet(object.maxClientVer)
+                ? bytesFromBase64(object.maxClientVer)
+                : new Uint8Array(0),
             maxTimeDiff: isSet(object.maxTimeDiff) ? globalThis.Number(object.maxTimeDiff) : 0,
-            shortIds: globalThis.Array.isArray(object?.shortIds) ? object.shortIds.map((e: any) => bytesFromBase64(e)) : [],
+            shortIds: globalThis.Array.isArray(object?.shortIds)
+                ? object.shortIds.map((e: any) => bytesFromBase64(e))
+                : [],
             Fingerprint: isSet(object.Fingerprint) ? globalThis.String(object.Fingerprint) : '',
             serverName: isSet(object.serverName) ? globalThis.String(object.serverName) : '',
-            publicKey: isSet(object.publicKey) ? bytesFromBase64(object.publicKey) : new Uint8Array(0),
+            publicKey: isSet(object.publicKey)
+                ? bytesFromBase64(object.publicKey)
+                : new Uint8Array(0),
             shortId: isSet(object.shortId) ? bytesFromBase64(object.shortId) : new Uint8Array(0),
             spiderX: isSet(object.spiderX) ? globalThis.String(object.spiderX) : '',
-            spiderY: globalThis.Array.isArray(object?.spiderY) ? object.spiderY.map((e: any) => globalThis.Number(e)) : [],
+            spiderY: globalThis.Array.isArray(object?.spiderY)
+                ? object.spiderY.map((e: any) => globalThis.Number(e))
+                : [],
             masterKeyLog: isSet(object.masterKeyLog) ? globalThis.String(object.masterKeyLog) : '',
         };
     },
@@ -412,11 +424,15 @@ function base64FromBytes(arr: Uint8Array): string {
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function longToNumber(int64: { toString(): string }): number {
     const num = globalThis.Number(int64.toString());

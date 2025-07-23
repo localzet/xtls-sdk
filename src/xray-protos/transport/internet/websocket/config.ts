@@ -50,11 +50,14 @@ export const Config: MessageFns<Config, 'xray.transport.internet.websocket.Confi
             writer.uint32(18).string(message.path);
         }
         Object.entries(message.header).forEach(([key, value]) => {
-            Config_HeaderEntry.encode({
-                $type: 'xray.transport.internet.websocket.Config.HeaderEntry',
-                key: key as any,
-                value,
-            }, writer.uint32(26).fork()).join();
+            Config_HeaderEntry.encode(
+                {
+                    $type: 'xray.transport.internet.websocket.Config.HeaderEntry',
+                    key: key as any,
+                    value,
+                },
+                writer.uint32(26).fork(),
+            ).join();
         });
         if (message.acceptProxyProtocol !== false) {
             writer.uint32(32).bool(message.acceptProxyProtocol);
@@ -141,14 +144,21 @@ export const Config: MessageFns<Config, 'xray.transport.internet.websocket.Confi
             host: isSet(object.host) ? globalThis.String(object.host) : '',
             path: isSet(object.path) ? globalThis.String(object.path) : '',
             header: isObject(object.header)
-                ? Object.entries(object.header).reduce<{ [key: string]: string }>((acc, [key, value]) => {
-                    acc[key] = String(value);
-                    return acc;
-                }, {})
+                ? Object.entries(object.header).reduce<{ [key: string]: string }>(
+                      (acc, [key, value]) => {
+                          acc[key] = String(value);
+                          return acc;
+                      },
+                      {},
+                  )
                 : {},
-            acceptProxyProtocol: isSet(object.acceptProxyProtocol) ? globalThis.Boolean(object.acceptProxyProtocol) : false,
+            acceptProxyProtocol: isSet(object.acceptProxyProtocol)
+                ? globalThis.Boolean(object.acceptProxyProtocol)
+                : false,
             ed: isSet(object.ed) ? globalThis.Number(object.ed) : 0,
-            heartbeatPeriod: isSet(object.heartbeatPeriod) ? globalThis.Number(object.heartbeatPeriod) : 0,
+            heartbeatPeriod: isSet(object.heartbeatPeriod)
+                ? globalThis.Number(object.heartbeatPeriod)
+                : 0,
         };
     },
 
@@ -188,12 +198,15 @@ export const Config: MessageFns<Config, 'xray.transport.internet.websocket.Confi
         const message = createBaseConfig();
         message.host = object.host ?? '';
         message.path = object.path ?? '';
-        message.header = Object.entries(object.header ?? {}).reduce<{ [key: string]: string }>((acc, [key, value]) => {
-            if (value !== undefined) {
-                acc[key] = globalThis.String(value);
-            }
-            return acc;
-        }, {});
+        message.header = Object.entries(object.header ?? {}).reduce<{ [key: string]: string }>(
+            (acc, [key, value]) => {
+                if (value !== undefined) {
+                    acc[key] = globalThis.String(value);
+                }
+                return acc;
+            },
+            {},
+        );
         message.acceptProxyProtocol = object.acceptProxyProtocol ?? false;
         message.ed = object.ed ?? 0;
         message.heartbeatPeriod = object.heartbeatPeriod ?? 0;
@@ -289,11 +302,15 @@ messageTypeRegistry.set(Config_HeaderEntry.$type, Config_HeaderEntry);
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function isObject(value: any): boolean {
     return typeof value === 'object' && value !== null;

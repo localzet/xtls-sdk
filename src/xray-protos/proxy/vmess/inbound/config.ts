@@ -24,9 +24,7 @@ export interface DefaultConfig {
 export interface Config {
     $type: 'xray.proxy.vmess.inbound.Config';
     user: User[];
-    default:
-        | DefaultConfig
-        | undefined;
+    default: DefaultConfig | undefined;
     /** 4 is for legacy setting */
     detour: DetourConfig | undefined;
 }
@@ -70,7 +68,10 @@ export const DetourConfig: MessageFns<DetourConfig, 'xray.proxy.vmess.inbound.De
     },
 
     fromJSON(object: any): DetourConfig {
-        return { $type: DetourConfig.$type, to: isSet(object.to) ? globalThis.String(object.to) : '' };
+        return {
+            $type: DetourConfig.$type,
+            to: isSet(object.to) ? globalThis.String(object.to) : '',
+        };
     },
 
     toJSON(message: DetourConfig): unknown {
@@ -132,7 +133,10 @@ export const DefaultConfig: MessageFns<DefaultConfig, 'xray.proxy.vmess.inbound.
     },
 
     fromJSON(object: any): DefaultConfig {
-        return { $type: DefaultConfig.$type, level: isSet(object.level) ? globalThis.Number(object.level) : 0 };
+        return {
+            $type: DefaultConfig.$type,
+            level: isSet(object.level) ? globalThis.Number(object.level) : 0,
+        };
     },
 
     toJSON(message: DefaultConfig): unknown {
@@ -156,7 +160,12 @@ export const DefaultConfig: MessageFns<DefaultConfig, 'xray.proxy.vmess.inbound.
 messageTypeRegistry.set(DefaultConfig.$type, DefaultConfig);
 
 function createBaseConfig(): Config {
-    return { $type: 'xray.proxy.vmess.inbound.Config', user: [], default: undefined, detour: undefined };
+    return {
+        $type: 'xray.proxy.vmess.inbound.Config',
+        user: [],
+        default: undefined,
+        detour: undefined,
+    };
 }
 
 export const Config: MessageFns<Config, 'xray.proxy.vmess.inbound.Config'> = {
@@ -218,7 +227,9 @@ export const Config: MessageFns<Config, 'xray.proxy.vmess.inbound.Config'> = {
     fromJSON(object: any): Config {
         return {
             $type: Config.$type,
-            user: globalThis.Array.isArray(object?.user) ? object.user.map((e: any) => User.fromJSON(e)) : [],
+            user: globalThis.Array.isArray(object?.user)
+                ? object.user.map((e: any) => User.fromJSON(e))
+                : [],
             default: isSet(object.default) ? DefaultConfig.fromJSON(object.default) : undefined,
             detour: isSet(object.detour) ? DetourConfig.fromJSON(object.detour) : undefined,
         };
@@ -244,12 +255,14 @@ export const Config: MessageFns<Config, 'xray.proxy.vmess.inbound.Config'> = {
     fromPartial(object: DeepPartial<Config>): Config {
         const message = createBaseConfig();
         message.user = object.user?.map((e) => User.fromPartial(e)) || [];
-        message.default = (object.default !== undefined && object.default !== null)
-            ? DefaultConfig.fromPartial(object.default)
-            : undefined;
-        message.detour = (object.detour !== undefined && object.detour !== null)
-            ? DetourConfig.fromPartial(object.detour)
-            : undefined;
+        message.default =
+            object.default !== undefined && object.default !== null
+                ? DefaultConfig.fromPartial(object.default)
+                : undefined;
+        message.detour =
+            object.detour !== undefined && object.detour !== null
+                ? DetourConfig.fromPartial(object.detour)
+                : undefined;
         return message;
     },
 };
@@ -258,11 +271,15 @@ messageTypeRegistry.set(Config.$type, Config);
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function isSet(value: any): boolean {
     return value !== null && value !== undefined;

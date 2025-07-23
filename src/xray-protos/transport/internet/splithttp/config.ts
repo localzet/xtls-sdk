@@ -54,80 +54,81 @@ function createBaseRangeConfig(): RangeConfig {
     return { $type: 'xray.transport.internet.splithttp.RangeConfig', from: 0, to: 0 };
 }
 
-export const RangeConfig: MessageFns<RangeConfig, 'xray.transport.internet.splithttp.RangeConfig'> = {
-    $type: 'xray.transport.internet.splithttp.RangeConfig' as const,
+export const RangeConfig: MessageFns<RangeConfig, 'xray.transport.internet.splithttp.RangeConfig'> =
+    {
+        $type: 'xray.transport.internet.splithttp.RangeConfig' as const,
 
-    encode(message: RangeConfig, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-        if (message.from !== 0) {
-            writer.uint32(8).int32(message.from);
-        }
-        if (message.to !== 0) {
-            writer.uint32(16).int32(message.to);
-        }
-        return writer;
-    },
-
-    decode(input: BinaryReader | Uint8Array, length?: number): RangeConfig {
-        const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-        let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseRangeConfig();
-        while (reader.pos < end) {
-            const tag = reader.uint32();
-            switch (tag >>> 3) {
-                case 1: {
-                    if (tag !== 8) {
-                        break;
-                    }
-
-                    message.from = reader.int32();
-                    continue;
-                }
-                case 2: {
-                    if (tag !== 16) {
-                        break;
-                    }
-
-                    message.to = reader.int32();
-                    continue;
-                }
+        encode(message: RangeConfig, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+            if (message.from !== 0) {
+                writer.uint32(8).int32(message.from);
             }
-            if ((tag & 7) === 4 || tag === 0) {
-                break;
+            if (message.to !== 0) {
+                writer.uint32(16).int32(message.to);
             }
-            reader.skip(tag & 7);
-        }
-        return message;
-    },
+            return writer;
+        },
 
-    fromJSON(object: any): RangeConfig {
-        return {
-            $type: RangeConfig.$type,
-            from: isSet(object.from) ? globalThis.Number(object.from) : 0,
-            to: isSet(object.to) ? globalThis.Number(object.to) : 0,
-        };
-    },
+        decode(input: BinaryReader | Uint8Array, length?: number): RangeConfig {
+            const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+            let end = length === undefined ? reader.len : reader.pos + length;
+            const message = createBaseRangeConfig();
+            while (reader.pos < end) {
+                const tag = reader.uint32();
+                switch (tag >>> 3) {
+                    case 1: {
+                        if (tag !== 8) {
+                            break;
+                        }
 
-    toJSON(message: RangeConfig): unknown {
-        const obj: any = {};
-        if (message.from !== 0) {
-            obj.from = Math.round(message.from);
-        }
-        if (message.to !== 0) {
-            obj.to = Math.round(message.to);
-        }
-        return obj;
-    },
+                        message.from = reader.int32();
+                        continue;
+                    }
+                    case 2: {
+                        if (tag !== 16) {
+                            break;
+                        }
 
-    create(base?: DeepPartial<RangeConfig>): RangeConfig {
-        return RangeConfig.fromPartial(base ?? {});
-    },
-    fromPartial(object: DeepPartial<RangeConfig>): RangeConfig {
-        const message = createBaseRangeConfig();
-        message.from = object.from ?? 0;
-        message.to = object.to ?? 0;
-        return message;
-    },
-};
+                        message.to = reader.int32();
+                        continue;
+                    }
+                }
+                if ((tag & 7) === 4 || tag === 0) {
+                    break;
+                }
+                reader.skip(tag & 7);
+            }
+            return message;
+        },
+
+        fromJSON(object: any): RangeConfig {
+            return {
+                $type: RangeConfig.$type,
+                from: isSet(object.from) ? globalThis.Number(object.from) : 0,
+                to: isSet(object.to) ? globalThis.Number(object.to) : 0,
+            };
+        },
+
+        toJSON(message: RangeConfig): unknown {
+            const obj: any = {};
+            if (message.from !== 0) {
+                obj.from = Math.round(message.from);
+            }
+            if (message.to !== 0) {
+                obj.to = Math.round(message.to);
+            }
+            return obj;
+        },
+
+        create(base?: DeepPartial<RangeConfig>): RangeConfig {
+            return RangeConfig.fromPartial(base ?? {});
+        },
+        fromPartial(object: DeepPartial<RangeConfig>): RangeConfig {
+            const message = createBaseRangeConfig();
+            message.from = object.from ?? 0;
+            message.to = object.to ?? 0;
+            return message;
+        },
+    };
 
 messageTypeRegistry.set(RangeConfig.$type, RangeConfig);
 
@@ -235,12 +236,24 @@ export const XmuxConfig: MessageFns<XmuxConfig, 'xray.transport.internet.splitht
     fromJSON(object: any): XmuxConfig {
         return {
             $type: XmuxConfig.$type,
-            maxConcurrency: isSet(object.maxConcurrency) ? RangeConfig.fromJSON(object.maxConcurrency) : undefined,
-            maxConnections: isSet(object.maxConnections) ? RangeConfig.fromJSON(object.maxConnections) : undefined,
-            cMaxReuseTimes: isSet(object.cMaxReuseTimes) ? RangeConfig.fromJSON(object.cMaxReuseTimes) : undefined,
-            hMaxRequestTimes: isSet(object.hMaxRequestTimes) ? RangeConfig.fromJSON(object.hMaxRequestTimes) : undefined,
-            hMaxReusableSecs: isSet(object.hMaxReusableSecs) ? RangeConfig.fromJSON(object.hMaxReusableSecs) : undefined,
-            hKeepAlivePeriod: isSet(object.hKeepAlivePeriod) ? globalThis.Number(object.hKeepAlivePeriod) : 0,
+            maxConcurrency: isSet(object.maxConcurrency)
+                ? RangeConfig.fromJSON(object.maxConcurrency)
+                : undefined,
+            maxConnections: isSet(object.maxConnections)
+                ? RangeConfig.fromJSON(object.maxConnections)
+                : undefined,
+            cMaxReuseTimes: isSet(object.cMaxReuseTimes)
+                ? RangeConfig.fromJSON(object.cMaxReuseTimes)
+                : undefined,
+            hMaxRequestTimes: isSet(object.hMaxRequestTimes)
+                ? RangeConfig.fromJSON(object.hMaxRequestTimes)
+                : undefined,
+            hMaxReusableSecs: isSet(object.hMaxReusableSecs)
+                ? RangeConfig.fromJSON(object.hMaxReusableSecs)
+                : undefined,
+            hKeepAlivePeriod: isSet(object.hKeepAlivePeriod)
+                ? globalThis.Number(object.hKeepAlivePeriod)
+                : 0,
         };
     },
 
@@ -272,21 +285,26 @@ export const XmuxConfig: MessageFns<XmuxConfig, 'xray.transport.internet.splitht
     },
     fromPartial(object: DeepPartial<XmuxConfig>): XmuxConfig {
         const message = createBaseXmuxConfig();
-        message.maxConcurrency = (object.maxConcurrency !== undefined && object.maxConcurrency !== null)
-            ? RangeConfig.fromPartial(object.maxConcurrency)
-            : undefined;
-        message.maxConnections = (object.maxConnections !== undefined && object.maxConnections !== null)
-            ? RangeConfig.fromPartial(object.maxConnections)
-            : undefined;
-        message.cMaxReuseTimes = (object.cMaxReuseTimes !== undefined && object.cMaxReuseTimes !== null)
-            ? RangeConfig.fromPartial(object.cMaxReuseTimes)
-            : undefined;
-        message.hMaxRequestTimes = (object.hMaxRequestTimes !== undefined && object.hMaxRequestTimes !== null)
-            ? RangeConfig.fromPartial(object.hMaxRequestTimes)
-            : undefined;
-        message.hMaxReusableSecs = (object.hMaxReusableSecs !== undefined && object.hMaxReusableSecs !== null)
-            ? RangeConfig.fromPartial(object.hMaxReusableSecs)
-            : undefined;
+        message.maxConcurrency =
+            object.maxConcurrency !== undefined && object.maxConcurrency !== null
+                ? RangeConfig.fromPartial(object.maxConcurrency)
+                : undefined;
+        message.maxConnections =
+            object.maxConnections !== undefined && object.maxConnections !== null
+                ? RangeConfig.fromPartial(object.maxConnections)
+                : undefined;
+        message.cMaxReuseTimes =
+            object.cMaxReuseTimes !== undefined && object.cMaxReuseTimes !== null
+                ? RangeConfig.fromPartial(object.cMaxReuseTimes)
+                : undefined;
+        message.hMaxRequestTimes =
+            object.hMaxRequestTimes !== undefined && object.hMaxRequestTimes !== null
+                ? RangeConfig.fromPartial(object.hMaxRequestTimes)
+                : undefined;
+        message.hMaxReusableSecs =
+            object.hMaxReusableSecs !== undefined && object.hMaxReusableSecs !== null
+                ? RangeConfig.fromPartial(object.hMaxReusableSecs)
+                : undefined;
         message.hKeepAlivePeriod = object.hKeepAlivePeriod ?? 0;
         return message;
     },
@@ -327,11 +345,14 @@ export const Config: MessageFns<Config, 'xray.transport.internet.splithttp.Confi
             writer.uint32(26).string(message.mode);
         }
         Object.entries(message.headers).forEach(([key, value]) => {
-            Config_HeadersEntry.encode({
-                $type: 'xray.transport.internet.splithttp.Config.HeadersEntry',
-                key: key as any,
-                value,
-            }, writer.uint32(34).fork()).join();
+            Config_HeadersEntry.encode(
+                {
+                    $type: 'xray.transport.internet.splithttp.Config.HeadersEntry',
+                    key: key as any,
+                    value,
+                },
+                writer.uint32(34).fork(),
+            ).join();
         });
         if (message.xPaddingBytes !== undefined) {
             RangeConfig.encode(message.xPaddingBytes, writer.uint32(42).fork()).join();
@@ -493,13 +514,20 @@ export const Config: MessageFns<Config, 'xray.transport.internet.splithttp.Confi
             path: isSet(object.path) ? globalThis.String(object.path) : '',
             mode: isSet(object.mode) ? globalThis.String(object.mode) : '',
             headers: isObject(object.headers)
-                ? Object.entries(object.headers).reduce<{ [key: string]: string }>((acc, [key, value]) => {
-                    acc[key] = String(value);
-                    return acc;
-                }, {})
+                ? Object.entries(object.headers).reduce<{ [key: string]: string }>(
+                      (acc, [key, value]) => {
+                          acc[key] = String(value);
+                          return acc;
+                      },
+                      {},
+                  )
                 : {},
-            xPaddingBytes: isSet(object.xPaddingBytes) ? RangeConfig.fromJSON(object.xPaddingBytes) : undefined,
-            noGRPCHeader: isSet(object.noGRPCHeader) ? globalThis.Boolean(object.noGRPCHeader) : false,
+            xPaddingBytes: isSet(object.xPaddingBytes)
+                ? RangeConfig.fromJSON(object.xPaddingBytes)
+                : undefined,
+            noGRPCHeader: isSet(object.noGRPCHeader)
+                ? globalThis.Boolean(object.noGRPCHeader)
+                : false,
             noSSEHeader: isSet(object.noSSEHeader) ? globalThis.Boolean(object.noSSEHeader) : false,
             scMaxEachPostBytes: isSet(object.scMaxEachPostBytes)
                 ? RangeConfig.fromJSON(object.scMaxEachPostBytes)
@@ -507,12 +535,16 @@ export const Config: MessageFns<Config, 'xray.transport.internet.splithttp.Confi
             scMinPostsIntervalMs: isSet(object.scMinPostsIntervalMs)
                 ? RangeConfig.fromJSON(object.scMinPostsIntervalMs)
                 : undefined,
-            scMaxBufferedPosts: isSet(object.scMaxBufferedPosts) ? globalThis.Number(object.scMaxBufferedPosts) : 0,
+            scMaxBufferedPosts: isSet(object.scMaxBufferedPosts)
+                ? globalThis.Number(object.scMaxBufferedPosts)
+                : 0,
             scStreamUpServerSecs: isSet(object.scStreamUpServerSecs)
                 ? RangeConfig.fromJSON(object.scStreamUpServerSecs)
                 : undefined,
             xmux: isSet(object.xmux) ? XmuxConfig.fromJSON(object.xmux) : undefined,
-            downloadSettings: isSet(object.downloadSettings) ? StreamConfig.fromJSON(object.downloadSettings) : undefined,
+            downloadSettings: isSet(object.downloadSettings)
+                ? StreamConfig.fromJSON(object.downloadSettings)
+                : undefined,
         };
     },
 
@@ -575,34 +607,40 @@ export const Config: MessageFns<Config, 'xray.transport.internet.splithttp.Confi
         message.path = object.path ?? '';
         message.mode = object.mode ?? '';
         message.headers = Object.entries(object.headers ?? {}).reduce<{
-            [key: string]: string
+            [key: string]: string;
         }>((acc, [key, value]) => {
             if (value !== undefined) {
                 acc[key] = globalThis.String(value);
             }
             return acc;
         }, {});
-        message.xPaddingBytes = (object.xPaddingBytes !== undefined && object.xPaddingBytes !== null)
-            ? RangeConfig.fromPartial(object.xPaddingBytes)
-            : undefined;
+        message.xPaddingBytes =
+            object.xPaddingBytes !== undefined && object.xPaddingBytes !== null
+                ? RangeConfig.fromPartial(object.xPaddingBytes)
+                : undefined;
         message.noGRPCHeader = object.noGRPCHeader ?? false;
         message.noSSEHeader = object.noSSEHeader ?? false;
-        message.scMaxEachPostBytes = (object.scMaxEachPostBytes !== undefined && object.scMaxEachPostBytes !== null)
-            ? RangeConfig.fromPartial(object.scMaxEachPostBytes)
-            : undefined;
-        message.scMinPostsIntervalMs = (object.scMinPostsIntervalMs !== undefined && object.scMinPostsIntervalMs !== null)
-            ? RangeConfig.fromPartial(object.scMinPostsIntervalMs)
-            : undefined;
+        message.scMaxEachPostBytes =
+            object.scMaxEachPostBytes !== undefined && object.scMaxEachPostBytes !== null
+                ? RangeConfig.fromPartial(object.scMaxEachPostBytes)
+                : undefined;
+        message.scMinPostsIntervalMs =
+            object.scMinPostsIntervalMs !== undefined && object.scMinPostsIntervalMs !== null
+                ? RangeConfig.fromPartial(object.scMinPostsIntervalMs)
+                : undefined;
         message.scMaxBufferedPosts = object.scMaxBufferedPosts ?? 0;
-        message.scStreamUpServerSecs = (object.scStreamUpServerSecs !== undefined && object.scStreamUpServerSecs !== null)
-            ? RangeConfig.fromPartial(object.scStreamUpServerSecs)
-            : undefined;
-        message.xmux = (object.xmux !== undefined && object.xmux !== null)
-            ? XmuxConfig.fromPartial(object.xmux)
-            : undefined;
-        message.downloadSettings = (object.downloadSettings !== undefined && object.downloadSettings !== null)
-            ? StreamConfig.fromPartial(object.downloadSettings)
-            : undefined;
+        message.scStreamUpServerSecs =
+            object.scStreamUpServerSecs !== undefined && object.scStreamUpServerSecs !== null
+                ? RangeConfig.fromPartial(object.scStreamUpServerSecs)
+                : undefined;
+        message.xmux =
+            object.xmux !== undefined && object.xmux !== null
+                ? XmuxConfig.fromPartial(object.xmux)
+                : undefined;
+        message.downloadSettings =
+            object.downloadSettings !== undefined && object.downloadSettings !== null
+                ? StreamConfig.fromPartial(object.downloadSettings)
+                : undefined;
         return message;
     },
 };
@@ -695,11 +733,15 @@ messageTypeRegistry.set(Config_HeadersEntry.$type, Config_HeadersEntry);
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function longToNumber(int64: { toString(): string }): number {
     const num = globalThis.Number(int64.toString());

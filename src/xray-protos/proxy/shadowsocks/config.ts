@@ -249,8 +249,12 @@ export const ServerConfig: MessageFns<ServerConfig, 'xray.proxy.shadowsocks.Serv
     fromJSON(object: any): ServerConfig {
         return {
             $type: ServerConfig.$type,
-            users: globalThis.Array.isArray(object?.users) ? object.users.map((e: any) => User.fromJSON(e)) : [],
-            network: globalThis.Array.isArray(object?.network) ? object.network.map((e: any) => networkFromJSON(e)) : [],
+            users: globalThis.Array.isArray(object?.users)
+                ? object.users.map((e: any) => User.fromJSON(e))
+                : [],
+            network: globalThis.Array.isArray(object?.network)
+                ? object.network.map((e: any) => networkFromJSON(e))
+                : [],
         };
     },
 
@@ -319,7 +323,9 @@ export const ClientConfig: MessageFns<ClientConfig, 'xray.proxy.shadowsocks.Clie
     fromJSON(object: any): ClientConfig {
         return {
             $type: ClientConfig.$type,
-            server: globalThis.Array.isArray(object?.server) ? object.server.map((e: any) => ServerEndpoint.fromJSON(e)) : [],
+            server: globalThis.Array.isArray(object?.server)
+                ? object.server.map((e: any) => ServerEndpoint.fromJSON(e))
+                : [],
         };
     },
 
@@ -345,11 +351,15 @@ messageTypeRegistry.set(ClientConfig.$type, ClientConfig);
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function isSet(value: any): boolean {
     return value !== null && value !== undefined;

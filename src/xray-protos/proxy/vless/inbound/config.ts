@@ -33,7 +33,15 @@ export interface Config {
 }
 
 function createBaseFallback(): Fallback {
-    return { $type: 'xray.proxy.vless.inbound.Fallback', name: '', alpn: '', path: '', type: '', dest: '', xver: 0 };
+    return {
+        $type: 'xray.proxy.vless.inbound.Fallback',
+        name: '',
+        alpn: '',
+        path: '',
+        type: '',
+        dest: '',
+        xver: 0,
+    };
 }
 
 export const Fallback: MessageFns<Fallback, 'xray.proxy.vless.inbound.Fallback'> = {
@@ -240,7 +248,9 @@ export const Config: MessageFns<Config, 'xray.proxy.vless.inbound.Config'> = {
     fromJSON(object: any): Config {
         return {
             $type: Config.$type,
-            clients: globalThis.Array.isArray(object?.clients) ? object.clients.map((e: any) => User.fromJSON(e)) : [],
+            clients: globalThis.Array.isArray(object?.clients)
+                ? object.clients.map((e: any) => User.fromJSON(e))
+                : [],
             decryption: isSet(object.decryption) ? globalThis.String(object.decryption) : '',
             fallbacks: globalThis.Array.isArray(object?.fallbacks)
                 ? object.fallbacks.map((e: any) => Fallback.fromJSON(e))
@@ -278,11 +288,15 @@ messageTypeRegistry.set(Config.$type, Config);
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function longToNumber(int64: { toString(): string }): number {
     const num = globalThis.Number(int64.toString());

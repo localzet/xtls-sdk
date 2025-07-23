@@ -362,12 +362,18 @@ export const DeviceConfig: MessageFns<DeviceConfig, 'xray.proxy.wireguard.Device
         return {
             $type: DeviceConfig.$type,
             secretKey: isSet(object.secretKey) ? globalThis.String(object.secretKey) : '',
-            endpoint: globalThis.Array.isArray(object?.endpoint) ? object.endpoint.map((e: any) => globalThis.String(e)) : [],
-            peers: globalThis.Array.isArray(object?.peers) ? object.peers.map((e: any) => PeerConfig.fromJSON(e)) : [],
+            endpoint: globalThis.Array.isArray(object?.endpoint)
+                ? object.endpoint.map((e: any) => globalThis.String(e))
+                : [],
+            peers: globalThis.Array.isArray(object?.peers)
+                ? object.peers.map((e: any) => PeerConfig.fromJSON(e))
+                : [],
             mtu: isSet(object.mtu) ? globalThis.Number(object.mtu) : 0,
             numWorkers: isSet(object.numWorkers) ? globalThis.Number(object.numWorkers) : 0,
             reserved: isSet(object.reserved) ? bytesFromBase64(object.reserved) : new Uint8Array(0),
-            domainStrategy: isSet(object.domainStrategy) ? deviceConfig_DomainStrategyFromJSON(object.domainStrategy) : 0,
+            domainStrategy: isSet(object.domainStrategy)
+                ? deviceConfig_DomainStrategyFromJSON(object.domainStrategy)
+                : 0,
             isClient: isSet(object.isClient) ? globalThis.Boolean(object.isClient) : false,
             noKernelTun: isSet(object.noKernelTun) ? globalThis.Boolean(object.noKernelTun) : false,
         };
@@ -452,11 +458,15 @@ function base64FromBytes(arr: Uint8Array): string {
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function isSet(value: any): boolean {
     return value !== null && value !== undefined;

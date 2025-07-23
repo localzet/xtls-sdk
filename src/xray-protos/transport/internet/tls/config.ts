@@ -243,13 +243,19 @@ export const Certificate: MessageFns<Certificate, 'xray.transport.internet.tls.C
     fromJSON(object: any): Certificate {
         return {
             $type: Certificate.$type,
-            certificate: isSet(object.certificate) ? bytesFromBase64(object.certificate) : new Uint8Array(0),
+            certificate: isSet(object.certificate)
+                ? bytesFromBase64(object.certificate)
+                : new Uint8Array(0),
             key: isSet(object.key) ? bytesFromBase64(object.key) : new Uint8Array(0),
             usage: isSet(object.usage) ? certificate_UsageFromJSON(object.usage) : 0,
             ocspStapling: isSet(object.ocspStapling) ? globalThis.Number(object.ocspStapling) : 0,
-            certificatePath: isSet(object.certificatePath) ? globalThis.String(object.certificatePath) : '',
+            certificatePath: isSet(object.certificatePath)
+                ? globalThis.String(object.certificatePath)
+                : '',
             keyPath: isSet(object.keyPath) ? globalThis.String(object.keyPath) : '',
-            OneTimeLoading: isSet(object.OneTimeLoading) ? globalThis.Boolean(object.OneTimeLoading) : false,
+            OneTimeLoading: isSet(object.OneTimeLoading)
+                ? globalThis.Boolean(object.OneTimeLoading)
+                : false,
             buildChain: isSet(object.buildChain) ? globalThis.Boolean(object.buildChain) : false,
         };
     },
@@ -526,7 +532,9 @@ export const Config: MessageFns<Config, 'xray.transport.internet.tls.Config'> = 
     fromJSON(object: any): Config {
         return {
             $type: Config.$type,
-            allowInsecure: isSet(object.allowInsecure) ? globalThis.Boolean(object.allowInsecure) : false,
+            allowInsecure: isSet(object.allowInsecure)
+                ? globalThis.Boolean(object.allowInsecure)
+                : false,
             certificate: globalThis.Array.isArray(object?.certificate)
                 ? object.certificate.map((e: any) => Certificate.fromJSON(e))
                 : [],
@@ -537,16 +545,24 @@ export const Config: MessageFns<Config, 'xray.transport.internet.tls.Config'> = 
             enableSessionResumption: isSet(object.enableSessionResumption)
                 ? globalThis.Boolean(object.enableSessionResumption)
                 : false,
-            disableSystemRoot: isSet(object.disableSystemRoot) ? globalThis.Boolean(object.disableSystemRoot) : false,
+            disableSystemRoot: isSet(object.disableSystemRoot)
+                ? globalThis.Boolean(object.disableSystemRoot)
+                : false,
             minVersion: isSet(object.minVersion) ? globalThis.String(object.minVersion) : '',
             maxVersion: isSet(object.maxVersion) ? globalThis.String(object.maxVersion) : '',
             cipherSuites: isSet(object.cipherSuites) ? globalThis.String(object.cipherSuites) : '',
             fingerprint: isSet(object.fingerprint) ? globalThis.String(object.fingerprint) : '',
-            rejectUnknownSni: isSet(object.rejectUnknownSni) ? globalThis.Boolean(object.rejectUnknownSni) : false,
-            pinnedPeerCertificateChainSha256: globalThis.Array.isArray(object?.pinnedPeerCertificateChainSha256)
+            rejectUnknownSni: isSet(object.rejectUnknownSni)
+                ? globalThis.Boolean(object.rejectUnknownSni)
+                : false,
+            pinnedPeerCertificateChainSha256: globalThis.Array.isArray(
+                object?.pinnedPeerCertificateChainSha256,
+            )
                 ? object.pinnedPeerCertificateChainSha256.map((e: any) => bytesFromBase64(e))
                 : [],
-            pinnedPeerCertificatePublicKeySha256: globalThis.Array.isArray(object?.pinnedPeerCertificatePublicKeySha256)
+            pinnedPeerCertificatePublicKeySha256: globalThis.Array.isArray(
+                object?.pinnedPeerCertificatePublicKeySha256,
+            )
                 ? object.pinnedPeerCertificatePublicKeySha256.map((e: any) => bytesFromBase64(e))
                 : [],
             masterKeyLog: isSet(object.masterKeyLog) ? globalThis.String(object.masterKeyLog) : '',
@@ -595,12 +611,13 @@ export const Config: MessageFns<Config, 'xray.transport.internet.tls.Config'> = 
             obj.rejectUnknownSni = message.rejectUnknownSni;
         }
         if (message.pinnedPeerCertificateChainSha256?.length) {
-            obj.pinnedPeerCertificateChainSha256 = message.pinnedPeerCertificateChainSha256.map((e) => base64FromBytes(e));
+            obj.pinnedPeerCertificateChainSha256 = message.pinnedPeerCertificateChainSha256.map(
+                (e) => base64FromBytes(e),
+            );
         }
         if (message.pinnedPeerCertificatePublicKeySha256?.length) {
-            obj.pinnedPeerCertificatePublicKeySha256 = message.pinnedPeerCertificatePublicKeySha256.map((e) =>
-                base64FromBytes(e),
-            );
+            obj.pinnedPeerCertificatePublicKeySha256 =
+                message.pinnedPeerCertificatePublicKeySha256.map((e) => base64FromBytes(e));
         }
         if (message.masterKeyLog !== '') {
             obj.masterKeyLog = message.masterKeyLog;
@@ -630,8 +647,10 @@ export const Config: MessageFns<Config, 'xray.transport.internet.tls.Config'> = 
         message.cipherSuites = object.cipherSuites ?? '';
         message.fingerprint = object.fingerprint ?? '';
         message.rejectUnknownSni = object.rejectUnknownSni ?? false;
-        message.pinnedPeerCertificateChainSha256 = object.pinnedPeerCertificateChainSha256?.map((e) => e) || [];
-        message.pinnedPeerCertificatePublicKeySha256 = object.pinnedPeerCertificatePublicKeySha256?.map((e) => e) || [];
+        message.pinnedPeerCertificateChainSha256 =
+            object.pinnedPeerCertificateChainSha256?.map((e) => e) || [];
+        message.pinnedPeerCertificatePublicKeySha256 =
+            object.pinnedPeerCertificatePublicKeySha256?.map((e) => e) || [];
         message.masterKeyLog = object.masterKeyLog ?? '';
         message.curvePreferences = object.curvePreferences?.map((e) => e) || [];
         message.verifyPeerCertInNames = object.verifyPeerCertInNames?.map((e) => e) || [];
@@ -668,11 +687,15 @@ function base64FromBytes(arr: Uint8Array): string {
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function longToNumber(int64: { toString(): string }): number {
     const num = globalThis.Number(int64.toString());

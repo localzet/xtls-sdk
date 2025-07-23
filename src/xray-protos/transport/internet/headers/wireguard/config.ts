@@ -18,57 +18,63 @@ function createBaseWireguardConfig(): WireguardConfig {
     return { $type: 'xray.transport.internet.headers.wireguard.WireguardConfig' };
 }
 
-export const WireguardConfig: MessageFns<WireguardConfig, 'xray.transport.internet.headers.wireguard.WireguardConfig'> =
-    {
-        $type: 'xray.transport.internet.headers.wireguard.WireguardConfig' as const,
+export const WireguardConfig: MessageFns<
+    WireguardConfig,
+    'xray.transport.internet.headers.wireguard.WireguardConfig'
+> = {
+    $type: 'xray.transport.internet.headers.wireguard.WireguardConfig' as const,
 
-        encode(_: WireguardConfig, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-            return writer;
-        },
+    encode(_: WireguardConfig, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+        return writer;
+    },
 
-        decode(input: BinaryReader | Uint8Array, length?: number): WireguardConfig {
-            const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-            let end = length === undefined ? reader.len : reader.pos + length;
-            const message = createBaseWireguardConfig();
-            while (reader.pos < end) {
-                const tag = reader.uint32();
-                switch (tag >>> 3) {
-                }
-                if ((tag & 7) === 4 || tag === 0) {
-                    break;
-                }
-                reader.skip(tag & 7);
+    decode(input: BinaryReader | Uint8Array, length?: number): WireguardConfig {
+        const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseWireguardConfig();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
             }
-            return message;
-        },
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
 
-        fromJSON(_: any): WireguardConfig {
-            return { $type: WireguardConfig.$type };
-        },
+    fromJSON(_: any): WireguardConfig {
+        return { $type: WireguardConfig.$type };
+    },
 
-        toJSON(_: WireguardConfig): unknown {
-            const obj: any = {};
-            return obj;
-        },
+    toJSON(_: WireguardConfig): unknown {
+        const obj: any = {};
+        return obj;
+    },
 
-        create(base?: DeepPartial<WireguardConfig>): WireguardConfig {
-            return WireguardConfig.fromPartial(base ?? {});
-        },
-        fromPartial(_: DeepPartial<WireguardConfig>): WireguardConfig {
-            const message = createBaseWireguardConfig();
-            return message;
-        },
-    };
+    create(base?: DeepPartial<WireguardConfig>): WireguardConfig {
+        return WireguardConfig.fromPartial(base ?? {});
+    },
+    fromPartial(_: DeepPartial<WireguardConfig>): WireguardConfig {
+        const message = createBaseWireguardConfig();
+        return message;
+    },
+};
 
 messageTypeRegistry.set(WireguardConfig.$type, WireguardConfig);
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 export interface MessageFns<T, V extends string> {
     readonly $type: V;

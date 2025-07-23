@@ -36,13 +36,9 @@ export interface Method {
 export interface RequestConfig {
     $type: 'xray.transport.internet.headers.http.RequestConfig';
     /** Full HTTP version like "1.1". */
-    version:
-        | Version
-        | undefined;
+    version: Version | undefined;
     /** GET, POST, CONNECT etc */
-    method:
-        | Method
-        | undefined;
+    method: Method | undefined;
     /** URI like "/login.php" */
     uri: string[];
     header: Header[];
@@ -69,9 +65,7 @@ export interface Config {
      * Settings for authenticating requests. If not set, client side will not send
      * authentication header, and server side will bypass authentication.
      */
-    request:
-        | RequestConfig
-        | undefined;
+    request: RequestConfig | undefined;
     /**
      * Settings for authenticating responses. If not set, client side will bypass
      * authentication, and server side will not send authentication header.
@@ -132,7 +126,9 @@ export const Header: MessageFns<Header, 'xray.transport.internet.headers.http.He
         return {
             $type: Header.$type,
             name: isSet(object.name) ? globalThis.String(object.name) : '',
-            value: globalThis.Array.isArray(object?.value) ? object.value.map((e: any) => globalThis.String(e)) : [],
+            value: globalThis.Array.isArray(object?.value)
+                ? object.value.map((e: any) => globalThis.String(e))
+                : [],
         };
     },
 
@@ -199,7 +195,10 @@ export const Version: MessageFns<Version, 'xray.transport.internet.headers.http.
     },
 
     fromJSON(object: any): Version {
-        return { $type: Version.$type, value: isSet(object.value) ? globalThis.String(object.value) : '' };
+        return {
+            $type: Version.$type,
+            value: isSet(object.value) ? globalThis.String(object.value) : '',
+        };
     },
 
     toJSON(message: Version): unknown {
@@ -261,7 +260,10 @@ export const Method: MessageFns<Method, 'xray.transport.internet.headers.http.Me
     },
 
     fromJSON(object: any): Method {
-        return { $type: Method.$type, value: isSet(object.value) ? globalThis.String(object.value) : '' };
+        return {
+            $type: Method.$type,
+            value: isSet(object.value) ? globalThis.String(object.value) : '',
+        };
     },
 
     toJSON(message: Method): unknown {
@@ -294,7 +296,10 @@ function createBaseRequestConfig(): RequestConfig {
     };
 }
 
-export const RequestConfig: MessageFns<RequestConfig, 'xray.transport.internet.headers.http.RequestConfig'> = {
+export const RequestConfig: MessageFns<
+    RequestConfig,
+    'xray.transport.internet.headers.http.RequestConfig'
+> = {
     $type: 'xray.transport.internet.headers.http.RequestConfig' as const,
 
     encode(message: RequestConfig, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -366,8 +371,12 @@ export const RequestConfig: MessageFns<RequestConfig, 'xray.transport.internet.h
             $type: RequestConfig.$type,
             version: isSet(object.version) ? Version.fromJSON(object.version) : undefined,
             method: isSet(object.method) ? Method.fromJSON(object.method) : undefined,
-            uri: globalThis.Array.isArray(object?.uri) ? object.uri.map((e: any) => globalThis.String(e)) : [],
-            header: globalThis.Array.isArray(object?.header) ? object.header.map((e: any) => Header.fromJSON(e)) : [],
+            uri: globalThis.Array.isArray(object?.uri)
+                ? object.uri.map((e: any) => globalThis.String(e))
+                : [],
+            header: globalThis.Array.isArray(object?.header)
+                ? object.header.map((e: any) => Header.fromJSON(e))
+                : [],
         };
     },
 
@@ -393,12 +402,14 @@ export const RequestConfig: MessageFns<RequestConfig, 'xray.transport.internet.h
     },
     fromPartial(object: DeepPartial<RequestConfig>): RequestConfig {
         const message = createBaseRequestConfig();
-        message.version = (object.version !== undefined && object.version !== null)
-            ? Version.fromPartial(object.version)
-            : undefined;
-        message.method = (object.method !== undefined && object.method !== null)
-            ? Method.fromPartial(object.method)
-            : undefined;
+        message.version =
+            object.version !== undefined && object.version !== null
+                ? Version.fromPartial(object.version)
+                : undefined;
+        message.method =
+            object.method !== undefined && object.method !== null
+                ? Method.fromPartial(object.method)
+                : undefined;
         message.uri = object.uri?.map((e) => e) || [];
         message.header = object.header?.map((e) => Header.fromPartial(e)) || [];
         return message;
@@ -497,7 +508,10 @@ function createBaseResponseConfig(): ResponseConfig {
     };
 }
 
-export const ResponseConfig: MessageFns<ResponseConfig, 'xray.transport.internet.headers.http.ResponseConfig'> = {
+export const ResponseConfig: MessageFns<
+    ResponseConfig,
+    'xray.transport.internet.headers.http.ResponseConfig'
+> = {
     $type: 'xray.transport.internet.headers.http.ResponseConfig' as const,
 
     encode(message: ResponseConfig, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -558,7 +572,9 @@ export const ResponseConfig: MessageFns<ResponseConfig, 'xray.transport.internet
             $type: ResponseConfig.$type,
             version: isSet(object.version) ? Version.fromJSON(object.version) : undefined,
             status: isSet(object.status) ? Status.fromJSON(object.status) : undefined,
-            header: globalThis.Array.isArray(object?.header) ? object.header.map((e: any) => Header.fromJSON(e)) : [],
+            header: globalThis.Array.isArray(object?.header)
+                ? object.header.map((e: any) => Header.fromJSON(e))
+                : [],
         };
     },
 
@@ -581,12 +597,14 @@ export const ResponseConfig: MessageFns<ResponseConfig, 'xray.transport.internet
     },
     fromPartial(object: DeepPartial<ResponseConfig>): ResponseConfig {
         const message = createBaseResponseConfig();
-        message.version = (object.version !== undefined && object.version !== null)
-            ? Version.fromPartial(object.version)
-            : undefined;
-        message.status = (object.status !== undefined && object.status !== null)
-            ? Status.fromPartial(object.status)
-            : undefined;
+        message.version =
+            object.version !== undefined && object.version !== null
+                ? Version.fromPartial(object.version)
+                : undefined;
+        message.status =
+            object.status !== undefined && object.status !== null
+                ? Status.fromPartial(object.status)
+                : undefined;
         message.header = object.header?.map((e) => Header.fromPartial(e)) || [];
         return message;
     },
@@ -595,7 +613,11 @@ export const ResponseConfig: MessageFns<ResponseConfig, 'xray.transport.internet
 messageTypeRegistry.set(ResponseConfig.$type, ResponseConfig);
 
 function createBaseConfig(): Config {
-    return { $type: 'xray.transport.internet.headers.http.Config', request: undefined, response: undefined };
+    return {
+        $type: 'xray.transport.internet.headers.http.Config',
+        request: undefined,
+        response: undefined,
+    };
 }
 
 export const Config: MessageFns<Config, 'xray.transport.internet.headers.http.Config'> = {
@@ -667,12 +689,14 @@ export const Config: MessageFns<Config, 'xray.transport.internet.headers.http.Co
     },
     fromPartial(object: DeepPartial<Config>): Config {
         const message = createBaseConfig();
-        message.request = (object.request !== undefined && object.request !== null)
-            ? RequestConfig.fromPartial(object.request)
-            : undefined;
-        message.response = (object.response !== undefined && object.response !== null)
-            ? ResponseConfig.fromPartial(object.response)
-            : undefined;
+        message.request =
+            object.request !== undefined && object.request !== null
+                ? RequestConfig.fromPartial(object.request)
+                : undefined;
+        message.response =
+            object.response !== undefined && object.response !== null
+                ? ResponseConfig.fromPartial(object.response)
+                : undefined;
         return message;
     },
 };
@@ -681,11 +705,15 @@ messageTypeRegistry.set(Config.$type, Config);
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function isSet(value: any): boolean {
     return value !== null && value !== undefined;

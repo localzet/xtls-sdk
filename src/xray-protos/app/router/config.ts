@@ -116,9 +116,7 @@ export interface GeoSiteList {
 export interface RoutingRule {
     $type: 'xray.app.router.RoutingRule';
     /** Tag of outbound that this rule is pointing to. */
-    tag?:
-        | string
-        | undefined;
+    tag?: string | undefined;
     /** Tag of routing balancer. */
     balancingTag?: string | undefined;
     ruleTag: string;
@@ -132,9 +130,7 @@ export interface RoutingRule {
      */
     geoip: GeoIP[];
     /** List of ports. */
-    portList:
-        | PortList
-        | undefined;
+    portList: PortList | undefined;
     /** List of networks for matching. */
     networks: Network[];
     /**
@@ -343,7 +339,12 @@ export const Domain: MessageFns<Domain, 'xray.app.router.Domain'> = {
 messageTypeRegistry.set(Domain.$type, Domain);
 
 function createBaseDomain_Attribute(): Domain_Attribute {
-    return { $type: 'xray.app.router.Domain.Attribute', key: '', boolValue: undefined, intValue: undefined };
+    return {
+        $type: 'xray.app.router.Domain.Attribute',
+        key: '',
+        boolValue: undefined,
+        intValue: undefined,
+    };
 }
 
 export const Domain_Attribute: MessageFns<Domain_Attribute, 'xray.app.router.Domain.Attribute'> = {
@@ -584,8 +585,12 @@ export const GeoIP: MessageFns<GeoIP, 'xray.app.router.GeoIP'> = {
         return {
             $type: GeoIP.$type,
             countryCode: isSet(object.countryCode) ? globalThis.String(object.countryCode) : '',
-            cidr: globalThis.Array.isArray(object?.cidr) ? object.cidr.map((e: any) => CIDR.fromJSON(e)) : [],
-            reverseMatch: isSet(object.reverseMatch) ? globalThis.Boolean(object.reverseMatch) : false,
+            cidr: globalThis.Array.isArray(object?.cidr)
+                ? object.cidr.map((e: any) => CIDR.fromJSON(e))
+                : [],
+            reverseMatch: isSet(object.reverseMatch)
+                ? globalThis.Boolean(object.reverseMatch)
+                : false,
         };
     },
 
@@ -658,7 +663,9 @@ export const GeoIPList: MessageFns<GeoIPList, 'xray.app.router.GeoIPList'> = {
     fromJSON(object: any): GeoIPList {
         return {
             $type: GeoIPList.$type,
-            entry: globalThis.Array.isArray(object?.entry) ? object.entry.map((e: any) => GeoIP.fromJSON(e)) : [],
+            entry: globalThis.Array.isArray(object?.entry)
+                ? object.entry.map((e: any) => GeoIP.fromJSON(e))
+                : [],
         };
     },
 
@@ -735,7 +742,9 @@ export const GeoSite: MessageFns<GeoSite, 'xray.app.router.GeoSite'> = {
         return {
             $type: GeoSite.$type,
             countryCode: isSet(object.countryCode) ? globalThis.String(object.countryCode) : '',
-            domain: globalThis.Array.isArray(object?.domain) ? object.domain.map((e: any) => Domain.fromJSON(e)) : [],
+            domain: globalThis.Array.isArray(object?.domain)
+                ? object.domain.map((e: any) => Domain.fromJSON(e))
+                : [],
         };
     },
 
@@ -804,7 +813,9 @@ export const GeoSiteList: MessageFns<GeoSiteList, 'xray.app.router.GeoSiteList'>
     fromJSON(object: any): GeoSiteList {
         return {
             $type: GeoSiteList.$type,
-            entry: globalThis.Array.isArray(object?.entry) ? object.entry.map((e: any) => GeoSite.fromJSON(e)) : [],
+            entry: globalThis.Array.isArray(object?.entry)
+                ? object.entry.map((e: any) => GeoSite.fromJSON(e))
+                : [],
         };
     },
 
@@ -891,11 +902,14 @@ export const RoutingRule: MessageFns<RoutingRule, 'xray.app.router.RoutingRule'>
             writer.uint32(74).string(v!);
         }
         Object.entries(message.attributes).forEach(([key, value]) => {
-            RoutingRule_AttributesEntry.encode({
-                $type: 'xray.app.router.RoutingRule.AttributesEntry',
-                key: key as any,
-                value,
-            }, writer.uint32(122).fork()).join();
+            RoutingRule_AttributesEntry.encode(
+                {
+                    $type: 'xray.app.router.RoutingRule.AttributesEntry',
+                    key: key as any,
+                    value,
+                },
+                writer.uint32(122).fork(),
+            ).join();
         });
         if (message.domainMatcher !== '') {
             writer.uint32(138).string(message.domainMatcher);
@@ -1048,30 +1062,47 @@ export const RoutingRule: MessageFns<RoutingRule, 'xray.app.router.RoutingRule'>
         return {
             $type: RoutingRule.$type,
             tag: isSet(object.tag) ? globalThis.String(object.tag) : undefined,
-            balancingTag: isSet(object.balancingTag) ? globalThis.String(object.balancingTag) : undefined,
+            balancingTag: isSet(object.balancingTag)
+                ? globalThis.String(object.balancingTag)
+                : undefined,
             ruleTag: isSet(object.ruleTag) ? globalThis.String(object.ruleTag) : '',
-            domain: globalThis.Array.isArray(object?.domain) ? object.domain.map((e: any) => Domain.fromJSON(e)) : [],
-            geoip: globalThis.Array.isArray(object?.geoip) ? object.geoip.map((e: any) => GeoIP.fromJSON(e)) : [],
+            domain: globalThis.Array.isArray(object?.domain)
+                ? object.domain.map((e: any) => Domain.fromJSON(e))
+                : [],
+            geoip: globalThis.Array.isArray(object?.geoip)
+                ? object.geoip.map((e: any) => GeoIP.fromJSON(e))
+                : [],
             portList: isSet(object.portList) ? PortList.fromJSON(object.portList) : undefined,
-            networks: globalThis.Array.isArray(object?.networks) ? object.networks.map((e: any) => networkFromJSON(e)) : [],
+            networks: globalThis.Array.isArray(object?.networks)
+                ? object.networks.map((e: any) => networkFromJSON(e))
+                : [],
             sourceGeoip: globalThis.Array.isArray(object?.sourceGeoip)
                 ? object.sourceGeoip.map((e: any) => GeoIP.fromJSON(e))
                 : [],
-            sourcePortList: isSet(object.sourcePortList) ? PortList.fromJSON(object.sourcePortList) : undefined,
+            sourcePortList: isSet(object.sourcePortList)
+                ? PortList.fromJSON(object.sourcePortList)
+                : undefined,
             userEmail: globalThis.Array.isArray(object?.userEmail)
                 ? object.userEmail.map((e: any) => globalThis.String(e))
                 : [],
             inboundTag: globalThis.Array.isArray(object?.inboundTag)
                 ? object.inboundTag.map((e: any) => globalThis.String(e))
                 : [],
-            protocol: globalThis.Array.isArray(object?.protocol) ? object.protocol.map((e: any) => globalThis.String(e)) : [],
+            protocol: globalThis.Array.isArray(object?.protocol)
+                ? object.protocol.map((e: any) => globalThis.String(e))
+                : [],
             attributes: isObject(object.attributes)
-                ? Object.entries(object.attributes).reduce<{ [key: string]: string }>((acc, [key, value]) => {
-                    acc[key] = String(value);
-                    return acc;
-                }, {})
+                ? Object.entries(object.attributes).reduce<{ [key: string]: string }>(
+                      (acc, [key, value]) => {
+                          acc[key] = String(value);
+                          return acc;
+                      },
+                      {},
+                  )
                 : {},
-            domainMatcher: isSet(object.domainMatcher) ? globalThis.String(object.domainMatcher) : '',
+            domainMatcher: isSet(object.domainMatcher)
+                ? globalThis.String(object.domainMatcher)
+                : '',
         };
     },
 
@@ -1138,26 +1169,27 @@ export const RoutingRule: MessageFns<RoutingRule, 'xray.app.router.RoutingRule'>
         message.ruleTag = object.ruleTag ?? '';
         message.domain = object.domain?.map((e) => Domain.fromPartial(e)) || [];
         message.geoip = object.geoip?.map((e) => GeoIP.fromPartial(e)) || [];
-        message.portList = (object.portList !== undefined && object.portList !== null)
-            ? PortList.fromPartial(object.portList)
-            : undefined;
+        message.portList =
+            object.portList !== undefined && object.portList !== null
+                ? PortList.fromPartial(object.portList)
+                : undefined;
         message.networks = object.networks?.map((e) => e) || [];
         message.sourceGeoip = object.sourceGeoip?.map((e) => GeoIP.fromPartial(e)) || [];
-        message.sourcePortList = (object.sourcePortList !== undefined && object.sourcePortList !== null)
-            ? PortList.fromPartial(object.sourcePortList)
-            : undefined;
+        message.sourcePortList =
+            object.sourcePortList !== undefined && object.sourcePortList !== null
+                ? PortList.fromPartial(object.sourcePortList)
+                : undefined;
         message.userEmail = object.userEmail?.map((e) => e) || [];
         message.inboundTag = object.inboundTag?.map((e) => e) || [];
         message.protocol = object.protocol?.map((e) => e) || [];
-        message.attributes = Object.entries(object.attributes ?? {}).reduce<{ [key: string]: string }>(
-            (acc, [key, value]) => {
-                if (value !== undefined) {
-                    acc[key] = globalThis.String(value);
-                }
-                return acc;
-            },
-            {},
-        );
+        message.attributes = Object.entries(object.attributes ?? {}).reduce<{
+            [key: string]: string;
+        }>((acc, [key, value]) => {
+            if (value !== undefined) {
+                acc[key] = globalThis.String(value);
+            }
+            return acc;
+        }, {});
         message.domainMatcher = object.domainMatcher ?? '';
         return message;
     },
@@ -1175,7 +1207,10 @@ export const RoutingRule_AttributesEntry: MessageFns<
 > = {
     $type: 'xray.app.router.RoutingRule.AttributesEntry' as const,
 
-    encode(message: RoutingRule_AttributesEntry, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    encode(
+        message: RoutingRule_AttributesEntry,
+        writer: BinaryWriter = new BinaryWriter(),
+    ): BinaryWriter {
         if (message.key !== '') {
             writer.uint32(10).string(message.key);
         }
@@ -1346,7 +1381,9 @@ export const BalancingRule: MessageFns<BalancingRule, 'xray.app.router.Balancing
                 ? object.outboundSelector.map((e: any) => globalThis.String(e))
                 : [],
             strategy: isSet(object.strategy) ? globalThis.String(object.strategy) : '',
-            strategySettings: isSet(object.strategySettings) ? TypedMessage.fromJSON(object.strategySettings) : undefined,
+            strategySettings: isSet(object.strategySettings)
+                ? TypedMessage.fromJSON(object.strategySettings)
+                : undefined,
             fallbackTag: isSet(object.fallbackTag) ? globalThis.String(object.fallbackTag) : '',
         };
     },
@@ -1379,9 +1416,10 @@ export const BalancingRule: MessageFns<BalancingRule, 'xray.app.router.Balancing
         message.tag = object.tag ?? '';
         message.outboundSelector = object.outboundSelector?.map((e) => e) || [];
         message.strategy = object.strategy ?? '';
-        message.strategySettings = (object.strategySettings !== undefined && object.strategySettings !== null)
-            ? TypedMessage.fromPartial(object.strategySettings)
-            : undefined;
+        message.strategySettings =
+            object.strategySettings !== undefined && object.strategySettings !== null
+                ? TypedMessage.fromPartial(object.strategySettings)
+                : undefined;
         message.fallbackTag = object.fallbackTag ?? '';
         return message;
     },
@@ -1497,10 +1535,16 @@ function createBaseStrategyLeastLoadConfig(): StrategyLeastLoadConfig {
     };
 }
 
-export const StrategyLeastLoadConfig: MessageFns<StrategyLeastLoadConfig, 'xray.app.router.StrategyLeastLoadConfig'> = {
+export const StrategyLeastLoadConfig: MessageFns<
+    StrategyLeastLoadConfig,
+    'xray.app.router.StrategyLeastLoadConfig'
+> = {
     $type: 'xray.app.router.StrategyLeastLoadConfig' as const,
 
-    encode(message: StrategyLeastLoadConfig, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    encode(
+        message: StrategyLeastLoadConfig,
+        writer: BinaryWriter = new BinaryWriter(),
+    ): BinaryWriter {
         for (const v of message.costs) {
             StrategyWeight.encode(v!, writer.uint32(18).fork()).join();
         }
@@ -1590,7 +1634,9 @@ export const StrategyLeastLoadConfig: MessageFns<StrategyLeastLoadConfig, 'xray.
     fromJSON(object: any): StrategyLeastLoadConfig {
         return {
             $type: StrategyLeastLoadConfig.$type,
-            costs: globalThis.Array.isArray(object?.costs) ? object.costs.map((e: any) => StrategyWeight.fromJSON(e)) : [],
+            costs: globalThis.Array.isArray(object?.costs)
+                ? object.costs.map((e: any) => StrategyWeight.fromJSON(e))
+                : [],
             baselines: globalThis.Array.isArray(object?.baselines)
                 ? object.baselines.map((e: any) => globalThis.Number(e))
                 : [],
@@ -1699,8 +1745,12 @@ export const Config: MessageFns<Config, 'xray.app.router.Config'> = {
     fromJSON(object: any): Config {
         return {
             $type: Config.$type,
-            domainStrategy: isSet(object.domainStrategy) ? config_DomainStrategyFromJSON(object.domainStrategy) : 0,
-            rule: globalThis.Array.isArray(object?.rule) ? object.rule.map((e: any) => RoutingRule.fromJSON(e)) : [],
+            domainStrategy: isSet(object.domainStrategy)
+                ? config_DomainStrategyFromJSON(object.domainStrategy)
+                : 0,
+            rule: globalThis.Array.isArray(object?.rule)
+                ? object.rule.map((e: any) => RoutingRule.fromJSON(e))
+                : [],
             balancingRule: globalThis.Array.isArray(object?.balancingRule)
                 ? object.balancingRule.map((e: any) => BalancingRule.fromJSON(e))
                 : [],
@@ -1728,7 +1778,8 @@ export const Config: MessageFns<Config, 'xray.app.router.Config'> = {
         const message = createBaseConfig();
         message.domainStrategy = object.domainStrategy ?? 0;
         message.rule = object.rule?.map((e) => RoutingRule.fromPartial(e)) || [];
-        message.balancingRule = object.balancingRule?.map((e) => BalancingRule.fromPartial(e)) || [];
+        message.balancingRule =
+            object.balancingRule?.map((e) => BalancingRule.fromPartial(e)) || [];
         return message;
     },
 };
@@ -1762,11 +1813,15 @@ function base64FromBytes(arr: Uint8Array): string {
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function longToNumber(int64: { toString(): string }): number {
     const num = globalThis.Number(int64.toString());

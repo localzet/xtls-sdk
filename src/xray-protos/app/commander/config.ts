@@ -133,56 +133,61 @@ function createBaseReflectionConfig(): ReflectionConfig {
     return { $type: 'xray.app.commander.ReflectionConfig' };
 }
 
-export const ReflectionConfig: MessageFns<ReflectionConfig, 'xray.app.commander.ReflectionConfig'> = {
-    $type: 'xray.app.commander.ReflectionConfig' as const,
+export const ReflectionConfig: MessageFns<ReflectionConfig, 'xray.app.commander.ReflectionConfig'> =
+    {
+        $type: 'xray.app.commander.ReflectionConfig' as const,
 
-    encode(_: ReflectionConfig, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-        return writer;
-    },
+        encode(_: ReflectionConfig, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+            return writer;
+        },
 
-    decode(input: BinaryReader | Uint8Array, length?: number): ReflectionConfig {
-        const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-        let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseReflectionConfig();
-        while (reader.pos < end) {
-            const tag = reader.uint32();
-            switch (tag >>> 3) {
+        decode(input: BinaryReader | Uint8Array, length?: number): ReflectionConfig {
+            const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+            let end = length === undefined ? reader.len : reader.pos + length;
+            const message = createBaseReflectionConfig();
+            while (reader.pos < end) {
+                const tag = reader.uint32();
+                switch (tag >>> 3) {
+                }
+                if ((tag & 7) === 4 || tag === 0) {
+                    break;
+                }
+                reader.skip(tag & 7);
             }
-            if ((tag & 7) === 4 || tag === 0) {
-                break;
-            }
-            reader.skip(tag & 7);
-        }
-        return message;
-    },
+            return message;
+        },
 
-    fromJSON(_: any): ReflectionConfig {
-        return { $type: ReflectionConfig.$type };
-    },
+        fromJSON(_: any): ReflectionConfig {
+            return { $type: ReflectionConfig.$type };
+        },
 
-    toJSON(_: ReflectionConfig): unknown {
-        const obj: any = {};
-        return obj;
-    },
+        toJSON(_: ReflectionConfig): unknown {
+            const obj: any = {};
+            return obj;
+        },
 
-    create(base?: DeepPartial<ReflectionConfig>): ReflectionConfig {
-        return ReflectionConfig.fromPartial(base ?? {});
-    },
-    fromPartial(_: DeepPartial<ReflectionConfig>): ReflectionConfig {
-        const message = createBaseReflectionConfig();
-        return message;
-    },
-};
+        create(base?: DeepPartial<ReflectionConfig>): ReflectionConfig {
+            return ReflectionConfig.fromPartial(base ?? {});
+        },
+        fromPartial(_: DeepPartial<ReflectionConfig>): ReflectionConfig {
+            const message = createBaseReflectionConfig();
+            return message;
+        },
+    };
 
 messageTypeRegistry.set(ReflectionConfig.$type, ReflectionConfig);
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function isSet(value: any): boolean {
     return value !== null && value !== undefined;

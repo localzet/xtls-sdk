@@ -74,7 +74,10 @@ function createBaseRestartLoggerRequest(): RestartLoggerRequest {
     return { $type: 'xray.app.log.command.RestartLoggerRequest' };
 }
 
-export const RestartLoggerRequest: MessageFns<RestartLoggerRequest, 'xray.app.log.command.RestartLoggerRequest'> = {
+export const RestartLoggerRequest: MessageFns<
+    RestartLoggerRequest,
+    'xray.app.log.command.RestartLoggerRequest'
+> = {
     $type: 'xray.app.log.command.RestartLoggerRequest' as const,
 
     encode(_: RestartLoggerRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -121,7 +124,10 @@ function createBaseRestartLoggerResponse(): RestartLoggerResponse {
     return { $type: 'xray.app.log.command.RestartLoggerResponse' };
 }
 
-export const RestartLoggerResponse: MessageFns<RestartLoggerResponse, 'xray.app.log.command.RestartLoggerResponse'> = {
+export const RestartLoggerResponse: MessageFns<
+    RestartLoggerResponse,
+    'xray.app.log.command.RestartLoggerResponse'
+> = {
     $type: 'xray.app.log.command.RestartLoggerResponse' as const,
 
     encode(_: RestartLoggerResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
@@ -196,11 +202,15 @@ export interface LoggerServiceClient<CallOptionsExt = {}> {
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 export interface MessageFns<T, V extends string> {
     readonly $type: V;

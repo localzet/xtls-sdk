@@ -113,9 +113,10 @@ export const User: MessageFns<User, 'xray.common.protocol.User'> = {
         const message = createBaseUser();
         message.level = object.level ?? 0;
         message.email = object.email ?? '';
-        message.account = (object.account !== undefined && object.account !== null)
-            ? TypedMessage.fromPartial(object.account)
-            : undefined;
+        message.account =
+            object.account !== undefined && object.account !== null
+                ? TypedMessage.fromPartial(object.account)
+                : undefined;
         return message;
     },
 };
@@ -124,11 +125,15 @@ messageTypeRegistry.set(User.$type, User);
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function isSet(value: any): boolean {
     return value !== null && value !== undefined;

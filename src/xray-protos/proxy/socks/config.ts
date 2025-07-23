@@ -178,11 +178,14 @@ export const ServerConfig: MessageFns<ServerConfig, 'xray.proxy.socks.ServerConf
             writer.uint32(8).int32(message.authType);
         }
         Object.entries(message.accounts).forEach(([key, value]) => {
-            ServerConfig_AccountsEntry.encode({
-                $type: 'xray.proxy.socks.ServerConfig.AccountsEntry',
-                key: key as any,
-                value,
-            }, writer.uint32(18).fork()).join();
+            ServerConfig_AccountsEntry.encode(
+                {
+                    $type: 'xray.proxy.socks.ServerConfig.AccountsEntry',
+                    key: key as any,
+                    value,
+                },
+                writer.uint32(18).fork(),
+            ).join();
         });
         if (message.address !== undefined) {
             IPOrDomain.encode(message.address, writer.uint32(26).fork()).join();
@@ -260,10 +263,13 @@ export const ServerConfig: MessageFns<ServerConfig, 'xray.proxy.socks.ServerConf
             $type: ServerConfig.$type,
             authType: isSet(object.authType) ? authTypeFromJSON(object.authType) : 0,
             accounts: isObject(object.accounts)
-                ? Object.entries(object.accounts).reduce<{ [key: string]: string }>((acc, [key, value]) => {
-                    acc[key] = String(value);
-                    return acc;
-                }, {})
+                ? Object.entries(object.accounts).reduce<{ [key: string]: string }>(
+                      (acc, [key, value]) => {
+                          acc[key] = String(value);
+                          return acc;
+                      },
+                      {},
+                  )
                 : {},
             address: isSet(object.address) ? IPOrDomain.fromJSON(object.address) : undefined,
             udpEnabled: isSet(object.udpEnabled) ? globalThis.Boolean(object.udpEnabled) : false,
@@ -304,16 +310,17 @@ export const ServerConfig: MessageFns<ServerConfig, 'xray.proxy.socks.ServerConf
         const message = createBaseServerConfig();
         message.authType = object.authType ?? 0;
         message.accounts = Object.entries(object.accounts ?? {}).reduce<{
-            [key: string]: string
+            [key: string]: string;
         }>((acc, [key, value]) => {
             if (value !== undefined) {
                 acc[key] = globalThis.String(value);
             }
             return acc;
         }, {});
-        message.address = (object.address !== undefined && object.address !== null)
-            ? IPOrDomain.fromPartial(object.address)
-            : undefined;
+        message.address =
+            object.address !== undefined && object.address !== null
+                ? IPOrDomain.fromPartial(object.address)
+                : undefined;
         message.udpEnabled = object.udpEnabled ?? false;
         message.userLevel = object.userLevel ?? 0;
         return message;
@@ -332,7 +339,10 @@ export const ServerConfig_AccountsEntry: MessageFns<
 > = {
     $type: 'xray.proxy.socks.ServerConfig.AccountsEntry' as const,
 
-    encode(message: ServerConfig_AccountsEntry, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    encode(
+        message: ServerConfig_AccountsEntry,
+        writer: BinaryWriter = new BinaryWriter(),
+    ): BinaryWriter {
         if (message.key !== '') {
             writer.uint32(10).string(message.key);
         }
@@ -447,7 +457,9 @@ export const ClientConfig: MessageFns<ClientConfig, 'xray.proxy.socks.ClientConf
     fromJSON(object: any): ClientConfig {
         return {
             $type: ClientConfig.$type,
-            server: globalThis.Array.isArray(object?.server) ? object.server.map((e: any) => ServerEndpoint.fromJSON(e)) : [],
+            server: globalThis.Array.isArray(object?.server)
+                ? object.server.map((e: any) => ServerEndpoint.fromJSON(e))
+                : [],
         };
     },
 
@@ -473,11 +485,15 @@ messageTypeRegistry.set(ClientConfig.$type, ClientConfig);
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
-    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-            : T extends {} ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-                : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+    ? T
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 function isObject(value: any): boolean {
     return typeof value === 'object' && value !== null;
