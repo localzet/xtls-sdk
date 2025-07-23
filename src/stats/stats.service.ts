@@ -117,7 +117,7 @@ export class StatsService {
      * ```
      */
     public async getAllUsersStats(
-        reset: boolean = false,
+        reset = false,
     ): Promise<ISdkResponse<GetAllUsersStatsResponseModel>> {
         try {
             const response = await this.client.queryStats({
@@ -170,7 +170,7 @@ export class StatsService {
      */
     public async getUserStats(
         username: string,
-        reset: boolean = false,
+        reset = false,
     ): Promise<ISdkResponse<GetUserStatsResponseModel>> {
         try {
             const response = await this.client.queryStats({
@@ -272,7 +272,7 @@ export class StatsService {
      * ```
      */
     public async getAllInboundsStats(
-        reset: boolean = false,
+        reset = false,
     ): Promise<ISdkResponse<GetAllInboundsStatsResponseModel>> {
         try {
             const response = await this.client.queryStats({
@@ -319,7 +319,7 @@ export class StatsService {
      */
     public async getInboundStats(
         inbound: string,
-        reset: boolean = false,
+        reset = false,
     ): Promise<ISdkResponse<GetInboundStatsResponseModel>> {
         try {
             const response = await this.client.queryStats({
@@ -364,7 +364,7 @@ export class StatsService {
      * ```
      */
     public async getAllOutboundsStats(
-        reset: boolean = false,
+        reset = false,
     ): Promise<ISdkResponse<GetAllOutboundsStatsResponseModel>> {
         try {
             const response = await this.client.queryStats({
@@ -411,7 +411,7 @@ export class StatsService {
      */
     public async getOutboundStats(
         outbound: string,
-        reset: boolean = false,
+        reset = false,
     ): Promise<ISdkResponse<GetOutboundStatsResponseModel>> {
         try {
             const response = await this.client.queryStats({
